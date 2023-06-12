@@ -83,7 +83,7 @@ export default async function Home() {
           className="animate-fade-up opacity-0"
           style={{ width: '100%', animationDelay: "0.3s", animationFillMode: "forwards" }}
         >
-          {categories?.map(category => (
+          {categories?.map( (category: any) => (
             <a
               key={category.id}
               className="ml-2 my-1 text-xs inline-flex items-center font-bold leading-sm  rounded-full rounded-full border border-stone-300 bg-blue-600 px-3 py-2 text-sm text-white transition-colors hover:bg-white hover:text-black"
@@ -100,12 +100,13 @@ export default async function Home() {
           <h1 style={{ paddingBottom: '20px' }} className="text-gray-500  md:text-3xl sm:text-3xl text-3xl "> Popular AI Tools: </h1>
           <div className={"grid grid-cols-1 gap-6 mb-5 md:grid-cols-2 lg:grid-cols-3"}>
 
-            {tools.tools?.map(tool => (
+            {tools.tools?.map( (tool: any) => (
 
               <Card demo="" key={tool?.id} title={tool?.name} description={tool?.description} />
 
             ))}
           </div>
+
         </div>
 
 
