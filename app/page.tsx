@@ -102,7 +102,7 @@ export default async function Home() {
 
             {tools.tools?.map(tool => (
 
-              <Card title={tool?.name} description={tool?.description} />
+              <Card demo="" key={tool?.id} title={tool?.name} description={tool?.description} />
 
             ))}
           </div>
