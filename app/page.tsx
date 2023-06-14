@@ -10,7 +10,7 @@ import { nFormatter } from "@/lib/utils";
 export default async function Home() {
 
   const categories = await fetch(
-    "http://localhost:3000/api/getCategories",
+    "http://3.17.165.145:3000/getCategories",
     {
       // data will revalidate every 60 seconds
       next: { revalidate: 60 },
@@ -20,7 +20,7 @@ export default async function Home() {
     .catch((e) => console.log(e));
 
   const tools = await fetch(
-    "http://localhost:3000/api/getTopTools",
+    "http://3.17.165.145:3000/getTopTools",
     {
       // data will revalidate every 60 seconds
       next: { revalidate: 60 },
@@ -100,7 +100,7 @@ export default async function Home() {
           <h1 style={{ paddingBottom: '20px' }} className="text-gray-500  md:text-3xl sm:text-3xl text-3xl "> Popular AI Tools: </h1>
           <div className={"grid grid-cols-1 gap-6 mb-5 md:grid-cols-2 lg:grid-cols-3"}>
 
-            {tools.tools?.map( (tool: any) => (
+            {tools?.tools?.map( (tool: any) => (
 
               <Card demo="" key={tool?.id} title={tool?.name} description={tool?.description} />
 
