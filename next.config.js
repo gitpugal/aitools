@@ -11,7 +11,7 @@ const nextConfig = {
   images: {
     domains: ["lh3.googleusercontent.com", "vercel.com"],
   },
-
+ 
 };
 
 module.exports = nextConfig;

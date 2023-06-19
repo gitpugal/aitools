@@ -10,7 +10,7 @@ import { nFormatter } from "@/lib/utils";
 export default async function Home() {
 
   const categories = await fetch(
-    "http://3.17.165.145:3000/getCategories",
+    "http:api.aitoolsnext.com/getCategories",
     {
       // data will revalidate every 60 seconds
       next: { revalidate: 60 },
@@ -20,7 +20,7 @@ export default async function Home() {
     .catch((e) => console.log(e));
 
   const tools = await fetch(
-    "http://3.17.165.145:3000/getTopTools",
+    "http:api.aitoolsnext.com/getTopTools",
     {
       // data will revalidate every 60 seconds
       next: { revalidate: 60 },
