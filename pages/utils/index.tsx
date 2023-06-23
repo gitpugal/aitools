@@ -1,6 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 
-export const isDesktop = () => {
+ export const isDesktop = () => {
     const isDesktop = useMediaQuery({ minWidth: 992 });
     return isDesktop;
   };
@@ -19,4 +19,6 @@ export const isDesktop = () => {
     const isNotMobile = useMediaQuery({ minWidth: 768 });
     return isNotMobile;
   };
+  
+
   
