@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoIosSearch, IoIosArrowForward } from 'react-icons/io';
+import { useMediaQuery } from 'react-responsive'; // Update the import statement
 import axios from 'axios';
 
 export const isMobile = () => {
@@ -7,8 +8,11 @@ export const isMobile = () => {
   return isMobile;
 };
 
+type HomeProps = {
+  categories: Array<any>; // Update the type to match your actual data structure
+};
 
-const Home = ({ categories }) => {
+const Home = ({ categories }: HomeProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -32,7 +36,7 @@ const Home = ({ categories }) => {
           type="text"
           placeholder="Search"
           className="appearance-none bg-transparent border-none px-1 text-gray-900 placeholder-gray-500 focus:outline-none"
-          style={{ minWidth: isMobile ? '250px' : '450px' }}
+          style={{ minWidth: isMobile() ? '250px' : '450px' }}
         />
         <button
           type="button"
@@ -45,7 +49,7 @@ const Home = ({ categories }) => {
 
       <div className="max-w-7xl mx-auto mt-8">
         <div className="flex flex-wrap">
-          {categories.map(category => (
+          {categories.map( (category: any) => (
             <a
               key={category.id}
               className="badge flex items-center m-1 justify-center bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-1.5 rounded-lg hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800"
@@ -73,7 +77,7 @@ const Home = ({ categories }) => {
 export async function getServerSideProps() {
   try {
     const response = await axios.get('http://api.aitoolsnext.com/getCategories');
-    const categories = response.data;
+    const categories: any = response.data;
     return {
       props: {
         categories,
