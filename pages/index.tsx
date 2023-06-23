@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { IoIosSearch, IoIosArrowForward } from 'react-icons/io';
-import isMobile from './utils/index';
 import axios from 'axios';
+
+export const isMobile = () => {
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  return isMobile;
+};
+
 
 const Home = ({ categories }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -54,6 +59,13 @@ const Home = ({ categories }) => {
           ))}
         </div>
       </div>
+
+      <div className="max-w-7xl mx-auto mt-8">
+        <div className="flex flex-wrap">
+          <h1> Tools List </h1>
+        </div>
+      </div>
+
     </main>
   );
 };
