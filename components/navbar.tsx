@@ -73,7 +73,9 @@ export default function Navbar() {
                         fontSize={'sm'}
                         fontWeight={400}
                         variant={'link'}
+                        colorScheme="blue"
                         href={'#'}>
+                            
                         Sign In
                     </Button>
                     <Button
