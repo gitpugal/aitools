@@ -32,7 +32,7 @@ export default function Navbar() {
                 color={useColorModeValue('gray.600', 'white')}
                 minH={'60px'}
                 py={{ base: 2 }}
-                px={{ base: 4 }}
+                px={[4, 20, 40]}
                 borderBottom={1}
                 borderStyle={'solid'}
                 borderColor={useColorModeValue('gray.200', 'gray.900')}
@@ -50,16 +50,17 @@ export default function Navbar() {
                         aria-label={'Toggle Navigation'}
                     />
                 </Flex>
+
                 <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
                     <Text
                         textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
                         fontFamily={'heading'}
-                        color={useColorModeValue('gray.800', 'white')}>
-                        Logo
+                        color={useColorModeValue('black', 'white')}>
+                        AIToolsNext
                     </Text>
 
-                    <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-                        <DesktopNav />
+                    <Flex display={['none', 'flex', 'flex']} ml={10}>
+                            <DesktopNav />
                     </Flex>
                 </Flex>
 
@@ -68,7 +69,7 @@ export default function Navbar() {
                     justify={'flex-end'}
                     direction={'row'}
                     spacing={6}>
-                    <Button
+                    {/* <Button
                         as={'a'}
                         fontSize={'sm'}
                         fontWeight={400}
@@ -84,19 +85,20 @@ export default function Navbar() {
                         fontSize={'sm'}
                         fontWeight={600}
                         color={'white'}
-                        bg={'pink.400'}
+                        bg={'blue.400'}
                         href={'#'}
                         _hover={{
-                            bg: 'pink.300',
+                            bg: 'blue.300',
                         }}>
                         Sign Up
-                    </Button>
+                    </Button> */}
                 </Stack>
             </Flex>
 
             <Collapse in={isOpen} animateOpacity>
                 <MobileNav />
             </Collapse>
+
         </Box>
     );
 }
@@ -254,41 +256,15 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
     {
-        label: 'Inspiration',
-        children: [
-            {
-                label: 'Explore Design Work',
-                subLabel: 'Trending Design to inspire you',
-                href: '#',
-            },
-            {
-                label: 'New & Noteworthy',
-                subLabel: 'Up-and-coming Designers',
-                href: '#',
-            },
-        ],
-    },
-    {
-        label: 'Find Work',
-        children: [
-            {
-                label: 'Job Board',
-                subLabel: 'Find your dream design job',
-                href: '#',
-            },
-            {
-                label: 'Freelance Projects',
-                subLabel: 'An exclusive list for contract work',
-                href: '#',
-            },
-        ],
-    },
-    {
-        label: 'Learn Design',
+        label: 'Categories',
         href: '#',
     },
     {
-        label: 'Hire Designers',
+        label: 'Tools',
+        href: '#',
+    },
+    {
+        label: 'Best Deals',
         href: '#',
     },
 ];
