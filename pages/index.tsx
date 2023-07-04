@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
-export default function Home({ categories }) {
+export default function Home({ categories, topTools }) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
   return (
@@ -38,7 +38,7 @@ export default function Home({ categories }) {
 
       <Navbar />
 
-      <Container maxW={'3xl'}>
+      <Container maxW={'5xl'}>
         <Stack
           as={Box}
           textAlign={'center'}
@@ -77,7 +77,7 @@ export default function Home({ categories }) {
 
           </Stack>
 
-          <Stack display={'flex'} textAlign={'start'} justify={'flex-start'} maxW={'3xl'} direction="row">
+          <Stack display={'flex'} textAlign={'start'} justify={'flex-start'} maxW={'5xl'} direction="row">
             <Box>
               {categories?.slice(0, 18)?.map((category) => (
                 <Badge
@@ -125,20 +125,21 @@ export default function Home({ categories }) {
             </Box>
           </Stack>
 
+          <Box
+            maxW={'5xl'}
+            display={{ base: 'block', md: 'grid' }}
+            gridTemplateColumns={{ md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
+            gap={4}
+           
+            rounded="md"
+            p={2}
+            textAlign="start"
+            _hover={{ shadow: 'amber.300', lg: { shadow: 'lg' } }}
+            bg="amber.50/30"
+          >
+            {topTools?.map((tools) => (
 
-      
-            <Box
-              display={{ base: 'block', md: 'grid' }}
-              gridTemplateColumns={{ md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
-              gap={4}
-              border="1px"
-              rounded="md"
-              p={2}
-              textAlign="start"
-              _hover={{ shadow: 'amber.300', lg: { shadow: 'lg' } }}
-              bg="amber.50/30"
-            >
-              <Box backgroundColor={'yellow.200'} position="relative">
+              <Box mb={3}  border="1px" _hover={{border:'1px', borderColor:'gray.500'}}  borderColor={'gray.300'} backgroundColor={'yellow.200'} position="relative">
                 <Box overflow="hidden">
                   <Link
                     aria-label="Tool Image"
@@ -147,13 +148,15 @@ export default function Home({ categories }) {
                     href="/taplio?type=premium"
                   >
                     {/* Placeholder for image */}
-                    <Box
-                      bg="gray.200"
-                      width="full"
-                      height="0"
-                      paddingTop="56.25%"
-                      borderRadius="md"
+                    <Image
+                      src="/tools/taplio.webp" // Replace with the actual image path
+                      alt="Tool Image"
+
+                      width={500}
+                      height={281}
+
                     />
+
                   </Link>
                   <Flex flexDir="column" justifyContent="end" width="full" height="fit-content">
                     <Box px={3} mb={16}>
@@ -215,162 +218,10 @@ export default function Home({ categories }) {
                   </Flex>
                 </Box>
               </Box>
-              <Box position="relative">
-                <Box overflow="hidden">
-                  <Link
-                    aria-label="Tool Image"
-                    data-splitbee-event="Premium Card Open"
-                    data-splitbee-event-tool="Taplio"
-                    href="/taplio?type=premium"
-                  >
-                    {/* Placeholder for image */}
-                    <Box
-                      bg="gray.200"
-                      width="full"
-                      height="0"
-                      paddingTop="56.25%"
-                      borderRadius="md"
-                    />
-                  </Link>
-                  <Flex flexDir="column" justifyContent="end" width="full" height="fit-content">
-                    <Box px={3} mb={16}>
-                      <Flex justify="space-between" alignItems="center">
-                        <Flex justify="center" alignItems="center" gap={2}>
-                          <Link
-                            aria-label="Tool Name"
-                            data-splitbee-event="Premium Card Open"
-                            data-splitbee-event-tool="Taplio"
-                            href="/taplio?type=premium"
-                          >
-                            <Text my={3} fontSize="xl" fontWeight="bold" color="primary">
-                              Taplio
-                            </Text>
-                          </Link>
-                        </Flex>
-                      </Flex>
-                      <Link
-                        aria-label="Tool Description"
-                        data-splitbee-event="Premium Card Open"
-                        data-splitbee-event-tool="Taplio"
-                        href="/taplio?type=premium"
-                      >
-                        <Text fontSize="sm" noOfLines={3}>
-                          Taplio is your key to unlocking LinkedIn's potential. It's an AI-powered tool that simplifies LinkedIn management, helping you grow your network and opportunities.
-                        </Text>
-                      </Link>
-                    </Box>
-                    <Box position="absolute" bottom="0" width="full">
-                      <Box position="absolute" bottom="0" left="0" right="0" px={3} my={5}>
-                        <Link href="/category/ai-social-media-assistant">
-                          <Badge
-                            bg="primary"
-                            color="white"
-                            fontSize="sm"
-                            mt={2}
-                            px={2}
-                            py={1}
-                            rounded="md"
-                          // breakWord="keep-all"
-                          >
-                            Social Media Assistant
-                          </Badge>
-                        </Link>
-                        <Badge
-                          bg="primary"
-                          color="white"
-                          fontSize="sm"
-                          mt={2}
-                          px={2}
-                          py={1}
-                          rounded="md"
-                        // breakWord="keep-all"
-                        >
-                          Freemium
-                        </Badge>
-                      </Box>
-                    </Box>
-                  </Flex>
-                </Box>
-              </Box>
-              <Box position="relative">
-                <Box overflow="hidden">
-                  <Link
-                    aria-label="Tool Image"
-                    data-splitbee-event="Premium Card Open"
-                    data-splitbee-event-tool="Taplio"
-                    href="/taplio?type=premium"
-                  >
-                    {/* Placeholder for image */}
-                    <Box
-                      bg="gray.200"
-                      width="full"
-                      height="0"
-                      paddingTop="56.25%"
-                      borderRadius="md"
-                    />
-                  </Link>
-                  <Flex flexDir="column" justifyContent="end" width="full" height="fit-content">
-                    <Box px={3} mb={16}>
-                      <Flex justify="space-between" alignItems="center">
-                        <Flex justify="center" alignItems="center" gap={2}>
-                          <Link
-                            aria-label="Tool Name"
-                            data-splitbee-event="Premium Card Open"
-                            data-splitbee-event-tool="Taplio"
-                            href="/taplio?type=premium"
-                          >
-                            <Text my={3} fontSize="xl" fontWeight="bold" color="primary">
-                              Taplio
-                            </Text>
-                          </Link>
-                        </Flex>
-                      </Flex>
-                      <Link
-                        aria-label="Tool Description"
-                        data-splitbee-event="Premium Card Open"
-                        data-splitbee-event-tool="Taplio"
-                        href="/taplio?type=premium"
-                      >
-                        <Text fontSize="sm" noOfLines={3}>
-                          Taplio is your key to unlocking LinkedIn's potential. It's an AI-powered tool that simplifies LinkedIn management, helping you grow your network and opportunities.
-                        </Text>
-                      </Link>
-                    </Box>
-                    <Box position="absolute" bottom="0" width="full">
-                      <Box position="absolute" bottom="0" left="0" right="0" px={3} my={5}>
-                        <Link href="/category/ai-social-media-assistant">
-                          <Badge
-                            bg="primary"
-                            color="white"
-                            fontSize="sm"
-                            mt={2}
-                            px={2}
-                            py={1}
-                            rounded="md"
-                          // breakWord="keep-all"
-                          >
-                            Social Media Assistant
-                          </Badge>
-                        </Link>
-                        <Badge
-                          bg="primary"
-                          color="white"
-                          fontSize="sm"
-                          mt={2}
-                          px={2}
-                          py={1}
-                          rounded="md"
-                        // breakWord="keep-all"
-                        >
-                          Freemium
-                        </Badge>
-                      </Box>
-                    </Box>
-                  </Flex>
-                </Box>
-              </Box>
-            </Box>
-       
+
+            ))}
+          </Box>
+
         </Stack>
       </Container>
     </div>
@@ -381,9 +232,15 @@ export async function getServerSideProps() {
   const response = await fetch('http://api.aitoolsnext.com/getCategories');
   const categories = await response.json();
 
+
+  const toolsResponse = await fetch('http://api.aitoolsnext.com/getCategories');
+  const topTools = await toolsResponse.json();
+
+
   return {
     props: {
       categories,
+      topTools
     },
   };
 }
