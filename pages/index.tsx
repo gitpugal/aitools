@@ -23,6 +23,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
+import Footer from '../components/footer';
 
 export default function Home({ categories, tools }) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -224,6 +225,7 @@ export default function Home({ categories, tools }) {
 
         </Stack>
       </Container>
+      <Footer />
     </div>
   );
 }
