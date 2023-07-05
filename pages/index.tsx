@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
-export default function Home({ categories, topTools }) {
+export default function Home({ categories, tools }) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
   return (
@@ -137,7 +137,7 @@ export default function Home({ categories, topTools }) {
             _hover={{ shadow: 'amber.300', lg: { shadow: 'lg' } }}
             bg="amber.50/30"
           >
-            {topTools?.map((tools) => (
+            {tools?.map((tool) => (
 
               <Box mb={3}  border="1px" _hover={{border:'1px', borderColor:'gray.500'}}  borderColor={'gray.300'} backgroundColor={'yellow.200'} position="relative">
                 <Box overflow="hidden">
@@ -169,7 +169,7 @@ export default function Home({ categories, topTools }) {
                             href="/taplio?type=premium"
                           >
                             <Text my={3} fontSize="xl" fontWeight="bold" color="primary">
-                              Taplio
+                              {tool?.name}
                             </Text>
                           </Link>
                         </Flex>
@@ -181,7 +181,7 @@ export default function Home({ categories, topTools }) {
                         href="/taplio?type=premium"
                       >
                         <Text fontSize="sm" noOfLines={3}>
-                          Taplio is your key to unlocking LinkedIn's potential. It's an AI-powered tool that simplifies LinkedIn management, helping you grow your network and opportunities.
+                          {tool?.description}
                         </Text>
                       </Link>
                     </Box>
@@ -233,14 +233,14 @@ export async function getServerSideProps() {
   const categories = await response.json();
 
 
-  const toolsResponse = await fetch('http://api.aitoolsnext.com/getCategories');
+  const toolsResponse = await fetch('http://api.aitoolsnext.com/getTopTools');
   const topTools = await toolsResponse.json();
-
-
+  const tools = topTools?.tools ? topTools.tools : [];
+ 
   return {
     props: {
       categories,
-      topTools
+      tools
     },
   };
 }
