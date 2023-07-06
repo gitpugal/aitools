@@ -51,16 +51,21 @@ export default function Navbar() {
                     />
                 </Flex>
 
-                <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-                    <Text
-                        textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-                        fontFamily={'heading'}
-                        color={useColorModeValue('black', 'white')}>
-                        AIToolsNext
-                    </Text>
+                <Flex flex={{ base: 1 }} alignItems={'center'} alignContent={'center'} justify={{ base: 'center', md: 'start' }}>
+                    <Link href={"/"}>
+                        <Text
+                            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+                            fontFamily={'heading'}
+                            bgClip='text'
+                            fontSize='2xl'
+                            fontWeight='extrabold'
+                            bgGradient='linear(to-l, #7928CA, #FF0080)'>
+                            AITOOLSNEXT.COM
+                        </Text>
+                    </Link>
 
                     <Flex display={['none', 'flex', 'flex']} ml={10}>
-                            <DesktopNav />
+                        <DesktopNav />
                     </Flex>
                 </Flex>
 

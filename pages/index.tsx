@@ -140,7 +140,7 @@ export default function Home({ categories, tools }) {
           >
             {tools?.map((tool) => (
 
-              <Box mb={3}  border="1px" _hover={{border:'1px', borderColor:'gray.500'}}  borderColor={'gray.300'} backgroundColor={'yellow.200'} position="relative">
+              <Box mb={3} key={tool?.id} border="1px" _hover={{border:'1px', borderColor:'gray.500'}}  borderColor={'gray.300'} backgroundColor={'yellow.200'} position="relative">
                 <Box overflow="hidden">
                   <Link
                     aria-label="Tool Image"
@@ -160,7 +160,7 @@ export default function Home({ categories, tools }) {
 
                   </Link>
                   <Flex flexDir="column" justifyContent="end" width="full" height="fit-content">
-                    <Box px={3} mb={16}>
+                    <Box px={3} mb={12}>
                       <Flex justify="space-between" alignItems="center">
                         <Flex justify="center" alignItems="center" gap={2}>
                           <Link
@@ -176,26 +176,28 @@ export default function Home({ categories, tools }) {
                         </Flex>
                       </Flex>
                       <Link
+                        _hover={{ textDecoration: "none" }}
                         aria-label="Tool Description"
                         data-splitbee-event="Premium Card Open"
                         data-splitbee-event-tool="Taplio"
                         href="/taplio?type=premium"
                       >
-                        <Text fontSize="sm" noOfLines={3}>
+                        <Text  fontSize="sm" noOfLines={3}>
                           {tool?.description}
                         </Text>
                       </Link>
                     </Box>
                     <Box position="absolute" bottom="0" width="full">
-                      <Box position="absolute" bottom="0" left="0" right="0" px={3} my={5}>
+                      <Box display={'flex'} justifyContent={'space-between'} position="absolute" bottom="0" left="0" right="0" px={3} mb={3}>
                         <Link href="/category/ai-social-media-assistant">
                           <Badge
-                            bg="primary"
+                            bg="blue.400"
                             color="white"
-                            fontSize="sm"
+                            fontSize="11px"
                             mt={2}
-                            px={2}
                             py={1}
+                            px={2}
+                            // colorScheme='blue'
                             rounded="md"
                           // breakWord="keep-all"
                           >
@@ -203,12 +205,13 @@ export default function Home({ categories, tools }) {
                           </Badge>
                         </Link>
                         <Badge
-                          bg="primary"
+                          bg="blue.400"
                           color="white"
-                          fontSize="sm"
+                          fontSize="11px"
                           mt={2}
                           px={2}
                           py={1}
+                          // colorScheme='blue'
                           rounded="md"
                         // breakWord="keep-all"
                         >
