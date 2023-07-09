@@ -180,7 +180,7 @@ export default function Home({ categories, tools }) {
                         aria-label="Tool Description"
                         data-splitbee-event="Premium Card Open"
                         data-splitbee-event-tool="Taplio"
-                        href="/taplio?type=premium"
+                        href="/tools/taplio?type=premium"
                       >
                         <Text  fontSize="sm" noOfLines={3}>
                           {tool?.description}
@@ -189,7 +189,7 @@ export default function Home({ categories, tools }) {
                     </Box>
                     <Box position="absolute" bottom="0" width="full">
                       <Box display={'flex'} justifyContent={'space-between'} position="absolute" bottom="0" left="0" right="0" px={3} mb={3}>
-                        <Link href="/category/ai-social-media-assistant">
+                        <Link href="/tools/ai-social-media-assistant">
                           <Badge
                             bg="blue.400"
                             color="white"
