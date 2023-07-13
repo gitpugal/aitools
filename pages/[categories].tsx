@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import Navbar from '../../components/navbar';
+import Navbar from '../components/navbar';
 import {
   Box,
   Heading,
@@ -21,7 +21,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import Footer from '../../components/footer';
+import Footer from '../components/footer';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 
@@ -83,7 +83,7 @@ export default function Home({ categories }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch("http://localhost:3001/getToolsBySlug/dummy-tool-8");
+  const res = await fetch("http://api.aitoolsnext.com/getCategoriesBySlug/ai_tools_applications");
   const data = await res.json();
 
   return {
