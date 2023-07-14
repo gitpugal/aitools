@@ -25,8 +25,12 @@ import Footer from '../../components/footer';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
 
-export default function Home({ categories }) {
+export default function Home({ categories, slug }) {
   const router = useRouter();
+
+  const s = slug; 
+
+  debugger;
 
   return (
     <div>
@@ -64,9 +68,7 @@ export default function Home({ categories }) {
           <Heading as="h2" size="xl" mb={4}>
             {categories?.name}
           </Heading>
-          <Text fontSize="lg" mb={4}>
-            {categories?.description}
-          </Text>
+          <div style={{marginTop:'20px', marginBottom:'20px'}}  dangerouslySetInnerHTML={{ __html: categories.description }}></div>
           <Box>
             {categories.length > 0 && categories?.map((category) => (
               <Badge key={category.slug} mr={2} mb={2} colorScheme="blue">
@@ -82,13 +84,17 @@ export default function Home({ categories }) {
   );
 }
 
-export async function getServerSideProps() {
-  const res = await fetch("http://localhost:3001/getToolsBySlug/dummy-tool-8");
+export async function getServerSideProps(context) {
+    const url = context.req.url;
+    const slug = url.substring(url.lastIndexOf('/') + 1); // Extract the last segment of the URL
+  
+  const res = await fetch(`http://api.aitoolsnext.com/getToolsBySlug/${slug}`);
   const data = await res.json();
 
   return {
     props: {
       categories: data,
+      slug: slug ? slug : ""
     },
   };
 }
