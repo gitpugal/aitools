@@ -28,7 +28,7 @@ import { useRouter } from 'next/router';
 export default function Home({ categories, slug }) {
   const router = useRouter();
 
-  const s = slug; 
+  const s = slug;
 
   debugger;
 
@@ -43,10 +43,11 @@ export default function Home({ categories, slug }) {
 
       <Navbar />
 
-      <Container maxW="container.md">
+      <Container maxW={'5xl'}>
         {/* Back button */}
         <Box
           mb={4}
+          mt={4}
           cursor="pointer"
           display="inline-flex"
           alignItems="center"
@@ -68,7 +69,7 @@ export default function Home({ categories, slug }) {
           <Heading as="h2" size="xl" mb={4}>
             {categories?.name}
           </Heading>
-          <div style={{marginTop:'20px', marginBottom:'20px'}}  dangerouslySetInnerHTML={{ __html: categories.description }}></div>
+          <div style={{ marginTop: '20px', marginBottom: '20px' }} dangerouslySetInnerHTML={{ __html: categories.description }}></div>
           <Box>
             {categories.length > 0 && categories?.map((category) => (
               <Badge key={category.slug} mr={2} mb={2} colorScheme="blue">
@@ -85,9 +86,9 @@ export default function Home({ categories, slug }) {
 }
 
 export async function getServerSideProps(context) {
-    const url = context.req.url;
-    const slug = url.substring(url.lastIndexOf('/') + 1); // Extract the last segment of the URL
-  
+  const url = context.req.url;
+  const slug = url.substring(url.lastIndexOf('/') + 1); // Extract the last segment of the URL
+
   const res = await fetch(`http://api.aitoolsnext.com/getToolsBySlug/${slug}`);
   const data = await res.json();
 
