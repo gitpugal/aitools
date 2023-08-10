@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
-import Navbar from '../components/navbar';
 import {
   Box,
   Heading,
@@ -23,7 +22,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import Footer from '../components/footer';
+
 
 export default function Home({ tools }) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -37,7 +36,7 @@ export default function Home({ tools }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Navbar />
+      
 
       <Container maxW={'5xl'}>
 
@@ -74,7 +73,7 @@ export default function Home({ tools }) {
 
         </Stack>
       </Container>
-      <Footer />
+      
     </div>
   );
 }
