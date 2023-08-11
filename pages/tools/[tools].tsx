@@ -27,15 +27,36 @@ import { useRouter } from "next/router";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { FiThumbsUp } from "react-icons/fi";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 export default function Home({ categories, slug }) {
   const router = useRouter();
-
+  const [likes, setLikes] = useState(categories?.upvotes || 0);
   const s = slug;
 
   debugger;
 
-  const session  = useSession();
+  const session = useSession();
+  async function initiateLike(id) {
+    if (!session?.data?.user) {
+      alert("please login into continue!");
+    } else {
+      try {
+        const res = await fetch("/api/likeHandler", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: id }),
+        });
+        const data = await res.json();
+        console.log(data);
+        setLikes(data?.message[0].upvotes)
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
 
   return (
     <div>
@@ -81,14 +102,31 @@ export default function Home({ categories, slug }) {
         <Box>
           <Heading as="h2" size="xl" mb={4}>
             {categories?.name}
-            <FiThumbsUp onClick={()=>{
-              if(session?.data){
-                alert("liked...");
-              }else{
-                alert("please login to continue");
-              }
-            }} style={{display:"inline", marginLeft: 30}} />
           </Heading>
+
+          <Heading
+            border={"5px"}
+            borderColor={"black"}
+            borderRadius={10}
+            width={"fit-content"}
+            bgColor={"powderblue"}
+            px={5}
+            py={3}
+            as="h2"
+            size="xl"
+            display={"inline"}
+            mb={4}
+          >
+            {likes} upvotes
+          </Heading>
+          <FiThumbsUp
+            onClick={() => {
+              initiateLike(categories?.id);
+            }}
+            style={{ display: "inline", marginLeft: 15 }}
+            size={50}
+          />
+
           <div
             style={{ marginTop: "20px", marginBottom: "20px" }}
             dangerouslySetInnerHTML={{ __html: categories.description }}

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { getProviders, signIn } from "next-auth/react";
 
 import {
   Flex,
@@ -30,6 +30,15 @@ const App = () => {
     email: "",
     password: "",
   });
+  const [providers, setProviders] = useState([]);
+
+  const fetchData = async () => {
+    const provider = await getProviders();
+    setProviders(provider);
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleShowClick = () => setShowPassword(!showPassword);
 
@@ -64,10 +73,12 @@ const App = () => {
     if (res.status != 200) {
       alert(data.message);
     } else {
-        alert(data.message)
-      await signIn("credentials", {...data.data[0], callbackUrl: "http://localhost:3000/"});
-    //   window.location.href = "http://localhost:3000/";
-        console.log(data.data);
+      alert(data.message);
+      await signIn("credentials", {
+        ...data.data[0],
+        callbackUrl: "http://localhost:3000/categories",
+      });
+      console.log(data.data);
     }
   }
   return (
@@ -112,7 +123,7 @@ const App = () => {
                   />
                 </InputGroup>
               </FormControl>
-              {!isSignIn && (
+              {/* {!isSignIn && (
                 <FormControl>
                   <InputGroup>
                     <InputLeftElement
@@ -130,7 +141,7 @@ const App = () => {
                     />
                   </InputGroup>
                 </FormControl>
-              )}
+              )} */}
               <FormControl>
                 <InputGroup>
                   <InputLeftElement
@@ -171,13 +182,42 @@ const App = () => {
           </form>
         </Box>
       </Stack>
-      <Box>
-        {isSignIn
-          ? "Don't have an account? Signup!"
-          : "Already have an account sign In!"}
-        <Link onClick={() => setIsSIgnIn((prev) => !prev)} color="teal.500">
-          {isSignIn ? "Sign Up" : "Sign In"}
-        </Link>
+      <Box textAlign={"center"} display={"flex"} flexDirection={"column"} alignItems={"center"} gap={5}>
+        <p style={{ textAlign: "center" }}>or login with</p>
+        <Box bgColor={"red"} width={"fit-content"} >
+          {providers &&
+            Object.values(providers).map((provider) =>
+              provider.name == "Sign In" ? null : (
+                <Button
+                  as={"a"}
+                  // display={{ base: "none", md: "block" }}
+                  // display={"block"}
+                  width={"fit"}
+                  fontSize={"xl"}
+                  fontWeight={600}
+                  color={"white"}
+                  bg={"blue.400"}
+                  _hover={{
+                    bg: "blue.300",
+                  }}
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await signIn("google",{ callbackUrl: 'http://localhost:3000/' });
+                  }}
+                >
+                  {provider.name}
+                </Button>
+              )
+            )}
+        </Box>
+        <p>
+          {isSignIn
+            ? "Don't have an account? Signup!"
+            : "Already have an account sign In!"}
+          <Link onClick={() => setIsSIgnIn((prev) => !prev)} color="teal.500">
+            {isSignIn ? "Sign Up" : "Sign In"}
+          </Link>
+        </p>
       </Box>
     </Flex>
   );

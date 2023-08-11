@@ -30,19 +30,19 @@ import { useEffect } from "react";
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const session = useSession();
-  const [providers, setProviders] = useState([]);
+  // const [providers, setProviders] = useState([]);
 
-  const fetchData = async () => {
-    const provider = await getProviders();
-    setProviders(provider);
-  };
-  useEffect(() => {
-    // console.log(session?.data);
-    fetchData();
-  }, []);
+  // const fetchData = async () => {
+  //   const provider = await getProviders();
+  //   setProviders(provider);
+  // };
   // useEffect(() => {
-  //   console.log(session?.data);
-  // }, [session?.status]);
+  //   // console.log(session?.data);
+  //   fetchData();
+  // }, []);
+  useEffect(() => {
+    console.log(session?.data);
+  }, [session?.status]);
 
   return (
     <Box>
@@ -103,34 +103,8 @@ export default function Navbar() {
           direction={"row"}
           spacing={6}
         >
-          {session.status != "authenticated" ? (
-            <div style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-              {providers &&
-                Object.values(providers).map((provider) =>
-                  provider.name == "Sign In" ? null : (
-                    <Button
-                      as={"a"}
-                      display={{ base: "none", md: "inline-flex" }}
-                      fontSize={"sm"}
-                      fontWeight={600}
-                      color={"white"}
-                      bg={"blue.400"}
-                      _hover={{
-                        bg: "blue.300",
-                      }}
-                      onClick={async(e) => {
-                        e.preventDefault();
-                        const user = await signIn("google");
-                        console.log(user);
-                      }}
-                    >
-                      {provider.name}
-                    </Button>
-                  )
-                )}
-            </div>
-          ) : (
-            <Text sx={{ fontcolor: "powderblue", width: "25vw" }}>
+          {session.status == "authenticated" && (
+            <Text sx={{ fontcolor: "powderblue", width: "20vw" }}>
               You're logged in as{" "}
               <span
                 style={{
@@ -143,6 +117,17 @@ export default function Navbar() {
               </span>
             </Text>
           )}
+          <a href="/profile">
+            <img
+              src={session?.data?.user?.image}
+              style={{
+                backgroundColor: "powderblue",
+                borderRadius: "100%",
+                height: "6vh",
+              }}
+              alt=""
+            />
+          </a>
           {!session.data && (
             <Button
               as={"a"}
@@ -155,7 +140,6 @@ export default function Navbar() {
               _hover={{
                 bg: "blue.300",
               }}
-              //   href={"/Authentication"}
             >
               Sign In
             </Button>

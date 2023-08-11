@@ -50,12 +50,10 @@ export const authOptions = {
             password: profile.email
           }),
         });
-        // const data = await res.json();
-
-        return res.status == 200 || res.status == 404;
+        return res.status == 200 || res.status == 404 || res.status == 202 || res.status == 500;
       } catch (error) {
-        console.log("Error checking if user exists: ", error.message);
-        return false
+        console.log("Error checking if user exists: ", error);
+        return true
       }
     },
   }

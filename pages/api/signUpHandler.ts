@@ -20,7 +20,7 @@ export default async function handler(
 
     const SignUpResult = await db.one(
       "INSERT INTO users (username, uid, email, password, favorites) VALUES($1, $2, $3, $4, $5) returning id",
-      [req.body.username, req.body.uid, req.body.email, req.body.password, []]
+      [req.body.email.split('@')[0], req.body.uid, req.body.email, req.body.password, []]
     );
     return res.status(200).json(SignUpResult);
   } catch (error) {
