@@ -2,44 +2,39 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Navbar from "../../components/navbar";
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Link,
-  Flex,
-  Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Badge,
-} from "@chakra-ui/react";
+import { Box, Heading, Container, Badge } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Footer from "../../components/footer";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import { ArrowUpIcon } from "@chakra-ui/icons";
 import { FiThumbsUp } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
+
 export default function Home({ categories, slug }) {
   const router = useRouter();
   const [likes, setLikes] = useState(categories?.upvotes || 0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const handleOpenAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setIsAddModalOpen(false);
+  };
   const s = slug;
 
   debugger;
 
   const session = useSession();
   async function initiateLike(id) {
+    setIsLoading(true);
     if (!session?.data?.user) {
-      alert("please login into continue!");
+      setIsAddModalOpen(true);
+      // alert("please login into continue!");
     } else {
       try {
         const res = await fetch("/api/likeHandler", {
@@ -51,11 +46,13 @@ export default function Home({ categories, slug }) {
         });
         const data = await res.json();
         console.log(data);
-        setLikes(data?.message[0].upvotes)
+        setLikes(data?.message[0].upvotes);
       } catch (err) {
         console.log(err);
       }
     }
+
+    setIsLoading(false);
   }
 
   return (
@@ -89,43 +86,44 @@ export default function Home({ categories, slug }) {
         </Box>
 
         {/* Tool image */}
-        <Box mb={4}>
-          <Image
-            width={300}
-            height={300}
-            src={`/categories/ai_tools_applications.webp`}
-            alt={"test"}
-          />
-        </Box>
+        {
+          <Box mb={4}>
+            <Image
+              width={300}
+              height={300}
+              src={`/categories/ai_tools_applications.webp`}
+              alt={"test"}
+            />
+          </Box>
+        }
 
         {/* Tool details */}
         <Box>
-          <Heading as="h2" size="xl" mb={4}>
-            {categories?.name}
-          </Heading>
+          <Heading mb={4}>{categories?.name}</Heading>
 
-          <Heading
-            border={"5px"}
-            borderColor={"black"}
-            borderRadius={10}
-            width={"fit-content"}
-            bgColor={"powderblue"}
-            px={5}
-            py={3}
-            as="h2"
-            size="xl"
-            display={"inline"}
-            mb={4}
-          >
+          <p style={{ fontWeight: "bolder", fontSize: "20px" }}>
             {likes} upvotes
-          </Heading>
-          <FiThumbsUp
-            onClick={() => {
-              initiateLike(categories?.id);
-            }}
-            style={{ display: "inline", marginLeft: 15 }}
-            size={50}
-          />
+            {isLoading ? (
+              "    loading..."
+            ) : (
+              <ArrowUpIcon
+                bgColor={"#0078d7"}
+                fontSize={30}
+                // sx={{ padding: 10 }}
+                onClick={() => {
+                  initiateLike(categories?.id);
+                }}
+                borderRadius={4}
+                style={{
+                  display: "inline",
+                  marginLeft: 15,
+                  fontWeight: "bolder",
+                  fontSize: "35px",
+                  color: "white",
+                }}
+              />
+            )}
+          </p>
 
           <div
             style={{ marginTop: "20px", marginBottom: "20px" }}
@@ -140,6 +138,7 @@ export default function Home({ categories, slug }) {
               ))}
           </Box>
         </Box>
+        
       </Container>
     </div>
   );

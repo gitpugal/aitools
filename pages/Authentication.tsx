@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 
 import {
   Flex,
@@ -24,11 +24,13 @@ const CFaLock = chakra(FaLock);
 
 const App = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const session = useSession();
   const [isSignIn, setIsSIgnIn] = useState(false);
   const [authData, setAuthData] = useState({
     username: "",
     email: "",
     password: "",
+    uid: session?.data?.user?.name,
   });
   const [providers, setProviders] = useState([]);
 
@@ -73,12 +75,12 @@ const App = () => {
     if (res.status != 200) {
       alert(data.message);
     } else {
-      alert(data.message);
+      console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
         callbackUrl: "http://localhost:3000/categories",
       });
-      console.log(data.data);
+      // console.log(data.data);
     }
   }
   return (
@@ -182,9 +184,15 @@ const App = () => {
           </form>
         </Box>
       </Stack>
-      <Box textAlign={"center"} display={"flex"} flexDirection={"column"} alignItems={"center"} gap={5}>
+      <Box
+        textAlign={"center"}
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        gap={5}
+      >
         <p style={{ textAlign: "center" }}>or login with</p>
-        <Box bgColor={"red"} width={"fit-content"} >
+        <Box bgColor={"red"} width={"fit-content"}>
           {providers &&
             Object.values(providers).map((provider) =>
               provider.name == "Sign In" ? null : (
@@ -202,7 +210,9 @@ const App = () => {
                   }}
                   onClick={async (e) => {
                     e.preventDefault();
-                    await signIn("google",{ callbackUrl: 'http://localhost:3000/' });
+                    await signIn("google", {
+                      callbackUrl: "http://localhost:3000/",
+                    });
                   }}
                 >
                   {provider.name}

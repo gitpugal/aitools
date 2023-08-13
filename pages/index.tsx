@@ -137,7 +137,7 @@ export default function Home({ categories, tools }) {
             </Box>
           </Stack>
 
-          <CardList tools={tools} />
+          <CardList isCategory={true} authHandler={()=>{}} tool={tools} />
         </Stack>
       </Container>
       <Footer />

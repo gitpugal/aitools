@@ -14,6 +14,7 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Container,
 } from "@chakra-ui/react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -97,26 +98,8 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          {session.status == "authenticated" && (
-            <Text sx={{ fontcolor: "powderblue", width: "20vw" }}>
-              You're logged in as{" "}
-              <span
-                style={{
-                  color: "blue",
-                  fontWeight: "bolder",
-                  fontSize: "30px",
-                }}
-              >
-                {session?.data?.user?.name}
-              </span>
-            </Text>
-          )}
+        <Flex alignItems={"center"} gap={3}>
+          <a href="/profile" style={{fontWeight: "bolder", fontSize: "20px"}}>{session?.data?.user?.name}</a>
           <a href="/profile">
             <img
               src={session?.data?.user?.image}
@@ -174,7 +157,7 @@ export default function Navbar() {
               Sign out
             </Button>
           )}
-        </Stack>
+        </Flex>
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

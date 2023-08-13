@@ -19,8 +19,8 @@ export default async function handler(
     }
 
     const SignUpResult = await db.one(
-      "INSERT INTO users (username, uid, email, password, favorites) VALUES($1, $2, $3, $4, $5) returning id",
-      [req.body.email.split('@')[0], req.body.uid, req.body.email, req.body.password, []]
+      "INSERT INTO users (username, uid, email, password, favorites) VALUES($1, $2, $3, $4, $5) returning uid",
+      [req.body.email.split('@')[0], Math.round(Math.random() * 100000), req.body.email, req.body.password, []]
     );
     return res.status(200).json(SignUpResult);
   } catch (error) {
