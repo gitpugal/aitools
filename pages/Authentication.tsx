@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getProviders, signIn, useSession } from "next-auth/react";
+import {
+  ClientSafeProvider,
+  getProviders,
+  signIn,
+  useSession,
+} from "next-auth/react";
 
 import {
   Flex,
@@ -32,11 +37,13 @@ const App = () => {
     password: "",
     uid: session?.data?.user?.name,
   });
-  const [providers, setProviders] = useState([]);
+  const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
 
   const fetchData = async () => {
-    const provider = await getProviders();
-    setProviders(provider);
+    const providerData = await getProviders();
+    const providerArray = Object.values(providerData); // Convert the object values to an array
+
+    setProviders(providerArray);
   };
   useEffect(() => {
     fetchData();

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import { Container } from "@chakra-ui/react";
 import CardList from "../components/CardList";
-import { getProviders, signIn } from "next-auth/react";
+import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import {
   Flex,
   Heading,
@@ -29,7 +29,8 @@ export default function Home({ tools }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignIn, setIsSIgnIn] = useState(false);
-  const [providers, setProviders] = useState([]);
+  // const [providers, setProviders] = useState([]);
+  const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
 
   const [authData, setAuthData] = useState({
     username: "",
@@ -56,8 +57,10 @@ export default function Home({ tools }) {
   }
 
   const fetchData = async () => {
-    const provider = await getProviders();
-    setProviders(provider);
+    const providerData = await getProviders();
+    const providerArray = Object.values(providerData); // Convert the object values to an array
+
+    setProviders(providerArray);
   };
   useEffect(() => {
     fetchData();
