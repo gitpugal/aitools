@@ -21,6 +21,7 @@ import {
   FormControl,
   FormHelperText,
   InputRightElement,
+  Spinner,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 

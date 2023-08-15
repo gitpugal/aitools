@@ -18,6 +18,7 @@ import {
   InputRightElement,
   IconButton,
   Badge,
+  Spinner,
 } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 import { useSession } from "next-auth/react";
@@ -27,11 +28,10 @@ const CardList = ({ tool, authHandler, isCategory }) => {
   const [tools, setTools] = React.useState(tool);
   const session = useSession();
 
-  async function initiateLike(id) {
+  async function initiateLike(id, email, isLiked) {
     setIsLoading(id);
     if (!session?.data?.user) {
       authHandler();
-      // alert("please login into continue!");
     } else {
       try {
         const res = await fetch("/api/likeHandler", {
@@ -39,13 +39,15 @@ const CardList = ({ tool, authHandler, isCategory }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id: id }),
+          body: JSON.stringify({ id: id, email: email, isLiked: isLiked }),
         });
+        console.log(res);
         if (res.status < 300) {
           setTools((prev) =>
             prev.map((ele) => {
               if (ele.id == id) {
-                ele.upvotes += 1;
+                isLiked ? (ele.upvotes -= 1) : (ele.upvotes += 1);
+                ele.upvotedusers = email;
               }
               return ele;
             })
@@ -136,35 +138,75 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                       </Link>
                       <Flex alignItems="center">
                         <Badge
-                          bg="blue.500"
-                          color="white"
-                          fontSize="11px"
+                          bg={`${
+                            tool?.upvotedusers != null &&
+                            tool?.upvotedusers?.indexOf(
+                              session?.data?.user?.email
+                            ) >= 0
+                              ? "white"
+                              : "blue.500"
+                          }`}
+                          color={`${
+                            tool?.upvotedusers != null &&
+                            tool?.upvotedusers?.indexOf(
+                              session?.data?.user?.email
+                            ) >= 0
+                              ? "blue.500"
+                              : "white"
+                          }`}
+                          fontSize="18px"
                           px={3}
-                          py={2}
+                          py={1}
                           rounded="md"
+                          onClick={() => {
+                            const useremail = session?.data?.user?.email;
+                            if (!useremail) {
+                              authHandler();
+                              return;
+                            }; // Ensure user email is available
+
+                            const updatedUpvotedUsers = tool?.upvotedusers
+                              ? tool.upvotedusers.includes(useremail)
+                                ? tool.upvotedusers.filter(
+                                    (email) => email !== useremail
+                                  )
+                                : [...tool.upvotedusers, useremail]
+                              : [useremail];
+                            const isLiked = tool?.upvotedusers
+                              ? tool.upvotedusers.includes(useremail)
+                                ? 1
+                                : 0
+                              : 0;
+                            initiateLike(
+                              tool?.id,
+                              updatedUpvotedUsers,
+                              isLiked
+                            );
+                          }}
+                          cursor={"pointer"}
                         >
                           {tool?.upvotes} upvotes
+                          {isLoading == tool?.id ? (
+                            <Spinner />
+                          ) : (
+                            <ArrowUpIcon
+                              fontSize={30}
+                              borderRadius={4}
+                              style={{
+                                marginLeft: 10,
+                                display: "inline",
+                                fontWeight: "bolder",
+                                fontSize: "30px",
+                                color:
+                                  tool?.upvotedusers?.indexOf(
+                                    session?.data?.user?.email
+                                  ) >= 0
+                                    ? "#3182ce"
+                                    : "white",
+                              }}
+                            />
+                          )}
                         </Badge>
-                        {isLoading == tool?.id ? (
-                          "    loading...."
-                        ) : (
-                          <ArrowUpIcon
-                            bgColor={"#0078d7"}
-                            fontSize={30}
-                            // sx={{ padding: 10 }}
-                            onClick={() => {
-                              initiateLike(tool?.id);
-                            }}
-                            borderRadius={4}
-                            style={{
-                              display: "inline",
-                              marginLeft: 15,
-                              fontWeight: "bolder",
-                              fontSize: "30px",
-                              color: "white",
-                            }}
-                          />
-                        )}
                       </Flex>
                     </Flex>
                   )}
@@ -205,11 +247,9 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                       mt={2}
                       py={2}
                       px={4}
-                      // colorScheme='blue'
                       rounded="md"
-                      // breakWord="keep-all"
                     >
-                      Social Media Assistant
+                      {tool?.primarycategory}
                     </Badge>
                   </Link>
                   <Badge

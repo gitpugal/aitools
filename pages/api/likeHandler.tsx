@@ -12,10 +12,13 @@ export default async function handler(
 ) {
   try {
     const result = await db.any(
-      "UPDATE tools SET upvotes = upvotes + 1 WHERE id = $1 returning upvotes",
-      [req.body.id]
-    )
-    res.status(200).json({message: result});
+      `UPDATE tools SET upvotes = upvotes ${
+        req.body.isLiked == 1 ? "-" : "+"
+      } 1, upvotedusers = $2  WHERE id = $1 returning upvotes`,
+      [req.body.id, req.body.email]
+    );
+    console.log(req.body.email);
+    res.status(200).json({ message: result });
   } catch (error) {
     console.error("Error getting data: ", error);
     return res.status(500).json({ message: error });

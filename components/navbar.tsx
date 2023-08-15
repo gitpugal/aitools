@@ -31,6 +31,7 @@ import { useEffect } from "react";
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
   const session = useSession();
+  const [navDrop, setNavDrop] = useState(false);
   // const [providers, setProviders] = useState([]);
 
   // const fetchData = async () => {
@@ -89,7 +90,6 @@ export default function Navbar() {
               bgGradient="linear(to-l, #7928CA, #FF0080)"
             >
               AITOOLSNEXT.COM
-              {/* {session && session?.data} */}
             </Text>
           </Link>
 
@@ -98,19 +98,61 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        <Flex alignItems={"center"} gap={3}>
-          <a href="/profile" style={{fontWeight: "bolder", fontSize: "20px"}}>{session?.data?.user?.name}</a>
-          <a href="/profile">
-            <img
-              src={session?.data?.user?.image}
+        <Flex position={"relative"} alignItems={"center"} gap={3}>
+          {/* <a href="/profile"> */}
+          <img
+            src={session?.data?.user?.image}
+            style={{
+              backgroundColor: "powderblue",
+              borderRadius: "100%",
+              height: "6vh",
+              position: "relative",
+            }}
+            alt=""
+            onClick={() => setNavDrop((prev) => !prev)}
+          />
+            <div
               style={{
+                position: "absolute",
+                bottom: "-120px",
+                right: "50%",
+                // translate: "50% 0%",
                 backgroundColor: "powderblue",
-                borderRadius: "100%",
-                height: "6vh",
+                padding:"10px",
+                borderRadius: "10px",
+                display: navDrop ? "flex" : "none", 
+                flexDirection: "column",
+                alignItems: "center",
+                justifyItems: 'center',
+                gap: "8px"
+
               }}
-              alt=""
-            />
-          </a>
+            >
+              <p>{session?.data?.user?.name}</p>
+              <a
+                href="/profile"
+                style={{ fontWeight: "bolder", fontSize: "20px", zIndex: 100 }}
+              >
+                Profile
+              </a>
+              {session.data && (
+                <Button
+                  as={"a"}
+                  display={{ base: "none", md: "inline-flex" }}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  color={"white"}
+                  bg={"blue.800"}
+                  cursor={"pointer"}
+                  onClick={() => signOut()}
+                  zIndex={100}
+                >
+                  Sign out
+                </Button>
+              )}
+            </div>
+          {/* </a> */}
+
           {!session.data && (
             <Button
               as={"a"}
@@ -142,19 +184,6 @@ export default function Navbar() {
               }}
             >
               Sign Up
-            </Button>
-          )}
-          {session.data && (
-            <Button
-              as={"a"}
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"blue.400"}
-              onClick={() => signOut()}
-            >
-              Sign out
             </Button>
           )}
         </Flex>
