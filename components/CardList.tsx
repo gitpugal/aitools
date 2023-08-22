@@ -97,9 +97,8 @@ const CardList = ({ tool, authHandler, isCategory }) => {
               data-splitbee-event-tool="Taplio"
               href={`/tools/${tool?.slug ? tool?.slug : "test"}`}
             >
-              {/* Placeholder for image */}
               <Image
-                src="/tools/taplio.webp" // Replace with the actual image path
+                src="/tools/taplio.webp"
                 alt="Tool Image"
                 width={500}
                 height={281}
@@ -114,28 +113,29 @@ const CardList = ({ tool, authHandler, isCategory }) => {
             >
               <Box px={3} mb={12}>
                 <Flex justify="space-between" alignItems="center">
-                  {!isCategory && (
-                    <Flex
-                      justify="space-between"
-                      width={"100%"}
-                      alignItems="center"
-                      gap={2}
+                  <Flex
+                    justify="space-between"
+                    width={"100%"}
+                    alignItems="center"
+                    gap={2}
+                  >
+                    <Link
+                      aria-label="Tool Name"
+                      data-splitbee-event="Premium Card Open"
+                      data-splitbee-event-tool="Taplio"
+                      href={`/tools/${tool?.slug ? tool?.slug : "test"}`}
                     >
-                      <Link
-                        aria-label="Tool Name"
-                        data-splitbee-event="Premium Card Open"
-                        data-splitbee-event-tool="Taplio"
-                        href={`/tools/${tool?.slug ? tool?.slug : "test"}`}
+                      <Text
+                        my={3}
+                        fontSize="xl"
+                        fontWeight="bold"
+                        color="primary"
                       >
-                        <Text
-                          my={3}
-                          fontSize="xl"
-                          fontWeight="bold"
-                          color="primary"
-                        >
-                          {tool?.name}
-                        </Text>
-                      </Link>
+                        {tool?.name}
+                      </Text>
+                      <p className="text-green-400">oiuhjg</p>
+                    </Link>
+                    {!isCategory && (
                       <Flex alignItems="center">
                         <Badge
                           bg={`${
@@ -163,7 +163,7 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                             if (!useremail) {
                               authHandler();
                               return;
-                            }; // Ensure user email is available
+                            }
 
                             const updatedUpvotedUsers = tool?.upvotedusers
                               ? tool.upvotedusers.includes(useremail)
@@ -208,8 +208,8 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                           )}
                         </Badge>
                       </Flex>
-                    </Flex>
-                  )}
+                    )}
+                  </Flex>
                 </Flex>
                 <Link
                   _hover={{ textDecoration: "none" }}

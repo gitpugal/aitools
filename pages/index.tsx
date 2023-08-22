@@ -23,6 +23,7 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 import Footer from "../components/footer";
 import CardList from "../components/CardList";
+import { SearchBar } from "../components/SearchBar";
 
 export default function Home({ categories, tools }) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -67,7 +68,8 @@ export default function Home({ categories, tools }) {
             alignSelf={"center"}
             position={"relative"}
           >
-            <InputGroup minW={["250px", "250px", "350px"]}>
+            <SearchBar />
+            {/* <InputGroup minW={["250px", "250px", "350px"]}>
               <Input placeholder="Search" />
               <InputRightElement>
                 <IconButton
@@ -76,7 +78,7 @@ export default function Home({ categories, tools }) {
                   bg="lightblue"
                 />
               </InputRightElement>
-            </InputGroup>
+            </InputGroup> */}
           </Stack>
 
           <Stack

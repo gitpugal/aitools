@@ -111,46 +111,45 @@ export default function Navbar() {
             alt=""
             onClick={() => setNavDrop((prev) => !prev)}
           />
-            <div
-              style={{
-                position: "absolute",
-                bottom: "-120px",
-                right: "50%",
-                // translate: "50% 0%",
-                backgroundColor: "powderblue",
-                padding:"10px",
-                borderRadius: "10px",
-                display: navDrop ? "flex" : "none", 
-                flexDirection: "column",
-                alignItems: "center",
-                justifyItems: 'center',
-                gap: "8px"
-
-              }}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-120px",
+              right: "50%",
+              // translate: "50% 0%",
+              backgroundColor: "powderblue",
+              padding: "10px",
+              borderRadius: "10px",
+              display: navDrop ? "flex" : "none",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyItems: "center",
+              gap: "8px",
+            }}
+          >
+            <p>{session?.data?.user?.name}</p>
+            <a
+              href="/profile"
+              style={{ fontWeight: "bolder", fontSize: "20px", zIndex: 100 }}
             >
-              <p>{session?.data?.user?.name}</p>
-              <a
-                href="/profile"
-                style={{ fontWeight: "bolder", fontSize: "20px", zIndex: 100 }}
+              Profile
+            </a>
+            {session.data && (
+              <Button
+                as={"a"}
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"blue.800"}
+                cursor={"pointer"}
+                onClick={() => signOut()}
+                zIndex={100}
               >
-                Profile
-              </a>
-              {session.data && (
-                <Button
-                  as={"a"}
-                  display={{ base: "none", md: "inline-flex" }}
-                  fontSize={"sm"}
-                  fontWeight={600}
-                  color={"white"}
-                  bg={"blue.800"}
-                  cursor={"pointer"}
-                  onClick={() => signOut()}
-                  zIndex={100}
-                >
-                  Sign out
-                </Button>
-              )}
-            </div>
+                Sign out
+              </Button>
+            )}
+          </div>
           {/* </a> */}
 
           {!session.data && (
