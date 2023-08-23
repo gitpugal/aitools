@@ -1,5 +1,25 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
+// import {
+//   import {
+//     Calculator,
+//     Calendar,
+//     CreditCard,
+//     Settings,
+//     Smile,
+//     User,
+//   } from "lucide-react"
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "../components/ui/command";
 
 export function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,6 +59,8 @@ export function SearchBar() {
   }, [searchTerm]);
   return (
     <div className="">
+      
+
       <input
         type="search"
         name="searchBar"

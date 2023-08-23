@@ -28,6 +28,8 @@ const CardList = ({ tool, authHandler, isCategory }) => {
   const [tools, setTools] = React.useState(tool);
   const session = useSession();
 
+  
+
   async function initiateLike(id, email, isLiked) {
     setIsLoading(id);
     if (!session?.data?.user) {
@@ -133,7 +135,6 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                       >
                         {tool?.name}
                       </Text>
-                      <p className="text-green-400">oiuhjg</p>
                     </Link>
                     {!isCategory && (
                       <Flex alignItems="center">
