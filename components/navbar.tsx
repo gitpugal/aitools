@@ -127,7 +127,7 @@ export default function Navbar() {
               gap: "8px",
             }}
           >
-            <p>{session?.data?.user?.name}</p>
+            <p>{session?.data?.user?.name.split(' ')[0]}</p>
             <a
               href="/profile"
               style={{ fontWeight: "bolder", fontSize: "20px", zIndex: 100 }}

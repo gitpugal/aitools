@@ -10,16 +10,16 @@ import { useState, useEffect } from "react";
 //     User,
 //   } from "lucide-react"
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-  CommandShortcut,
-} from "../components/ui/command";
+// import {
+//   Command,
+//   CommandEmpty,
+//   CommandGroup,
+//   CommandInput,
+//   CommandItem,
+//   CommandList,
+//   CommandSeparator,
+//   CommandShortcut,
+// } from "../components/ui/command";
 
 export function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
