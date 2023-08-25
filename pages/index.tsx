@@ -391,7 +391,7 @@ export async function getServerSideProps() {
   const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
   const categories = await response.json();
 
-  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/getTopTools");
+  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools");
   const topTools = await toolsResponse.json();
   const tools = topTools?.tools ? topTools.tools : [];
 
