@@ -435,7 +435,7 @@ export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
 
-  const res = await fetch(`http://api.aitoolsnext.com/getToolsBySlug/${slug}`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   const data = await res.json();
 
   return {

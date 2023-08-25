@@ -388,10 +388,10 @@ export default function Home({ categories, tools }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch("http://api.aitoolsnext.com/getCategories");
+  const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
   const categories = await response.json();
 
-  const toolsResponse = await fetch("http://api.aitoolsnext.com/getTopTools");
+  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/getTopTools");
   const topTools = await toolsResponse.json();
   const tools = topTools?.tools ? topTools.tools : [];
 

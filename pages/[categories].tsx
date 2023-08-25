@@ -210,7 +210,7 @@ export default function Home({ categories }) {
 
 export async function getServerSideProps() {
   const res = await fetch(
-    "http://api.aitoolsnext.com/getCategoriesBySlug/ai_tools_applications"
+    "https://www.aitoolsnext.com/api/getCategoriesBySlug/ai_tools_applications"
   );
   const data = await res.json();
 
