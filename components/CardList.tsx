@@ -156,7 +156,7 @@ const CardList = ({ tool, authHandler, isCategory }) => {
               )}
             </div>
 
-            <p className="font-light text-slate-300">{tool?.description}</p>
+            <p className="font-light text-slate-300">{tool?.description.length <= 60 ? tool?.description : tool?.description.substring(0, 60)}</p>
             <div className="flex  flex-row gap-5">
               <Link href="/ai-social-media-assistant">
                 <Badge

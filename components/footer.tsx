@@ -92,7 +92,7 @@ export default function Footer() {
   }
   return (
     <Box
-      sx={{ position: "absolute", bottom: 0, width: "100%", margin: 0 }}
+      sx={{  bottom: 0, width: "100%", margin: 0 }}
       bgColor={"blackAlpha.600"}
       color={"whiteAlpha.800"}
     >

@@ -108,7 +108,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
         <div
-        className="min-h-screen max-h-fit overflow-hidden bg-gradient-to-tr from-slate-300 to-slate-50 "
+        className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 "
          
         >
           <div
@@ -228,7 +228,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
           </div>
           <Navbar />
           <Component {...pageProps} />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </ChakraProvider>
     </SessionProvider>
