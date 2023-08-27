@@ -11,7 +11,7 @@ import {
   IconButton,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { BiMailSend } from "react-icons/bi";
 import Image from "next/image";
@@ -40,7 +40,7 @@ const SocialButton = ({
 }) => {
   return (
     <chakra.button
-      bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
+      bg={useColorModeValue("#262626Alpha.100", "whiteAlpha.100")}
       rounded={"full"}
       w={8}
       h={8}
@@ -52,7 +52,7 @@ const SocialButton = ({
       justifyContent={"center"}
       transition={"background 0.3s ease"}
       _hover={{
-        bg: useColorModeValue("blackAlpha.200", "whiteAlpha.200"),
+        bg: useColorModeValue("#262626Alpha.200", "whiteAlpha.200"),
       }}
     >
       <VisuallyHidden>{label}</VisuallyHidden>
@@ -69,12 +69,32 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
+
+
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  async function subscribe (){
+    try {
+      const res = await fetch("/api/addSubscriber", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      });
+      console.log(res);
+      if (res.status < 300) {
+        alert("Subscibed successfully!")
+      }
+    } catch (err) {
+      alert(err);
+    }
+  }
   return (
     <Box
       sx={{ position: "absolute", bottom: 0, width: "100%", margin: 0 }}
-      bg={useColorModeValue("gray.50", "gray.900")}
-      color={useColorModeValue("gray.700", "gray.200")}
+      bgColor={"blackAlpha.600"}
+      color={"whiteAlpha.800"}
     >
       <Container as={Stack} maxW={"6xl"} py={10}>
         <SimpleGrid
@@ -117,22 +137,25 @@ export default function Footer() {
           <Stack align={"flex-start"}>
             <ListHeader>Stay up to date</ListHeader>
             <Stack direction={"row"}>
-              <Input
-                placeholder={"Your email address"}
-                bg={useColorModeValue("blackAlpha.100", "whiteAlpha.100")}
-                border={0}
-                _focus={{
-                  bg: "whiteAlpha.300",
+              <input
+                onChange={(e) => {
+                  e.preventDefault();
+                  setEmail(e.target.value);
                 }}
+                value={email}
+                type="email"
+                placeholder="enter you email"
+                // type="text"
+                className="w-full h-full px-8 py-2  rounded-xl bg-white/20"
               />
               <IconButton
-                bg={useColorModeValue("green.400", "green.800")}
-                color={useColorModeValue("white", "gray.800")}
+                bgColor={"black"}
                 _hover={{
                   bg: "green.600",
                 }}
+                onClick={subscribe}
                 aria-label="Subscribe"
-                icon={<BiMailSend />}
+                icon={<BiMailSend color="white" className="" />}
               />
             </Stack>
           </Stack>

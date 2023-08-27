@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import db from './db'; // Adjust the path as needed
+import db from '../db'; // Adjust the path as needed
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
       return res.status(405).end(); // Method Not Allowed
@@ -12,12 +12,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   
     try {
-      const category = await db.one('SELECT * FROM categories WHERE slug = $1', slug);
+      const category = await db.one('SELECT * FROM tools WHERE slug = $1', slug);
+      // console.log(category)
   
       res.status(200).json(category);
     } catch (error) {
       console.error('Error getting category: ', error);
-      res.status(500).json({ message: 'An error occurred while getting the category.' });
+      res.status(500).json(error);
     }
   }
   

@@ -58,7 +58,7 @@ export function SearchBar() {
     }
   }, [searchTerm]);
   return (
-    <div className="">
+    <div className="w-screen px-10">
       
 
       <input
@@ -67,26 +67,26 @@ export function SearchBar() {
         value={searchTerm}
         id="search"
         placeholder="search tools and categories..."
-        className="bg-gray-100 p-5 rounded-xl w-[30vw]"
+        className="bg-gray-100 py-8 px-8 rounded-3xl w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
         onChange={changeHandler}
       />
       {searchresults.length > 0 && (
-        <div className="flex flex-col gap-2 bg-gray-50 py-5 px-2 mt-5 rounded-md w-[50vw] max-h-fit min-h-fit">
+        <div className="flex flex-col gap-2 bg-gray-50 py-5 px-2 mt-5 rounded-md w-[30vw] max-h-fit min-h-fit">
           {searchresults.length > 0 && (
-            <p className="font-bold text-2xl">Tools:</p>
+            <p className="font-bold text-2xl text-left pl-3">Tools</p>
           )}{" "}
           {searchresults.map((result) => (
             <Link
               href={`/tools/result.id`}
               key={result.id}
-              className="w-full text-le bg-gray-100 text-sm  rounded-md font-bold  py-2"
+              className="w-full text-left px-10 bg-gray-100 text-sm  rounded-md font-bold  py-3"
             >
               {result.name}
             </Link>
           ))}
           <br />
           {searchCatresults.length > 0 && (
-            <p className="font-bold text-2xl">Categories:</p>
+            <p className="font-bold text-2xl">Categories</p>
           )}{" "}
           {searchCatresults.map((result) => (
             <Link

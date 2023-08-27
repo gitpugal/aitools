@@ -11,6 +11,8 @@ import { FiThumbsUp } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import { BiSolidUpArrow } from "react-icons/bi";
+
 import {
   Flex,
   Heading,
@@ -44,6 +46,9 @@ export default function Home({ tool, slug }) {
     setProviders(providerArray);
   };
   useEffect(() => {
+    const url = window.location.href;
+    const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
+    console.log(`https://localhost:3000/api/getToolsBySlug/${slug}`);
     fetchData();
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
@@ -53,13 +58,7 @@ export default function Home({ tool, slug }) {
     password: "",
   });
 
-  const handleOpenAddModal = () => {
-    setIsAddModalOpen(true);
-  };
 
-  const handleCloseAddModal = () => {
-    setIsAddModalOpen(false);
-  };
   const s = slug;
 
   debugger;
@@ -98,52 +97,14 @@ export default function Home({ tool, slug }) {
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
     document.getElementById("container").style.filter = "blur(5px)";
-    setIsAddModalOpen((prev) => !prev);
+    document.getElementById("modal").style.visibility = "visible";
   }
   function changeHandler(e) {
     e.preventDefault();
     setAuthData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
-  const CFaUserAlt = chakra(FaUserAlt);
-  const CFaLock = chakra(FaLock);
-  async function submitHandler(e) {
-    e.preventDefault();
-    const res = await fetch("/api/signUpHandler", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(authData),
-    });
-    const data = await res.json();
-    console.log(data.message);
-  }
-
-  async function signInHandler(e) {
-    e.preventDefault();
-    const res = await fetch("/api/signInHandler", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(authData),
-    });
-    const data = await res.json();
-    if (res.status != 200) {
-      console.log(data.message);
-    } else {
-      console.log(data.message);
-      await signIn("credentials", {
-        ...data.data[0],
-        callbackUrl: "http://localhost:3000/categories",
-      });
-      console.log(data.data);
-    }
-  }
-  const handleShowClick = () => setShowPassword(!showPassword);
-
   return (
-    <div>
+    <div className="min-h-screen max-h-fit">
       <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
@@ -155,224 +116,31 @@ export default function Home({ tool, slug }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <div
-        id="modal"
-        style={{
-          display: isAddModalOpen ? "flex" : "none",
-          height: "60vh",
-          width: "60vw",
-          backgroundColor: "white",
-          borderRadius: "10px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          position: "absolute",
-          zIndex: 10,
-          top: "350px",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          padding: "20px",
-          justifyItems: "center",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <button
-          onClick={() => {
-            setIsAddModalOpen(false);
-            document.getElementById("container").style.pointerEvents = "auto";
-            document.getElementById("container").style.filter = "blur(0px)";
-          }}
-          style={{
-            position: "absolute",
-            backgroundColor: "red",
-            color: "white",
-            padding: "4px 10px",
-            borderRadius: "10px",
-            right: "10px",
-            top: "10px",
-          }}
-        >
-          Close
-        </button>
-        <Flex
-          flexDirection="column"
-          width="100wh"
-          height="100vh"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Stack
-            flexDir="column"
-            mb="2"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Avatar bg="teal.500" />
-            <Heading color="teal.400">Welcome</Heading>
-            <Box minW={{ base: "90%", md: "468px" }}>
-              <form>
-                <Stack
-                  spacing={4}
-                  p="1rem"
-                  backgroundColor="whiteAlpha.900"
-                  boxShadow="md"
-                >
-                  <FormControl>
-                    <InputGroup>
-                      <InputLeftElement
-                        pointerEvents="none"
-                        children={<CFaUserAlt color="gray.300" />}
-                      />
-                      <Input
-                        isRequired={true}
-                        required={true}
-                        type="email"
-                        onChange={changeHandler}
-                        name="email"
-                        value={authData.email}
-                        placeholder="email address"
-                      />
-                    </InputGroup>
-                  </FormControl>
-
-                  <FormControl>
-                    <InputGroup>
-                      <InputLeftElement
-                        pointerEvents="none"
-                        color="gray.300"
-                        children={<CFaLock color="gray.300" />}
-                      />
-                      <Input
-                        isRequired={true}
-                        required={true}
-                        type={showPassword ? "text" : "password"}
-                        onChange={changeHandler}
-                        name="password"
-                        value={authData.password}
-                        placeholder="Password"
-                      />
-                      <InputRightElement width="4.5rem">
-                        <Button h="1.75rem" size="sm" onClick={handleShowClick}>
-                          {showPassword ? "Hide" : "Show"}
-                        </Button>
-                      </InputRightElement>
-                    </InputGroup>
-                    <FormHelperText textAlign="right">
-                      <Link>forgot password?</Link>
-                    </FormHelperText>
-                  </FormControl>
-                  <Button
-                    borderRadius={0}
-                    type="submit"
-                    variant="solid"
-                    colorScheme="teal"
-                    width="full"
-                    onClick={isSignIn ? signInHandler : submitHandler}
-                  >
-                    {isSignIn ? "Login" : "SignUp"}
-                  </Button>
-                </Stack>
-              </form>
-            </Box>
-          </Stack>
-          <Box
-            textAlign={"center"}
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"center"}
-            gap={5}
-          >
-            <p style={{ textAlign: "center" }}>or login with</p>
-            <Box width={"fit-content"}>
-              {providers &&
-                Object.values(providers).map((provider) =>
-                  provider.name == "Sign In" ? null : (
-                    <Button
-                      as={"a"}
-                      width={"fit"}
-                      fontSize={"xl"}
-                      fontWeight={600}
-                      color={"white"}
-                      bg={"blue.400"}
-                      _hover={{
-                        bg: "blue.300",
-                      }}
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        await signIn("google", {
-                          callbackUrl: "http://localhost:3000/",
-                        });
-                      }}
-                    >
-                      {provider.name}
-                    </Button>
-                  )
-                )}
-            </Box>
-            <p>
-              {isSignIn
-                ? "Don't have an account? Signup!"
-                : "Already have an account sign In!"}
-              <Link
-                onClick={() => setIsSIgnIn((prev) => !prev)}
-                color="teal.500"
-              >
-                {isSignIn ? "Sign Up" : "Sign In"}
-              </Link>
-            </p>
-          </Box>
-        </Flex>
-      </div>
-      <Container id="container" maxW={"5xl"}>
-        {/* Back button */}
-        <Box
-          mb={4}
-          mt={4}
-          cursor="pointer"
-          display="inline-flex"
-          alignItems="center"
-          color="blue.500"
-          _hover={{ color: "blue.700" }}
-          onClick={() => router.back()}
-        >
+      <div className="w-screen relative min-h-screen flex flex-col gap-10 items-start justify-start max-h-fit px-14 py-28">
+        <button className="absolute top-10 left-10" onClick={() => router.back()}>
           <ArrowBackIcon mr={2} />
           Back
-        </Box>
-
-        {/* Tool image */}
-        {
-          <Box mb={4}>
-            <Image
-              width={300}
-              height={300}
-              src={`/categories/ai_tools_applications.webp`}
-              alt={"test"}
-            />
-          </Box>
-        }
-
-        {/* Tool details */}
-        <Box>
-          <Heading mb={4}>{toolData?.name}</Heading>
-
+        </button>
+        <div className="flex flex-col lg:flex-row gap-16 justify-start items-center">
+          <h1 className="text-7xl font-semibold">{toolData?.name}</h1>
           <Badge
             bg={`${
               toolData?.upvotedusers != null &&
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
                 ? "white"
-                : "blue.500"
+                : "#262626"
             }`}
             color={`${
               toolData?.upvotedusers != null &&
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
-                ? "blue.500"
+                ? "#262626"
                 : "white"
             }`}
             fontSize="18px"
             px={3}
             py={1}
             rounded="md"
+            className="border-2"
             onClick={() => {
               const useremail = session?.data?.user?.email;
               if (!useremail) {
@@ -393,13 +161,12 @@ export default function Home({ tool, slug }) {
             }}
             cursor={"pointer"}
           >
-            {toolData?.upvotes} upvotes
+            {toolData?.upvotes}
             {isLoading == toolData?.id ? (
               <Spinner />
             ) : (
-              <ArrowUpIcon
+              <BiSolidUpArrow
                 fontSize={30}
-                borderRadius={4}
                 style={{
                   marginLeft: 10,
                   display: "inline",
@@ -409,24 +176,17 @@ export default function Home({ tool, slug }) {
                     toolData?.upvotedusers?.indexOf(
                       session?.data?.user?.email
                     ) >= 0
-                      ? "#3182ce"
+                      ? "black"
                       : "white",
                 }}
               />
             )}
           </Badge>
-
-          <div
-            style={{ marginTop: "20px", marginBottom: "20px" }}
-            dangerouslySetInnerHTML={{ __html: toolData.description }}
-          ></div>
-          <Box>
-            <Badge key={tool?.primarycategory} mr={2} mb={2} colorScheme="blue">
-              {toolData?.primarycategory}
-            </Badge>
-          </Box>
-        </Box>
-      </Container>
+        </div>
+        <h1 className="text-3xl">{toolData?.description}</h1>
+        <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">#{toolData?.primarycategory}</h1>
+      </div>
+      <h1 className="text-4xl mx-auto underline font-semibold text-center">Similar tools</h1>
     </div>
   );
 }
@@ -434,8 +194,9 @@ export default function Home({ tool, slug }) {
 export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-
-  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  console.log(`http://localhost:3000/api/getToolsBySlug/${slug} bihb`);
+  const res = await fetch(`http://localhost:3000/api/getToolsBySlug/${slug}`);
+  console.log(res);
   const data = await res.json();
 
   return {

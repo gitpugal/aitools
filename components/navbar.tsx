@@ -47,12 +47,12 @@ export default function Navbar() {
   }, [session?.status]);
 
   return (
-    <Box>
+    <div className="bg-black text-white">
       <Flex
-        bg={useColorModeValue("white", "gray.800")}
-        color={useColorModeValue("gray.600", "white")}
+      bgColor={"black"}
+      color={"white"}
         minH={"60px"}
-        py={{ base: 2 }}
+        py={{ base: 4 }}
         px={[4, 20, 40]}
         borderBottom={1}
         borderStyle={"solid"}
@@ -100,17 +100,24 @@ export default function Navbar() {
 
         <Flex position={"relative"} alignItems={"center"} gap={3}>
           {/* <a href="/profile"> */}
-          <img
-            src={session?.data?.user?.image}
-            style={{
-              backgroundColor: "powderblue",
-              borderRadius: "100%",
-              height: "6vh",
-              position: "relative",
-            }}
-            alt=""
+
+          {session?.data && 
+          <div
             onClick={() => setNavDrop((prev) => !prev)}
-          />
+            className="bg-gray-700 rounded-full h-fit w-fit"
+          >
+            {/* hi */}
+            <img
+              src={session?.data?.user?.image}
+              style={{
+                backgroundColor: "powderblue",
+                borderRadius: "100%",
+                height: "6vh",
+                position: "relative",
+              }}
+              alt=""
+            />
+          </div>}
           <div
             style={{
               position: "absolute",
@@ -127,7 +134,7 @@ export default function Navbar() {
               gap: "8px",
             }}
           >
-            <p>{session?.data?.user?.name.split(' ')[0]}</p>
+            <p>{session?.data?.user?.name.split(" ")[0]}</p>
             <a
               href="/profile"
               style={{ fontWeight: "bolder", fontSize: "20px", zIndex: 100 }}
@@ -159,8 +166,11 @@ export default function Navbar() {
               fontSize={"sm"}
               fontWeight={600}
               color={"white"}
-              bg={"blue.400"}
-              href={"/Authentication"}
+              bg={"whiteAlpha.400"}
+              onClick={() => {
+                document.getElementById("modal").style.visibility = "visible";
+              }}
+              // href={"/Authentication"}
               _hover={{
                 bg: "blue.300",
               }}
@@ -176,8 +186,12 @@ export default function Navbar() {
               fontSize={"sm"}
               fontWeight={600}
               color={"white"}
-              bg={"blue.400"}
-              href={"/Authentication"}
+              bg={"whiteAlpha.400"}
+
+              onClick={() => {
+                document.getElementById("modal").style.visibility = "visible";
+              }}
+              // href={"/Authentication"}
               _hover={{
                 bg: "blue.300",
               }}
@@ -191,7 +205,7 @@ export default function Navbar() {
       <Collapse in={isOpen} animateOpacity>
         <MobileNav />
       </Collapse>
-    </Box>
+    </div>
   );
 }
 
@@ -211,10 +225,10 @@ const DesktopNav = () => {
                 href={navItem.href ?? "#"}
                 fontSize={"sm"}
                 fontWeight={500}
-                color={linkColor}
+                // color={linkColor}
                 _hover={{
                   textDecoration: "none",
-                  color: linkHoverColor,
+                  // color: linkHoverColor,
                 }}
               >
                 {navItem.label}

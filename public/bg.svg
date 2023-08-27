@@ -1,0 +1,7 @@
+<svg width="100vw" height="100vh" xmlns="http://www.w3.org/2000/svg">
+  <!-- White background -->
+  <rect width="100%" height="100%" fill="white" />
+
+  <!-- Black dotted border -->
+  <rect width="100%" height="100%" fill="black" stroke="black" stroke-dasharray="3,3" />
+</svg>

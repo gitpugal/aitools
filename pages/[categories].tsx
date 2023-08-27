@@ -42,7 +42,7 @@ export default function Home({ categories }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container maxW={"5xl"}>
+      <Container  >
         {/* Back button */}
         <Box
           mb={6}
@@ -50,7 +50,7 @@ export default function Home({ categories }) {
           cursor="pointer"
           display="inline-flex"
           alignItems="center"
-          color="blue.500"
+          color="#262626"
           _hover={{ color: "blue.700" }}
           onClick={() => router.back()}
         >
@@ -82,7 +82,7 @@ export default function Home({ categories }) {
         </Box>
 
         <Box
-          maxW={"5xl"}
+           
           mt={8}
           display={{ base: "block", md: "grid" }}
           gridTemplateColumns={{ md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}

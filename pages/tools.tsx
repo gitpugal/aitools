@@ -293,7 +293,6 @@ export default function Home({ tools }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Container id="container" maxW={"5xl"}>
         <Stack
           as={Box}
           textAlign={"center"}
@@ -310,7 +309,6 @@ export default function Home({ tools }) {
 
           <CardList isCategory={false} authHandler={authHandler} tool={tools} />
         </Stack>
-      </Container>
     </div>
   );
 }

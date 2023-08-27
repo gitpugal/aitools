@@ -22,7 +22,7 @@ export default async function handler(
       "INSERT INTO users (username, uid, email, password, favorites) VALUES($1, $2, $3, $4, $5) returning uid",
       [req.body.email.split('@')[0], Math.round(Math.random() * 100000), req.body.email, req.body.password, []]
     );
-    return res.status(200).json(SignUpResult);
+    return res.status(200).json(result);
   } catch (error) {
     console.error("Error getting data: ", error);
     return res
