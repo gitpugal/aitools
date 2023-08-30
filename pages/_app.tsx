@@ -112,7 +112,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 ">
           <div
             id="modal"
-            className="h-3/4 w-full px-2 pb-10 lg:w-1/2 "
+            className="h-3/4 w-full px-2 py-10 lg:w-1/2 "
             style={{
               // display: isAddModalOpen ? "flex" : "none",
               visibility: "hidden",
@@ -142,12 +142,12 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               <CloseIcon />
             </button>
             <div className="w-full h-full px-2 lg:px-24 flex items-center justify-evenly flex-col">
-              <h1 className="mb-10 mt-5 text-xl">
+              <h1 className="my-3 text-xl">
                 <span className="text-black font-semibold text-xl inline">
                   AIToolsNext
                 </span>
               </h1>
-              <h1 className="font-extrabold text-3xl text-black my-5">
+              <h1 className="font-extrabold text-3xl text-black my-2">
                 {isSignIn ? "Login Now!" : "Sign Up now!"}
               </h1>
               <label
