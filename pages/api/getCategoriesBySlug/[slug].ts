@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import db from './db'; // Adjust the path as needed
+import db from '../db'; // Adjust the path as needed
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== 'GET') {
       return res.status(405).end(); // Method Not Allowed

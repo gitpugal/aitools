@@ -70,7 +70,7 @@ export default function Home({ categories }) {
           <Stack display={'flex'} textAlign={'start'} justify={'flex-start'} maxW={'5xl'} direction="row">
             <Box>
               {categories?.map((category) => (
-                <Link href={`/${category?.slug}`}>
+                <Link href={`/categories/${category?.slug}`}>
                   <Badge
                     key={category.id}
                     px='2'

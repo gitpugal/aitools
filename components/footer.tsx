@@ -10,11 +10,13 @@ import {
   Input,
   IconButton,
   useColorModeValue,
+  Spinner
 } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { BiMailSend } from "react-icons/bi";
 import Image from "next/image";
+import { Progress } from "@chakra-ui/react";
 
 const Logo = (props: any) => {
   return (
@@ -69,12 +71,14 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
   );
 };
 
-
-
 export default function Footer() {
   const [email, setEmail] = useState("");
-  async function subscribe (){
+  const [isSubscribed, setisSubscribed] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
+  async function subscribe() {
     try {
+      setisLoading(true);
+      setisSubscribed(false);
       const res = await fetch("/api/addSubscriber", {
         method: "POST",
         headers: {
@@ -84,15 +88,19 @@ export default function Footer() {
       });
       console.log(res);
       if (res.status < 300) {
-        alert("Subscibed successfully!")
+        // alert("sub")
+        setisSubscribed(true);
+        setEmail("");
       }
     } catch (err) {
+      setisLoading(false);
       alert(err);
     }
+    setisLoading(false);
   }
   return (
     <Box
-      sx={{  bottom: 0, width: "100%", margin: 0 }}
+      sx={{ bottom: 0, width: "100%", margin: 0 }}
       bgColor={"blackAlpha.600"}
       color={"whiteAlpha.800"}
     >
@@ -146,7 +154,7 @@ export default function Footer() {
                 type="email"
                 placeholder="enter you email"
                 // type="text"
-                className="w-full h-full px-8 py-2  rounded-xl bg-white/20"
+                className="w-full h-full px-8 py-2  focus:outline-none rounded-xl bg-white/20"
               />
               <IconButton
                 bgColor={"black"}
@@ -155,9 +163,20 @@ export default function Footer() {
                 }}
                 onClick={subscribe}
                 aria-label="Subscribe"
-                icon={<BiMailSend color="white" className="" />}
+                icon={
+                  isLoading ? (
+                    <Spinner color="white" />
+                  ) : (
+                    <BiMailSend color="white" className="" />
+                  )
+                }
               />
             </Stack>
+            {isSubscribed && (
+              <p className="text-lg block font-semibold text-green-500">
+                You have subscribed successfully!!!
+              </p>
+            )}
           </Stack>
         </SimpleGrid>
       </Container>

@@ -58,7 +58,7 @@ export function SearchBar() {
     }
   }, [searchTerm]);
   return (
-    <div className="w-screen px-10">
+    <div className="w-screen px-2 lg:px-10">
       
 
       <input
@@ -67,7 +67,7 @@ export function SearchBar() {
         value={searchTerm}
         id="search"
         placeholder="search tools and categories..."
-        className="bg-gray-100 py-8 px-8 rounded-3xl w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
+        className="bg-gray-100 py-4 lg:py-8 px-8 rounded-xl w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
         onChange={changeHandler}
       />
       {searchresults.length > 0 && (

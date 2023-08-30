@@ -1,0 +1,9 @@
+.border-gradient-container {
+    display: inline-block;
+    background: linear-gradient(to right, var(--from-color), var(--to-color));
+    padding: 2px; /* Control the border width */
+  }
+
+  .border-gradient-content {
+    border: 2px solid transparent; /* Transparent border to create spacing */
+  }

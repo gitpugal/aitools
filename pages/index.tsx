@@ -84,7 +84,7 @@ export default function Home({ categories, tools }) {
       console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "http://localhost:3000/categories",
+        callbackUrl: "https://www.aitoolsnext.com/categories",
       });
       console.log(data.data);
     }
@@ -124,7 +124,7 @@ export default function Home({ categories, tools }) {
           spacing={{ base: 8, md: 14 }}
           py={{ base: 20, md: 36 }}
         >
-          <h1 className="text-6xl font-light">Find Best AI Tools to <span className="block py-3 font-bold bg-gradient-to-r from-pink-400 text-7xl to-purple-700 bg-clip-text h-fit   text-transparent">Simplify your tasks.</span></h1>
+          <h1 className="lg:text-6xl text-3xl font-light">Find Best AI Tools to <span className="block py-3 text-3xl font-bold bg-gradient-to-r from-pink-400 lg:text-7xl to-purple-700 bg-clip-text h-fit   text-transparent">Simplify your tasks.</span></h1>
 
           <Stack
             direction={"column"}
@@ -136,28 +136,29 @@ export default function Home({ categories, tools }) {
             <SearchBar />
           </Stack>
 
-          <Stack
+          {/* <Stack
             display={"flex"}
             textAlign={"start"}
-            justify={"flex-start"}
+            justify={"flex-center"}
             maxW={"5xl"}
             direction="row"
             mx={"auto"}
-          >
-            <div className="">
+          > */}
+            <div className="lg:text-left w-full mx-auto lg:w-1/2 text-center">
               {categories?.slice(0, 18)?.map((category) => (
-                <Link href={`/${category?.slug}`}>
+                <Link href={`/categories/${category?.slug}`}>
                   <Badge
                     key={category.id}
-                    px="2"
-                    py="2"
+                    px="6"
+                    py="3"
                     borderRadius={"10px"}
                     mx="1"
                     my="1"
                     fontSize={"11px"}
                     variant="solid"
-                    colorScheme={
-                      hoveredCategory === category.id ? "blue" : "gray"
+                    fontWeight={"medium"}
+                    bgColor={
+                      hoveredCategory === category.id ? "blackAlpha.500" : "blackAlpha.800"
                     }
                     onMouseEnter={() => setHoveredCategory(category.id)}
                     onMouseLeave={() => setHoveredCategory(null)}
@@ -172,28 +173,34 @@ export default function Home({ categories, tools }) {
                 </Link>
               ))}
 
-              <Badge
-                key={"show_more"}
-                px="2"
-                py="2"
-                borderRadius={"10px"}
-                mx="1"
-                my="1"
-                fontSize={"11px"}
-                variant="solid"
-                colorScheme={hoveredCategory === "100000" ? "blue" : "gray"}
-                onMouseEnter={() => setHoveredCategory("100000")}
-                onMouseLeave={() => setHoveredCategory(null)}
-                _hover={{
-                  cursor: "pointer",
-                  colorScheme: "blue",
-                  transform: "translateX(2px)",
-                }}
-              >
-                {"Show More..."}
-              </Badge>
+<Badge
+  key={"show_more"}
+  px="4"
+  py="3"
+  borderRadius="10px"
+  borderWidth="3px"         // Corrected border width property
+  borderStyle="solid"      // Added border style property
+  borderColor="pink.500"
+  mx="1"
+  my="1"
+  fontSize="11px"
+  variant="solid"
+  bgColor={
+    hoveredCategory === "100000" ? "blackAlpha.500" : "black"
+  }
+  onMouseEnter={() => setHoveredCategory("100000")}
+  onMouseLeave={() => setHoveredCategory(null)}
+  _hover={{
+    cursor: "pointer",
+    colorScheme: "blue",
+    transform: "translateX(2px)",
+  }}
+>
+  {"Show More..."}
+</Badge>
+
             </div>
-          </Stack>
+          {/* </Stack> */}
 
           <CardList isCategory={false} authHandler={authHandler} tool={tools} />
         </Stack>

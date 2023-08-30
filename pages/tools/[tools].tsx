@@ -194,8 +194,8 @@ export default function Home({ tool, slug }) {
 export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-  console.log(`http://localhost:3000/api/getToolsBySlug/${slug} bihb`);
-  const res = await fetch(`http://localhost:3000/api/getToolsBySlug/${slug}`);
+  console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug} bihb`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   console.log(res);
   const data = await res.json();
 

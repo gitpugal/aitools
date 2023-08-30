@@ -47,17 +47,18 @@ export default function Navbar() {
   }, [session?.status]);
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-slate-200 border-b-[0.01px]  border-pink-500 shadow-md text-black">
       <Flex
-      bgColor={"black"}
-      color={"white"}
+        // bgColor={"black"}
+        // color={"white"}
         minH={"60px"}
         py={{ base: 4 }}
-        px={[4, 20, 40]}
+        px={[4, 5, 5]}
         borderBottom={1}
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.900")}
         align={"center"}
+        justify={"space-between"}
       >
         <Flex
           flex={{ base: 1, md: "auto" }}
@@ -73,51 +74,59 @@ export default function Navbar() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-
-        <Flex
-          flex={{ base: 1 }}
-          alignItems={"center"}
-          alignContent={"center"}
-          justify={{ base: "center", md: "start" }}
-        >
-          <Link href={"/"}>
+        <Link href={"/"} className="flex md:hidden">
             <Text
-              textAlign={useBreakpointValue({ base: "center", md: "left" })}
+              // textAlign={useBreakpointValue({ base: "center", md: "left" })}
               fontFamily={"heading"}
               bgClip="text"
               fontSize="2xl"
               fontWeight="extrabold"
               bgGradient="linear(to-l, #7928CA, #FF0080)"
+              width={"fit-content"}
             >
               AITOOLSNEXT.COM
             </Text>
           </Link>
-
-          <Flex display={["none", "flex", "flex"]} ml={10}>
-            <DesktopNav />
-          </Flex>
-        </Flex>
-
+        <div className="hidden mr-10 font-semibold md:flex flex-row gap-7 text-lg items-center justify-center">
+          <Link href={"/"}>
+            <Text
+              // textAlign={useBreakpointValue({ base: "center", md: "left" })}
+              fontFamily={"heading"}
+              bgClip="text"
+              fontSize="2xl"
+              fontWeight="extrabold"
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              width={"fit-content"}
+            >
+              AITOOLSNEXT.COM
+            </Text>
+          </Link>
+          {NAV_ITEMS.map((el) => (
+            <Link href={el.href}>{el.label}</Link>
+          ))}
+        </div>
         <Flex position={"relative"} alignItems={"center"} gap={3}>
           {/* <a href="/profile"> */}
 
-          {session?.data && 
-          <div
-            onClick={() => setNavDrop((prev) => !prev)}
-            className="bg-gray-700 rounded-full h-fit w-fit"
-          >
-            {/* hi */}
-            <img
-              src={session?.data?.user?.image}
-              style={{
-                backgroundColor: "powderblue",
-                borderRadius: "100%",
-                height: "6vh",
-                position: "relative",
-              }}
-              alt=""
-            />
-          </div>}
+          {session?.data && (
+            <div
+              onClick={() => setNavDrop((prev) => !prev)}
+              className="bg-gray-700 rounded-full h-fit ml-3 w-fit"
+            >
+              {/* hi */}
+              <img
+                className=""
+                src={session?.data?.user?.image}
+                style={{
+                  backgroundColor: "powderblue",
+                  borderRadius: "100%",
+                  height: "6vh",
+                  position: "relative",
+                }}
+                alt=""
+              />
+            </div>
+          )}
           <div
             style={{
               position: "absolute",
@@ -148,7 +157,7 @@ export default function Navbar() {
                 fontSize={"sm"}
                 fontWeight={600}
                 color={"white"}
-                bg={"blue.800"}
+                bg={"black"}
                 cursor={"pointer"}
                 onClick={() => signOut()}
                 zIndex={100}
@@ -166,13 +175,15 @@ export default function Navbar() {
               fontSize={"sm"}
               fontWeight={600}
               color={"white"}
-              bg={"whiteAlpha.400"}
+              bg={"blackAlpha.800"}
               onClick={() => {
                 document.getElementById("modal").style.visibility = "visible";
               }}
               // href={"/Authentication"}
               _hover={{
-                bg: "blue.300",
+                bg: "pink",
+                color: "black",
+                cursor: "pointer",
               }}
             >
               Sign In
@@ -186,14 +197,15 @@ export default function Navbar() {
               fontSize={"sm"}
               fontWeight={600}
               color={"white"}
-              bg={"whiteAlpha.400"}
-
+              bg={"blackAlpha.800"}
               onClick={() => {
                 document.getElementById("modal").style.visibility = "visible";
               }}
               // href={"/Authentication"}
               _hover={{
-                bg: "blue.300",
+                bg: "pink",
+                color: "black",
+                cursor: "pointer",
               }}
             >
               Sign Up
@@ -208,92 +220,6 @@ export default function Navbar() {
     </div>
   );
 }
-
-const DesktopNav = () => {
-  const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
-  const popoverContentBgColor = useColorModeValue("white", "gray.800");
-
-  return (
-    <Stack direction={"row"} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={"hover"} placement={"bottom-start"}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                href={navItem.href ?? "#"}
-                fontSize={"sm"}
-                fontWeight={500}
-                // color={linkColor}
-                _hover={{
-                  textDecoration: "none",
-                  // color: linkHoverColor,
-                }}
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={"xl"}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={"xl"}
-                minW={"sm"}
-              >
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
-    </Stack>
-  );
-};
-
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
-  return (
-    <Link
-      href={href}
-      role={"group"}
-      display={"block"}
-      p={2}
-      rounded={"md"}
-      _hover={{ bg: useColorModeValue("pink.50", "gray.900") }}
-    >
-      <Stack direction={"row"} align={"center"}>
-        <Box>
-          <Text
-            transition={"all .3s ease"}
-            _groupHover={{ color: "pink.400" }}
-            fontWeight={500}
-          >
-            {label}
-          </Text>
-          <Text fontSize={"sm"}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={"all .3s ease"}
-          transform={"translateX(-10px)"}
-          opacity={0}
-          _groupHover={{ opacity: "100%", transform: "translateX(0)" }}
-          justify={"flex-end"}
-          align={"center"}
-          flex={1}
-        >
-          <Icon color={"pink.400"} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
-  );
-};
 
 const MobileNav = () => {
   return (

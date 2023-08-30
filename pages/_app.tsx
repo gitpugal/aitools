@@ -4,6 +4,7 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { useEffect, useState } from "react";
+import "./styles.css"
 
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import googleIcon from "../public/google.png";
@@ -13,6 +14,7 @@ import { extendTheme } from "@chakra-ui/react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Image from "next/image";
+import { CloseIcon } from "@chakra-ui/icons";
 
 const colors = {
   brand: {
@@ -62,7 +64,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       // console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "http://localhost:3000/categories",
+        callbackUrl: "https://www.aitoolsnext.com/categories",
       });
       console.log(data.data);
     }
@@ -87,7 +89,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         console.log(data.message);
         await signIn("credentials", {
           ...data.data[0],
-          callbackUrl: "http://localhost:3000/categories",
+          callbackUrl: "https://www.aitoolsnext.com/categories",
         });
         console.log(data.data);
       }
@@ -107,13 +109,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <ChakraProvider theme={theme}>
-        <div
-        className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 "
-         
-        >
+        <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 ">
           <div
             id="modal"
-            className="min-h-fit w-full px-2 py-2 lg:w-1/2 max-h-fit"
+            className="h-3/4 w-full px-2 pb-10 lg:w-1/2 "
             style={{
               // display: isAddModalOpen ? "flex" : "none",
               visibility: "hidden",
@@ -134,45 +133,44 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <button
               onClick={() => {
                 setIsAddModalOpen(false);
-                // document.getElementById("container").style.pointerEvents =
-                //   "auto";
-                // document.getElementById("container").style.filter = "blur(0px)";
                 document.getElementById("modal").style.visibility = "hidden";
+                document.getElementById("contain").style.opacity = "1";
+                document.getElementById("contain").style.pointerEvents = "auto";
               }}
               className="bg-red-600 px-6 py-1 rounded-xl font-light text-xl absolute right-5 top-5 text-white"
             >
-              Close
+              <CloseIcon />
             </button>
             <div className="w-full h-full px-2 lg:px-24 flex items-center justify-evenly flex-col">
-              <h1 className="my-10 text-xl">
-                <span className="text-black font-semibold text-2xl inline">
+              <h1 className="mb-10 mt-5 text-xl">
+                <span className="text-black font-semibold text-xl inline">
                   AIToolsNext
                 </span>
               </h1>
-              <h1 className="font-extrabold text-5xl text-black my-5">
+              <h1 className="font-extrabold text-3xl text-black my-5">
                 {isSignIn ? "Login Now!" : "Sign Up now!"}
               </h1>
               <label
                 htmlFor=""
-                className="text-black w-full font-semibold text-xl"
+                className="text-black w-full font-semibold text-lg"
               >
                 Email
                 <input
                   name="email"
                   onChange={changeHandler}
-                  className="w-full block bg-gray-200 rounded-3xl px-10 py-6 mb-10 mt-2"
+                  className="w-full block bg-gray-200 rounded-xl px-6 py-4 mb-2 mt-2"
                   type="text"
                 />
               </label>
               <label
                 htmlFor=""
-                className="text-black w-full font-semibold text-xl"
+                className="text-black w-full font-semibold text-lg"
               >
                 Password
                 <input
                   name="password"
                   onChange={changeHandler}
-                  className="w-full block bg-gray-200 rounded-3xl px-10 py-6 mb-10 mt-2"
+                  className="w-full block bg-gray-200 rounded-xl px-6 py-4 mb-10 mt-2"
                   type="text"
                 />
               </label>
@@ -183,7 +181,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 {isSignIn ? "Login" : "Sign Up"}
               </button>
               {isSignIn ? (
-                <p className="text-lg font-light mt-3">
+                <p className="text-sm font-light mt-3">
                   Don't have an account?{" "}
                   <span
                     onClick={() => setIsSIgnIn((prev) => !prev)}
@@ -193,7 +191,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                   </span>
                 </p>
               ) : (
-                <p className="text-lg font-light mt-3">
+                <p className="text-sm font-light mt-3">
                   Already have an account?{" "}
                   <span
                     onClick={() => setIsSIgnIn((prev) => !prev)}
@@ -204,22 +202,27 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 </p>
               )}
 
-              <p className="text-lg font-light my-4 ">
+              <p className="text-sm font-light my-4 ">
                 or {isSignIn ? "login" : "sign up"} with
               </p>
               {providers &&
                 Object.values(providers).map((provider) =>
                   provider.name == "Sign In" ? null : (
                     <button
-                      className="flex items-center justify-center w-1/2 px-7 text-3xl py-4 border border-black rounded-3xl"
+                      className="flex items-center justify-center w-full px-6 text-3xl py-3 border border-black rounded-3xl"
                       onClick={async (e) => {
                         e.preventDefault();
                         await signIn("google", {
-                          callbackUrl: "http://localhost:3000/",
+                          callbackUrl: "https://www.aitoolsnext.com/",
                         });
                       }}
                     >
-                      <Image alt="google" src={googleIcon} color="red" className="mr-5 h-10 w-10" />{" "}
+                      <Image
+                        alt="google"
+                        src={googleIcon}
+                        color="red"
+                        className="mr-5 h-10 w-10"
+                      />{" "}
                       {provider.name}
                     </button>
                   )
@@ -227,8 +230,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             </div>
           </div>
           <Navbar />
-          <Component {...pageProps} />
-          {/* <Footer /> */}
+          <div id="contain" className="h-full w-full ">
+            <Component {...pageProps} />
+          </div>
         </div>
       </ChakraProvider>
     </SessionProvider>

@@ -95,7 +95,7 @@ export default function Home({ tools }) {
       console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "http://localhost:3000/categories",
+        callbackUrl: "https://www.aitoolsnext.com/categories",
       });
       console.log(data.data);
     }
@@ -257,7 +257,7 @@ export default function Home({ tools }) {
                       onClick={async (e) => {
                         e.preventDefault();
                         await signIn("google", {
-                          callbackUrl: "http://localhost:3000/",
+                          callbackUrl: "https://www.aitoolsnext.com/",
                         });
                       }}
                     >
