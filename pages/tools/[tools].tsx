@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
+import dynamic from 'next/dynamic'
+ 
 
 import {
   Flex,
@@ -35,6 +37,7 @@ export default function Home({ tool, slug }) {
   const router = useRouter();
   const [likes, setLikes] = useState(tool?.upvotes || 0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoaded, setIsloaded] = useState(false);
   const [toolData, setToolData] = useState(tool);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +49,7 @@ export default function Home({ tool, slug }) {
     setProviders(providerArray);
   };
   useEffect(() => {
+    setIsloaded(true);
     const url = window.location.href;
     const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
     console.log(`https://localhost:3000/api/getToolsBySlug/${slug}`);
@@ -57,7 +61,6 @@ export default function Home({ tool, slug }) {
     email: "",
     password: "",
   });
-
 
   const s = slug;
 
@@ -95,8 +98,8 @@ export default function Home({ tool, slug }) {
   }
 
   function authHandler() {
-    document.getElementById("container").style.pointerEvents = "none";
-    document.getElementById("container").style.filter = "blur(5px)";
+    document.getElementById("contain").style.opacity = "0.1";
+    document.getElementById("contain").style.pointerEvents = "none";
     document.getElementById("modal").style.visibility = "visible";
   }
   function changeHandler(e) {
@@ -117,7 +120,10 @@ export default function Home({ tool, slug }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="w-screen relative min-h-screen flex flex-col gap-10 items-start justify-start max-h-fit px-14 py-28">
-        <button className="absolute top-10 left-10" onClick={() => router.back()}>
+        <button
+          className="absolute top-10 left-10"
+          onClick={() => router.back()}
+        >
           <ArrowBackIcon mr={2} />
           Back
         </button>
@@ -183,10 +189,18 @@ export default function Home({ tool, slug }) {
             )}
           </Badge>
         </div>
-        <h1 className="text-3xl">{toolData?.description}</h1>
-        <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">#{toolData?.primarycategory}</h1>
+        <h1
+          dangerouslySetInnerHTML={{ __html: isLoaded ? toolData?.description : "loading..." }}
+          className="text-3xl"
+          
+        />
+        <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
+          #{toolData?.primarycategory}
+        </h1>
       </div>
-      <h1 className="text-4xl mx-auto underline font-semibold text-center">Similar tools</h1>
+      <h1 className="text-4xl mx-auto underline font-semibold text-center">
+        Similar tools
+      </h1>
     </div>
   );
 }
@@ -195,7 +209,9 @@ export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
   console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug} bihb`);
-  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(
+    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
+  );
   console.log(res);
   const data = await res.json();
 

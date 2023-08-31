@@ -21,7 +21,7 @@ import { useState, useEffect } from "react";
 //   CommandShortcut,
 // } from "../components/ui/command";
 
-export function SearchBar() {
+export function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchresults, setsearchresults] = useState([]);
   const [searchCatresults, setsearchCatresults] = useState([]);
@@ -57,21 +57,36 @@ export function SearchBar() {
       setsearchCatresults([]);
     }
   }, [searchTerm]);
+
   return (
     <div className="w-screen px-2 md:px-10">
-      
-
-      <input
-        type="search"
-        name="searchBar"
-        value={searchTerm}
-        id="search"
-        placeholder="search tools and categories..."
-        className="bg-gray-100 py-4 lg:py-8 px-8 rounded-xl w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
-        onChange={changeHandler}
-      />
+      <div className="flex flex-row gap-0 items-stretch justify-center">
+        <input
+          type="search"
+          name="searchBar"
+          value={searchTerm}
+          id="search"
+          placeholder="search tools and categories..."
+          className="bg-gray-100 py-4 lg:py-8 px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
+          onChange={changeHandler}
+        />
+        <button
+          onClick={() => {
+            props.handleSearchSubmit(searchresults);
+            setsearchresults([]);
+            window.scrollBy({
+              top: 350,
+              behavior: "smooth"
+            })
+            setSearchTerm("");
+          }}
+          className="bg-black px-10 text-white  rounded-r-xl border-black border-2 text-2xl"
+        >
+          Search
+        </button>
+      </div>
       {searchresults.length > 0 && (
-        <div className="flex flex-col gap-2 bg-gray-50 py-5 px-2 mt-5 rounded-md w-[30vw] max-h-fit min-h-fit">
+        <div className="flex flex-col gap-2 bg-gray-50 py-5 mx-auto z-50 px-2 mt-5 rounded-md w-[30vw] max-h-fit min-h-fit">
           {searchresults.length > 0 && (
             <p className="font-bold text-2xl text-left pl-3">Tools</p>
           )}{" "}

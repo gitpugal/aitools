@@ -9,8 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   
     try {
       const result = await db.one(
-        'INSERT INTO tools(name, description, features, pricing, upvotes, image) ' +
-        'VALUES(${name}, ${description}, ${features}, ${pricing}, ${upvotes}, ${image}) ' +
+        'INSERT INTO tools(name, description, upvotes, image, slug, pricing, features, short_description) ' +
+        'VALUES(${name}, ${description},  ${upvotes}, ${imageURL}, ${slug}, ${pricing}, ${features}, ${description}) ' +
         'RETURNING id',
         tool
       );

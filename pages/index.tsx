@@ -42,6 +42,7 @@ export default function Home({ categories, tools }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignIn, setIsSIgnIn] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   const [authData, setAuthData] = useState({
     username: "",
     email: "",
@@ -88,6 +89,10 @@ export default function Home({ categories, tools }) {
       });
       console.log(data.data);
     }
+  }
+
+  function handleSearchSubmit(searchresult) {
+    setSearchResults(searchresult);
   }
 
   const fetchData = async () => {
@@ -138,7 +143,7 @@ export default function Home({ categories, tools }) {
           alignSelf={"center"}
           position={"relative"}
         >
-          <SearchBar />
+          <SearchBar handleSearchSubmit={handleSearchSubmit} />
         </Stack>
 
         {/* <Stack
@@ -207,8 +212,26 @@ export default function Home({ categories, tools }) {
           </a>
         </div>
         {/* </Stack> */}
-
-        <CardList isCategory={false} authHandler={authHandler} tool={tools} />
+        {searchResults.length > 0 ? (
+          <div>
+            <div className=" mb-10 mt-20">
+            <h1 className="text-3xl lg:text-5xl font-bold text-black animate-bounce">
+              Search Results
+            </h1>
+            <a onClick={() => setSearchResults([])}  className="mt-10 cursor-pointer underline text-xl text-pink-500">
+              clear search results
+            </a>
+            </div>
+            <CardList
+              key={JSON.stringify(searchResults)}
+              isCategory={false}
+              authHandler={authHandler}
+              tool={searchResults}
+            />
+          </div>
+        ) : (
+          <CardList isCategory={false} authHandler={authHandler} tool={tools} />
+        )}
       </Stack>
       <Footer />
     </div>

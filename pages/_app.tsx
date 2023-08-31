@@ -1,10 +1,10 @@
 // pages/_app.js
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider, Spinner } from "@chakra-ui/react";
 
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { useEffect, useState } from "react";
-import "./styles.css"
+import "./styles.css";
 
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import googleIcon from "../public/google.png";
@@ -36,14 +36,29 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignIn, setIsSIgnIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [authData, setAuthData] = useState({
     email: "",
     password: "",
+  });
+  const [toolData, setToolData] = useState({
+    name: "",
+    description: "",
+    slug: "",
+    imageURL: "test.png",
+    upvotes: 0,
+    pricing: "Free",
+    features: "Ai tool"
   });
   const [hoveredCategory, setHoveredCategory] = useState(null);
   function changeHandler(e) {
     e.preventDefault();
     setAuthData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  function toolChangeHandler(e) {
+    e.preventDefault();
+    setToolData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   const handleShowClick = () => setShowPassword(!showPassword);
@@ -68,6 +83,35 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       });
       console.log(data.data);
     }
+  }
+  async function toolSubmitHandler(e) {
+    setIsLoading(true);
+    e.preventDefault();
+    console.log(toolData)
+    const res = await fetch("/api/addTool", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tool: toolData, categoryId: 2 }),
+    });
+    const data = await res.json();
+    if (res.status != 200) {
+      alert(data.message);
+    } else {
+      alert(data.message);
+      setToolData({
+        name: "",
+        description: "",
+        slug: "",
+        imageURL: "test.png",
+        upvotes: 0,
+        pricing: "Free",
+        features: "Ai tool"
+      });
+      document.getElementById("addToolModal").style.visibility = "hidden";
+    }
+    setIsLoading(false);
   }
 
   async function signInHandler(e) {
@@ -112,7 +156,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 ">
           <div
             id="modal"
-            className="h-3/4 max-h-fit w-full px-2 py-10 lg:w-1/2 "
+            className="min-h-fit max-h-fit w-full px-2 py-10 pb-20 lg:w-1/2 "
             style={{
               // display: isAddModalOpen ? "flex" : "none",
               visibility: "hidden",
@@ -176,7 +220,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
               </label>
               <button
                 onClick={isSignIn ? signInHandler : submitHandler}
-                className="w-full px-10 text-3xl py-6 bg-black text-white rounded-3xl"
+                className="w-full px-8  text-lg  py-3 bg-black text-white rounded-xl"
               >
                 {isSignIn ? "Login" : "Sign Up"}
               </button>
@@ -209,7 +253,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                 Object.values(providers).map((provider) =>
                   provider.name == "Sign In" ? null : (
                     <button
-                      className="flex items-center justify-center w-full px-6 text-3xl py-3 border border-black rounded-3xl"
+                      className="flex items-center justify-center w-full  px-8  text-lg  py-3  border border-black rounded-3xl"
                       onClick={async (e) => {
                         e.preventDefault();
                         await signIn("google", {
@@ -227,6 +271,100 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                     </button>
                   )
                 )}
+            </div>
+          </div>
+          <div
+            id="addToolModal"
+            className="min-h-fit max-h-fit w-full px-2 py-10 pb-20 lg:w-1/2 "
+            style={{
+              // display: isAddModalOpen ? "flex" : "none",
+              visibility: "hidden",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+              position: "fixed",
+              zIndex: 50,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              justifyItems: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <button
+              onClick={() => {
+                setIsAddModalOpen(false);
+                document.getElementById("addToolModal").style.visibility =
+                  "hidden";
+                document.getElementById("contain").style.opacity = "1";
+                document.getElementById("contain").style.pointerEvents = "auto";
+              }}
+              className="bg-red-600 px-6 py-1 rounded-xl font-light text-xl absolute right-5 top-5 text-white"
+            >
+              <CloseIcon />
+            </button>
+            <div className="w-full h-full px-2 lg:px-24 flex items-center justify-evenly flex-col">
+              <h1 className="my-3 text-xl">
+                <span className="text-black font-semibold text-xl inline">
+                  Add Toll
+                </span>
+              </h1>
+              <label
+                htmlFor=""
+                className="text-black w-full font-semibold text-lg"
+              >
+                Name
+                <input
+                  name="name"
+                  onChange={toolChangeHandler}
+                  className="w-full block bg-gray-200 rounded-xl px-6 py-4 mb-2 mt-2"
+                  type="text"
+                />
+              </label>
+              <label
+                htmlFor=""
+                className="text-black w-full font-semibold text-lg"
+              >
+                Description
+                <input
+                  name="description"
+                  onChange={toolChangeHandler}
+                  className="w-full block bg-gray-200 rounded-xl px-6 py-4 mb-10 mt-2"
+                  type="text"
+                />
+              </label>
+              <label
+                htmlFor=""
+                className="text-black w-full font-semibold text-lg"
+              >
+                Slug
+                <input
+                  name="slug"
+                  onChange={toolChangeHandler}
+                  className="w-full block bg-gray-200 rounded-xl px-6 py-4 mb-10 mt-2"
+                  type="text"
+                />
+              </label>
+              <label
+                htmlFor=""
+                className="text-black w-full font-semibold text-lg"
+              >
+                Image URL
+                <input
+                  name="imageURL"
+                  onChange={toolChangeHandler}
+                  className="w-full block bg-gray-200 rounded-xl px-6 py-4 mb-10 mt-2"
+                  type="text"
+                />
+              </label>
+              <button
+                className="px-8 py-4 rounded-xl w-full text-white bg-black fon-semibold"
+                onClick={toolSubmitHandler}
+              >
+                {isLoading ? <Spinner /> : "submit"}
+              </button>
             </div>
           </div>
           <Navbar />

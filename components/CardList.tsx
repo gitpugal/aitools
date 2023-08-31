@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import {
@@ -26,6 +26,7 @@ import { BiSolidUpArrow } from "react-icons/bi";
 const CardList = ({ tool, authHandler, isCategory }) => {
   const [isLoading, setIsLoading] = React.useState("");
   const [tools, setTools] = React.useState(tool);
+  const [isLoaded, setisLoaded] = useState(false);
   const session = useSession();
 
   async function initiateLike(id, email, isLiked) {
@@ -61,6 +62,9 @@ const CardList = ({ tool, authHandler, isCategory }) => {
 
     setIsLoading("");
   }
+  useEffect(() => {
+    setisLoaded(true);
+  });
   return (
     <div className="w-screen bo  items-stretch px-3 sm:px-10 lg:px-40 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {tools?.map((tool) => (
@@ -165,12 +169,17 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                   </div>
                 )}
               </div>
-
-              <p className="font-light text-slate-300">
-                {tool?.description.length <= 60
-                  ? tool?.description
-                  : tool?.description.substring(0, 60)}
-              </p>
+              
+              <p
+                className="font-light text-slate-300"
+                dangerouslySetInnerHTML={{
+                  __html: isLoaded
+                    ? tool?.description.length <= 60
+                      ? tool?.description
+                      : tool?.description.substring(0, 60)
+                    : "loading...",
+                }}
+              />
               <div className="flex  flex-row gap-5">
                 <Link href="/ai-social-media-assistant">
                   <Badge

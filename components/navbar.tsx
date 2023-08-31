@@ -214,6 +214,27 @@ export default function Navbar() {
               Sign Up
             </Button>
           )}
+          {session.data && (
+            <Button
+              as={"a"}
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"blackAlpha.800"}
+              onClick={() => {
+                document.getElementById("addToolModal").style.visibility = "visible";
+              }}
+              // href={"/Authentication"}
+              _hover={{
+                bg: "pink",
+                color: "black",
+                cursor: "pointer",
+              }}
+            >
+              Add tool
+            </Button>
+          )}
         </Flex>
       </Flex>
 
