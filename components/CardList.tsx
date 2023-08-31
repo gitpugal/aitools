@@ -62,9 +62,9 @@ const CardList = ({ tool, authHandler, isCategory }) => {
     setIsLoading("");
   }
   return (
-    <div className="w-screen bo  items-stretch px-3 lg:px-40 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="w-screen bo  items-stretch px-3 sm:px-10 lg:px-40 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {tools?.map((tool) => (
-        <div className="hover:bg-gradient-to-tr  hover:p-1 bg-black from-purple-600 shadow-2xl  rounded-3xl to-pink-500">
+        <div className="lg:hover:bg-gradient-to-tr   lg:hover:p-1  bg-black lg:hover:from-purple-600 shadow-2xl  rounded-3xl lg:hover:to-pink-500">
           <div className="w-full h-full hover:shadow-none transition-all ease-in-out  cursor-pointer mx-auto  rounded-3xl flex flex-col  overflow-hidden">
             <Link
               aria-label="Tool Image"

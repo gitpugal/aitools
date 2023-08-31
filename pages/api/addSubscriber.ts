@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json({ status: 'success', message:result});
     } catch (error) {
       console.error('Error subscribing: ', error);
-      res.status(500).json({ status: 'error', message: error.detail });
+      res.status(202).json({message: error.detail });
     }
   }
   

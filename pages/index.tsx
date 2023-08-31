@@ -54,7 +54,7 @@ export default function Home({ categories, tools }) {
   }
 
   const handleShowClick = () => setShowPassword(!showPassword);
-  
+
   async function submitHandler(e) {
     e.preventDefault();
     const res = await fetch("/api/signUpHandler", {
@@ -99,7 +99,7 @@ export default function Home({ categories, tools }) {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -115,28 +115,33 @@ export default function Home({ categories, tools }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-        <Stack
+      <Stack
         // bgColor={"red"}
         width={"100vw"}
         overflowX={"hidden"}
-          as={Box}
-          textAlign={"center"}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}
+        as={Box}
+        textAlign={"center"}
+        spacing={{ base: 8, md: 14 }}
+        py={{ base: 20, md: 36 }}
+      >
+        <h1 className="lg:text-6xl text-3xl font-light">
+          Find Best AI Tools to{" "}
+          <span className="block py-3 text-3xl font-bold bg-gradient-to-r from-pink-400 lg:text-7xl to-purple-700 bg-clip-text h-fit   text-transparent">
+            Simplify your tasks.
+          </span>
+        </h1>
+
+        <Stack
+          direction={"column"}
+          spacing={3}
+          align={"center"}
+          alignSelf={"center"}
+          position={"relative"}
         >
-          <h1 className="lg:text-6xl text-3xl font-light">Find Best AI Tools to <span className="block py-3 text-3xl font-bold bg-gradient-to-r from-pink-400 lg:text-7xl to-purple-700 bg-clip-text h-fit   text-transparent">Simplify your tasks.</span></h1>
+          <SearchBar />
+        </Stack>
 
-          <Stack
-            direction={"column"}
-            spacing={3}
-            align={"center"}
-            alignSelf={"center"}
-            position={"relative"}
-          >
-            <SearchBar />
-          </Stack>
-
-          {/* <Stack
+        {/* <Stack
             display={"flex"}
             textAlign={"start"}
             justify={"flex-center"}
@@ -144,66 +149,67 @@ export default function Home({ categories, tools }) {
             direction="row"
             mx={"auto"}
           > */}
-            <div className="lg:text-left w-full mx-auto lg:w-1/2 text-center">
-              {categories?.slice(0, 18)?.map((category) => (
-                <Link href={`/categories/${category?.slug}`}>
-                  <Badge
-                    key={category.id}
-                    px="6"
-                    py="3"
-                    borderRadius={"10px"}
-                    mx="1"
-                    my="1"
-                    fontSize={"11px"}
-                    variant="solid"
-                    fontWeight={"medium"}
-                    bgColor={
-                      hoveredCategory === category.id ? "blackAlpha.500" : "blackAlpha.800"
-                    }
-                    onMouseEnter={() => setHoveredCategory(category.id)}
-                    onMouseLeave={() => setHoveredCategory(null)}
-                    _hover={{
-                      cursor: "pointer",
-                      colorScheme: "green",
-                      transform: "translateX(2px)",
-                    }}
-                  >
-                    {category.name}
-                  </Badge>
-                </Link>
-              ))}
+        <div className="lg:text-left px-2 w-full mx-auto lg:w-1/2 text-center">
+          {categories?.slice(0, 18)?.map((category) => (
+            <Link href={`/categories/${category?.slug}`}>
+              <Badge
+                key={category.id}
+                px="6"
+                py="3"
+                borderRadius={"10px"}
+                mx="1"
+                my="1"
+                fontSize={"11px"}
+                variant="solid"
+                fontWeight={"medium"}
+                bgColor={
+                  hoveredCategory === category.id
+                    ? "pink.400"
+                    : "blackAlpha.800"
+                }
+                onMouseEnter={() => setHoveredCategory(category.id)}
+                onMouseLeave={() => setHoveredCategory(null)}
+                _hover={{
+                  cursor: "pointer",
+                  colorScheme: "green",
+                  transform: "translateX(2px)",
+                }}
+              >
+                {category.name}
+              </Badge>
+            </Link>
+          ))}
 
-<Badge
-  key={"show_more"}
-  px="4"
-  py="3"
-  borderRadius="10px"
-  borderWidth="3px"         // Corrected border width property
-  borderStyle="solid"      // Added border style property
-  borderColor="pink.500"
-  mx="1"
-  my="1"
-  fontSize="11px"
-  variant="solid"
-  bgColor={
-    hoveredCategory === "100000" ? "blackAlpha.500" : "black"
-  }
-  onMouseEnter={() => setHoveredCategory("100000")}
-  onMouseLeave={() => setHoveredCategory(null)}
-  _hover={{
-    cursor: "pointer",
-    colorScheme: "blue",
-    transform: "translateX(2px)",
-  }}
->
-  {"Show More..."}
-</Badge>
+          <a href="/categories">
+            <Badge
+              key={"show_more"}
+              px="4"
+              py="3"
+              borderRadius="10px"
+              borderWidth="3px" // Corrected border width property
+              borderStyle="solid" // Added border style property
+              borderColor="pink.500"
+              mx="1"
+              my="1"
+              fontSize="11px"
+              variant="solid"
+              bgColor={hoveredCategory === "100000" ? "pink.400" : "black"}
+              onMouseEnter={() => setHoveredCategory("100000")}
+              onMouseLeave={() => setHoveredCategory(null)}
+              _hover={{
+                cursor: "pointer",
+                colorScheme: "blue",
+                transform: "translateX(2px)",
+              }}
+            >
+              {"Show More..."}
+            </Badge>
+          </a>
+        </div>
+        {/* </Stack> */}
 
-            </div>
-          {/* </Stack> */}
-
-          <CardList isCategory={false} authHandler={authHandler} tool={tools} />
-        </Stack>
+        <CardList isCategory={false} authHandler={authHandler} tool={tools} />
+      </Stack>
       <Footer />
     </div>
   );

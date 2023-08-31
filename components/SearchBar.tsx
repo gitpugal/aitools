@@ -58,7 +58,7 @@ export function SearchBar() {
     }
   }, [searchTerm]);
   return (
-    <div className="w-screen px-2 lg:px-10">
+    <div className="w-screen px-2 md:px-10">
       
 
       <input

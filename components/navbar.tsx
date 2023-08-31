@@ -58,12 +58,12 @@ export default function Navbar() {
         borderStyle={"solid"}
         borderColor={useColorModeValue("gray.200", "gray.900")}
         align={"center"}
-        justify={"space-between"}
+        className="justify-between"
       >
         <Flex
           flex={{ base: 1, md: "auto" }}
           ml={{ base: -2 }}
-          display={{ base: "flex", md: "none" }}
+          display={{ base: "flex", lg: "none" }}
         >
           <IconButton
             onClick={onToggle}
@@ -74,7 +74,23 @@ export default function Navbar() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Link href={"/"} className="flex md:hidden">
+        <a href={"/"} className="flex  absolute left-1/2 -translate-x-1/2  lg:relative lg:hidden hover:no-underline">
+            <Text
+              // textAlign={useBreakpointValue({ base: "center", md: "left" })}
+              fontFamily={"heading"}
+              bgClip="text"
+              fontSize="xl"
+              fontWeight="extrabold"
+              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              width={"fit-content"}
+              className="hover:no-underline"
+
+            >
+              AITOOLSNEXT.COM
+            </Text>
+          </a>
+        <div className="hidden mr-10 font-semibold lg:flex flex-row gap-7 text-lg items-center justify-center">
+          <a href={"/"} className="no-underline">
             <Text
               // textAlign={useBreakpointValue({ base: "center", md: "left" })}
               fontFamily={"heading"}
@@ -83,26 +99,13 @@ export default function Navbar() {
               fontWeight="extrabold"
               bgGradient="linear(to-l, #7928CA, #FF0080)"
               width={"fit-content"}
+              
             >
               AITOOLSNEXT.COM
             </Text>
-          </Link>
-        <div className="hidden mr-10 font-semibold md:flex flex-row gap-7 text-lg items-center justify-center">
-          <Link href={"/"}>
-            <Text
-              // textAlign={useBreakpointValue({ base: "center", md: "left" })}
-              fontFamily={"heading"}
-              bgClip="text"
-              fontSize="2xl"
-              fontWeight="extrabold"
-              bgGradient="linear(to-l, #7928CA, #FF0080)"
-              width={"fit-content"}
-            >
-              AITOOLSNEXT.COM
-            </Text>
-          </Link>
+          </a>
           {NAV_ITEMS.map((el) => (
-            <Link href={el.href}>{el.label}</Link>
+            <a href={el.href}>{el.label}</a>
           ))}
         </div>
         <Flex position={"relative"} alignItems={"center"} gap={3}>

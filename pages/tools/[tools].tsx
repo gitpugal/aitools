@@ -61,7 +61,7 @@ export default function Home({ tool, slug }) {
 
   const s = slug;
 
-  debugger;
+  // debugger;
 
   const session = useSession();
   async function initiateLike(id, email, isLiked) {

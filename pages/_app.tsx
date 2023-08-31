@@ -112,7 +112,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 ">
           <div
             id="modal"
-            className="h-3/4 w-full px-2 py-10 lg:w-1/2 "
+            className="h-3/4 max-h-fit w-full px-2 py-10 lg:w-1/2 "
             style={{
               // display: isAddModalOpen ? "flex" : "none",
               visibility: "hidden",

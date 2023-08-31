@@ -10,7 +10,7 @@ import {
   Input,
   IconButton,
   useColorModeValue,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
@@ -75,6 +75,10 @@ export default function Footer() {
   const [email, setEmail] = useState("");
   const [isSubscribed, setisSubscribed] = useState(false);
   const [isLoading, setisLoading] = useState(false);
+  const [subscriptionTextFeed, setSubscriptionTextFeed] = useState(
+    "You have subscribed successfully!!!"
+  );
+  const [isPresent ,seIsPresent] = useState(false);
   async function subscribe() {
     try {
       setisLoading(true);
@@ -87,10 +91,19 @@ export default function Footer() {
         body: JSON.stringify({ email: email }),
       });
       console.log(res);
-      if (res.status < 300) {
-        // alert("sub")
+      if (res.status == 200) {
+        setSubscriptionTextFeed(    "You have subscribed successfully!!!"
+        )
         setisSubscribed(true);
         setEmail("");
+        seIsPresent(false);
+      }
+      const data = await res.json();
+      if (res.status == 202) {
+        console.log(data);
+        setSubscriptionTextFeed(data.message.split("=")[1]);
+        setisSubscribed(true);
+        seIsPresent(true);
       }
     } catch (err) {
       setisLoading(false);
@@ -173,8 +186,8 @@ export default function Footer() {
               />
             </Stack>
             {isSubscribed && (
-              <p className="text-lg block font-semibold text-green-500">
-                You have subscribed successfully!!!
+              <p className={`text-lg block font-semibold ${isPresent ? "text-red-600" :"text-green-500"}`}>
+                {subscriptionTextFeed}
               </p>
             )}
           </Stack>
