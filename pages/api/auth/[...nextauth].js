@@ -38,7 +38,7 @@ export const authOptions = {
   callbacks: {
     async signIn({ profile }) {
       try {
-        const res = await fetch("https://www.aitoolsnext.com/api/signUpHandler", {
+        const res = await fetch("http://localhost:3000/api/signUpHandler", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

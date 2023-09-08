@@ -127,7 +127,7 @@ export default function Home({ categories }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch('https://www.aitoolsnext.com/api/getCategories');
+  const response = await fetch('http://localhost:3000/api/getCategories');
   const categories = await response.json();
   return {
     props: {
