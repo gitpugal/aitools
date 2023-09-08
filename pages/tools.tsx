@@ -314,7 +314,7 @@ export default function Home({ tools }) {
 }
 
 export async function getServerSideProps() {
-  const toolsResponse = await fetch("http://localhost:3000/api/topTools");
+  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools");
   const topTools = await toolsResponse.json();
   const tools = topTools?.tools ? topTools.tools : [];
 

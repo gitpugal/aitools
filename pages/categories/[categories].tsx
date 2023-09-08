@@ -269,10 +269,10 @@ export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
   const res = await fetch(
-    `http://localhost:3000/api/getCategoriesBySlug/${slug}`
+    `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );
   const data = await res.json();
-  const toolRes = await fetch("http://localhost:3000/api/tools");
+  const toolRes = await fetch("https://www.aitoolsnext.com/api/tools");
   const toolData = await toolRes.json();
   return {
     props: {
