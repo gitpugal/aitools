@@ -26,7 +26,7 @@ export default function Home({ tool, slug }) {
     setIsloaded(true);
     const url = window.location.href;
     const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-    console.log(`https://localhost:3000/api/getToolsBySlug/${slug}`);
+    console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
     fetchData();
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
