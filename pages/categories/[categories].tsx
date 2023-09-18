@@ -2,11 +2,11 @@ import Head from "next/head";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import CardList from "../../components/CardList";
 
-export default function Home({ categories }) {
+export default function Home({ categories, toolss }) {
   const router = useRouter();
   const [tools, setTools] = useState(categories?.tools);
 
@@ -17,6 +17,11 @@ export default function Home({ categories }) {
     document.getElementById("container").style.filter = "blur(5px)";
     document.getElementById("modal").style.visibility = "visible";
   }
+
+  useEffect(() => {
+    console.log(toolss);
+    console.log(categories)
+  }, [])
   return (
     <div>
       <Head>
@@ -57,12 +62,13 @@ export async function getServerSideProps(context) {
   const res = await fetch(
     `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );
-  console.log(`https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`);
   const data = await res.json();
-
+  const toolRes = await fetch("https://www.aitoolsnext.com/api/tools");
+  const toolData = await toolRes.json();
   return {
     props: {
       categories: data,
+      toolss: toolData.tools
     },
   };
 }
