@@ -12,8 +12,7 @@ import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
-import dynamic from 'next/dynamic'
- 
+import dynamic from "next/dynamic";
 
 import {
   Flex,
@@ -51,9 +50,10 @@ export default function Home({ tool, slug }) {
   };
   useEffect(() => {
     setIsloaded(true);
-    const url = window.location.href;
-    const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-    console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+    // const url = window.location.href;
+    // const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
+    // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+    console.log(tool, slug);
     fetchData();
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
@@ -69,6 +69,7 @@ export default function Home({ tool, slug }) {
 
   const session = useSession();
   async function initiateLike(id, email, isLiked) {
+    console.log(toolData)
     setIsLoading(id);
     if (!session?.data?.user) {
       // authHandler();
@@ -130,13 +131,12 @@ export default function Home({ tool, slug }) {
         </button>
         <div className="flex flex-col lg:flex-row gap-16 justify-start items-center">
           <h1 className="text-7xl font-semibold">{toolData?.name}</h1>
-          <p className={`border-[1px] border-black cursor-pointer px-4 py-2 rounded-xl bg-[${
-              toolData?.upvotedusers != null &&
+          <p
+            className={`border-[1px]  border-black cursor-pointer px-4 py-2 rounded-xl ${
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
-                ? "white"
-                : "#262626"
-            }] ${
-              toolData?.upvotedusers != null &&
+                ? "bg-white"
+                : "bg-[#262626]"
+            } ${
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
                 ? "text-[#262626]"
                 : "text-white"
@@ -183,9 +183,10 @@ export default function Home({ tool, slug }) {
           </p>
         </div>
         <h1
-          dangerouslySetInnerHTML={{ __html: isLoaded ? toolData?.description : "loading..." }}
+          dangerouslySetInnerHTML={{
+            __html: isLoaded ? toolData?.description : "loading...",
+          }}
           className="text-3xl"
-          
         />
         <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
           #{toolData?.primarycategory}
@@ -201,10 +202,8 @@ export default function Home({ tool, slug }) {
 export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-  console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  const res = await fetch(
-    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
-  );
+  // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   console.log(res);
   const data = await res.json();
 
