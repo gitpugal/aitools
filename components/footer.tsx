@@ -78,7 +78,7 @@ export default function Footer() {
   const [subscriptionTextFeed, setSubscriptionTextFeed] = useState(
     "You have subscribed successfully!!!"
   );
-  const [isPresent ,seIsPresent] = useState(false);
+  const [isPresent, seIsPresent] = useState(false);
   async function subscribe() {
     try {
       setisLoading(true);
@@ -92,8 +92,7 @@ export default function Footer() {
       });
       console.log(res);
       if (res.status == 200) {
-        setSubscriptionTextFeed(    "You have subscribed successfully!!!"
-        )
+        setSubscriptionTextFeed("You have subscribed successfully!!!");
         setisSubscribed(true);
         setEmail("");
         seIsPresent(false);
@@ -112,87 +111,61 @@ export default function Footer() {
     setisLoading(false);
   }
   return (
-    <Box
-      sx={{ bottom: 0, width: "100%", margin: 0 }}
-      bgColor={"blackAlpha.600"}
-      color={"whiteAlpha.800"}
-    >
-      <Container as={Stack} maxW={"6xl"} py={10}>
-        <SimpleGrid
-          templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}
-          spacing={8}
-        >
-          <Stack spacing={6}>
-            <Box>
-              <Logo color={useColorModeValue("gray.700", "white")} />
-            </Box>
-            <Text fontSize={"sm"}>
-              © 2023 aitoolsnext.com All rights reserved
-            </Text>
-            <Stack direction={"row"} spacing={6}>
-              <SocialButton label={"Twitter"} href={"#"}>
-                <FaTwitter />
-              </SocialButton>
-              <SocialButton label={"YouTube"} href={"#"}>
-                <FaYoutube />
-              </SocialButton>
-              <SocialButton label={"Instagram"} href={"#"}>
-                <FaInstagram />
-              </SocialButton>
-            </Stack>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <ListHeader>AIToolsNext</ListHeader>
-            <Link href={"#"}>Tools</Link>
-            <Link href={"#"}>Categories</Link>
-            <Link href={"#"}>Deals</Link>
-            <Link href={"#"}>Contact Us</Link>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <ListHeader>Help & Support</ListHeader>
-            <Link href={"#"}>About Us</Link>
-            <Link href={"#"}>Submit Tool</Link>
-            <Link href={"#"}>Terms of Service</Link>
-            <Link href={"#"}>Privacy Policy</Link>
-          </Stack>
-          <Stack align={"flex-start"}>
-            <ListHeader>Stay up to date</ListHeader>
-            <Stack direction={"row"}>
-              <input
-                onChange={(e) => {
-                  e.preventDefault();
-                  setEmail(e.target.value);
-                }}
-                value={email}
-                type="email"
-                placeholder="enter you email"
-                // type="text"
-                className="w-full h-full px-8 py-2  focus:outline-none rounded-xl bg-white/20"
-              />
-              <IconButton
-                bgColor={"black"}
-                _hover={{
-                  bg: "green.600",
-                }}
-                onClick={subscribe}
-                aria-label="Subscribe"
-                icon={
-                  isLoading ? (
-                    <Spinner color="white" />
-                  ) : (
-                    <BiMailSend color="white" className="" />
-                  )
-                }
-              />
-            </Stack>
-            {isSubscribed && (
-              <p className={`text-lg block font-semibold ${isPresent ? "text-red-600" :"text-green-500"}`}>
-                {subscriptionTextFeed}
-              </p>
-            )}
-          </Stack>
-        </SimpleGrid>
-      </Container>
-    </Box>
+    <div className="w-screen px-10 gap-10 mt-10 bg-black text-white h-fit py-10 grid grid-cols-3">
+      <div>© 2023 aitoolsnext.com All rights reserved</div>
+      <div>
+        <p className="font-bold text-xl mb-3">AIToolsNext</p>
+        <p>Tools</p>
+        <p>Categories</p>
+        <p>Deals</p>
+      </div>
+
+      <div>
+        <p className="font-bold text-xl mb-3">Help and support</p>
+        <p>About Us</p>
+        <p>Submit Tool</p>
+        <p>Terms of service</p>
+        <p>Privacy Policy</p>
+      </div>
+    </div>
   );
+}
+
+{
+  /* <Stack align={"flex-start"}>
+<ListHeader>Stay up to date</ListHeader>
+<Stack direction={"row"}>
+  <input
+    onChange={(e) => {
+      e.preventDefault();
+      setEmail(e.target.value);
+    }}
+    value={email}
+    type="email"
+    placeholder="enter you email"
+    // type="text"
+    className="w-full h-full px-8 py-2  focus:outline-none rounded-xl bg-white/20"
+  />
+  <IconButton
+    bgColor={"black"}
+    _hover={{
+      bg: "green.600",
+    }}
+    onClick={subscribe}
+    aria-label="Subscribe"
+    icon={
+      isLoading ? (
+        <Spinner color="white" />
+      ) : (
+        <BiMailSend color="white" className="" />
+      )
+    }
+  />
+</Stack>
+{isSubscribed && (
+  <p className={`text-lg block font-semibold ${isPresent ? "text-red-600" :"text-green-500"}`}>
+    {subscriptionTextFeed}
+  </p>
+)}
+</Stack> */
 }

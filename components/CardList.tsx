@@ -1,27 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Link,
-  Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Badge,
-  Spinner,
-} from "@chakra-ui/react";
-import { ArrowUpIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
+import { Loader2 } from "lucide-react";
 
 const CardList = ({ tool, authHandler, isCategory }) => {
   const [isLoading, setIsLoading] = React.useState("");
@@ -66,9 +49,9 @@ const CardList = ({ tool, authHandler, isCategory }) => {
     setisLoaded(true);
   });
   return (
-    <div className="w-screen bo  items-stretch px-3 sm:px-10 lg:px-40 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="w-screen items-stretch px-3 mt-20 sm:px-10 lg:px-60 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {tools?.map((tool) => (
-        <div className="lg:hover:bg-gradient-to-tr   lg:hover:p-1  bg-black lg:hover:from-purple-600 shadow-2xl  rounded-3xl lg:hover:to-pink-500">
+        <div className="lg:hover:bg-gradient-to-tr border-[1px] border-slate-300 w-full lg:hover:p-1  bg-black lg:hover:from-purple-600 shadow-2xl  rounded-3xl lg:hover:to-pink-500">
           <div className="w-full h-full hover:shadow-none transition-all ease-in-out  cursor-pointer mx-auto  rounded-3xl flex flex-col  overflow-hidden">
             <Link
               aria-label="Tool Image"
@@ -85,7 +68,7 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                 className=" w-full"
               />
             </Link>
-            <div className="bg-gradient-to-tr from-slate-900 to-slate-600 flex-1 cursor-default p-0 gap-3 text-white flex flex-col mt-0 text-left px-10 py-10 min-w-full max-w-full  ">
+            <div className="bg-gradient-to-tr from-black to-slate-900 flex-1 cursor-default p-0 gap-3 text-white flex flex-col mt-0 text-left px-10 py-10 min-w-full max-w-full  ">
               <div className="flex flex-row justify-between">
                 <p className="text-3xl font-semibold">
                   {tool?.name.charAt(0).toUpperCase() +
@@ -93,28 +76,15 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                 </p>
                 {!isCategory && (
                   <div>
-                    <Badge
-                      className="div  flex items-center justify-center"
-                      bg={`${
+                    <p
+                      className={` px-4 py-2 cursor-pointer rounded-xl ${
                         tool?.upvotedusers != null &&
                         tool?.upvotedusers?.indexOf(
                           session?.data?.user?.email
                         ) >= 0
-                          ? "white"
-                          : "#4c4c4c"
-                      }`}
-                      color={`${
-                        tool?.upvotedusers != null &&
-                        tool?.upvotedusers?.indexOf(
-                          session?.data?.user?.email
-                        ) >= 0
-                          ? "#262626"
-                          : "white"
-                      }`}
-                      fontSize="18px"
-                      px={3}
-                      py={1}
-                      rounded="md"
+                          ? "bg-white text-black"
+                          : "bg-[#4c4c4c]"
+                      }  flex items-center justify-center`}
                       onClick={() => {
                         const useremail = session?.data?.user?.email;
                         if (!useremail) {
@@ -143,11 +113,13 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                           : 0;
                         initiateLike(tool?.id, updatedUpvotedUsers, isLiked);
                       }}
-                      cursor={"pointer"}
                     >
                       {tool?.upvotes}
                       {isLoading == tool?.id ? (
-                        <Spinner />
+                        <Loader2
+                          fontSize={150}
+                          className="animate-spin ml-[10px] text-[50px]"
+                        />
                       ) : (
                         <BiSolidUpArrow
                           fontSize={30}
@@ -165,13 +137,13 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                           }}
                         />
                       )}
-                    </Badge>
+                    </p>
                   </div>
                 )}
               </div>
-              
+
               <p
-                className="font-light text-slate-300"
+                className="font-light bg-wh text-slate-300"
                 dangerouslySetInnerHTML={{
                   __html: isLoaded
                     ? tool?.description.length <= 60
@@ -181,34 +153,10 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                 }}
               />
               <div className="flex  flex-row gap-5">
-                <Link href="/ai-social-media-assistant">
-                  <Badge
-                    bg="#4c4c4c"
-                    color="white"
-                    fontSize="11px"
-                    mt={2}
-                    py={2}
-                    px={4}
-                    rounded="md"
-                    fontWeight={"light"}
-                  >
-                    {tool?.primarycategory}
-                  </Badge>
+                <Link className="bg-white/20 backdrop-blur-lg px-4 py-2 rounded-xl" href="/ai-social-media-assistant">
+                  #{tool?.primarycategory}
                 </Link>
-                <Badge
-                  bg="#4c4c4c"
-                  color="white"
-                  fontSize="11px"
-                  fontWeight={"light"}
-                  mt={2}
-                  px={3}
-                  py={2}
-                  // colorScheme='blue'
-                  rounded="md"
-                  // breakWord="keep-all"
-                >
-                  Freemium
-                </Badge>
+                <a className="bg-gradient-to-br from-yellow-400 to-yellow-800 backdrop-blur-lg px-4 py-2 rounded-xl">Freemium</a>
               </div>
             </div>
           </div>

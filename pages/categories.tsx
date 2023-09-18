@@ -1,28 +1,6 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Link,
-  Flex,
-
-  Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Badge,
-} from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
-
+import { useState } from "react";
+import Head from "next/head";
+import Link from "next/link";
 
 export default function Home({ categories }) {
   const [hoveredCategory, setHoveredCategory] = useState(null);
@@ -30,108 +8,54 @@ export default function Home({ categories }) {
   return (
     <div>
       <Head>
-        <title>AIToolsNext - Find Best AI tools to
-          simplify your task and make your work easy</title>
-        <meta name="description" content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity." />
+        <title>
+          AIToolsNext - Find Best AI tools to simplify your task and make your
+          work easy
+        </title>
+        <meta
+          name="description"
+          content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="text-5xl mt-20 ">
+          Find Best AI tools to
+          <br />
+          <span>simplify your task</span>
+        </h1>
 
-      <Container maxW={'5xl'}>
+        <p className="text-xl mt-10"> Please find the complete list of all the categories </p>
 
-        <Stack
-          as={Box}
-          textAlign={'center'}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}>
+        <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
+          {categories?.slice(0, 18)?.map((category) => (
+            <Link
+              className="px-4 py-2 hover:scale-105 transition-all hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
+              href={`/categories/${category?.slug}`}
+            >
+              {category?.name}
+            </Link>
+          ))}
 
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-            lineHeight={'110%'}
+          <Link
+            className=" text-white bg-gradient-to-br from-purple-600 to-pink-500 overflow-hidden p-[3px] rounded-xl shadow-sm"
+            href={`/categories`}
           >
-            Find Best AI tools to<br />
-            <Text as={'span'} color={'green.400'}>
-              simplify your task
-            </Text>
-          </Heading>
-
-          <Stack
-            direction={'column'}
-            spacing={3}
-            align={'center'}
-            alignSelf={'center'}
-            position={'relative'}
-          >
-           <Text> Please find the complete list of all the categories </Text>
-          </Stack>
-
-          <Stack display={'flex'} textAlign={'start'} justify={'flex-start'} maxW={'5xl'} direction="row">
-            <Box>
-              {categories?.map((category) => (
-                <Link href={`/categories/${category?.slug}`}>
-                  <Badge
-                    key={category.id}
-                    px='2'
-                    py='2'
-                    borderRadius={'10px'}
-                    mx='1'
-                    my='1'
-                    fontSize={'11px'}
-                    variant='solid'
-                    colorScheme={hoveredCategory === category.id ? 'blue' : 'gray'}
-                    onMouseEnter={() => setHoveredCategory(category.id)}
-                    onMouseLeave={() => setHoveredCategory(null)}
-                    _hover={{
-                      cursor: 'pointer',
-                      colorScheme: 'green',
-                      transform: 'translateX(2px)',
-                    }}
-                  >
-                    {category.name}
-                  </Badge>
-                </Link>
-              ))}
-
-              <Badge
-                key={'show_more'}
-                px='2'
-                py='2'
-                borderRadius={'10px'}
-                mx='1'
-                my='1'
-                fontSize={'11px'}
-                variant='solid'
-                colorScheme={hoveredCategory === '100000' ? 'blue' : 'gray'}
-                onMouseEnter={() => setHoveredCategory('100000')}
-                onMouseLeave={() => setHoveredCategory(null)}
-                _hover={{
-                  cursor: 'pointer',
-                  colorScheme: 'blue',
-                  transform: 'translateX(2px)',
-                }}
-              >
-                {'Show More...'}
-              </Badge>
-            </Box>
-          </Stack>
-
-         
-
-        </Stack>
-      </Container>
-      
+            <p className="bg-black rounded-xl px-4 py-2 ">show more</p>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const response = await fetch('https://www.aitoolsnext.com/api/getCategories');
+  const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
   const categories = await response.json();
   return {
     props: {
-      categories
+      categories,
     },
   };
 }

@@ -1,37 +1,11 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Navbar from "../../components/navbar";
-import { Container, Badge, Spinner } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
-import Footer from "../../components/footer";
 import { ArrowBackIcon, ArrowUpIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import { FiThumbsUp } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
-import dynamic from 'next/dynamic'
- 
-
-import {
-  Flex,
-  Heading,
-  Input,
-  Button,
-  InputGroup,
-  Stack,
-  InputLeftElement,
-  chakra,
-  Box,
-  Link,
-  Avatar,
-  FormControl,
-  FormHelperText,
-  InputRightElement,
-} from "@chakra-ui/react";
-import { FaLock, FaUserAlt } from "react-icons/fa";
+import { Loader2 } from "lucide-react";
 
 export default function Home({ tool, slug }) {
   const router = useRouter();
@@ -128,25 +102,19 @@ export default function Home({ tool, slug }) {
           Back
         </button>
         <div className="flex flex-col lg:flex-row gap-16 justify-start items-center">
-          <h1 className="text-7xl font-semibold">{toolData?.name}</h1>
-          <Badge
-            bg={`${
+          <h1 className="text-5xl font-semibold">{toolData?.name}</h1>
+          <p
+            className={`px-4 py-2 rounded-xl border-[1px] border-black cursor-pointer ${
               toolData?.upvotedusers != null &&
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
-                ? "white"
-                : "#262626"
-            }`}
-            color={`${
+                ? "bg-white"
+                : "bg-[#262626]"
+            } ${
               toolData?.upvotedusers != null &&
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
-                ? "#262626"
-                : "white"
+                ? "text-[#262626]"
+                : "text-white"
             }`}
-            fontSize="18px"
-            px={3}
-            py={1}
-            rounded="md"
-            className="border-2"
             onClick={() => {
               const useremail = session?.data?.user?.email;
               if (!useremail) {
@@ -165,11 +133,10 @@ export default function Home({ tool, slug }) {
 
               initiateLike(toolData?.id, updatedUpvotedUsers, isLiked);
             }}
-            cursor={"pointer"}
           >
             {toolData?.upvotes}
             {isLoading == toolData?.id ? (
-              <Spinner />
+              <Loader2 className="animate-spin inline"/>
             ) : (
               <BiSolidUpArrow
                 fontSize={30}
@@ -187,12 +154,13 @@ export default function Home({ tool, slug }) {
                 }}
               />
             )}
-          </Badge>
+          </p>
         </div>
         <h1
-          dangerouslySetInnerHTML={{ __html: isLoaded ? toolData?.description : "loading..." }}
-          className="text-3xl"
-          
+          dangerouslySetInnerHTML={{
+            __html: isLoaded ? toolData?.description : "loading...",
+          }}
+          className="text-2xl"
         />
         <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
           #{toolData?.primarycategory}
@@ -208,10 +176,8 @@ export default function Home({ tool, slug }) {
 export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-  console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug} bihb`);
-  const res = await fetch(
-    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
-  );
+  console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   console.log(res);
   const data = await res.json();
 

@@ -16,15 +16,7 @@ import Footer from "../components/footer";
 import Image from "next/image";
 import { CloseIcon } from "@chakra-ui/icons";
 
-const colors = {
-  brand: {
-    900: "#1a365d",
-    800: "#153e75",
-    700: "#2a69ac",
-  },
-};
 
-export const theme = extendTheme({ colors });
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   function authHandler() {
@@ -48,7 +40,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     imageURL: "test.png",
     upvotes: 0,
     pricing: "Free",
-    features: "Ai tool"
+    features: "Ai tool",
   });
   const [hoveredCategory, setHoveredCategory] = useState(null);
   function changeHandler(e) {
@@ -87,7 +79,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   async function toolSubmitHandler(e) {
     setIsLoading(true);
     e.preventDefault();
-    console.log(toolData)
+    console.log(toolData);
     const res = await fetch("/api/addTool", {
       method: "POST",
       headers: {
@@ -107,7 +99,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         imageURL: "test.png",
         upvotes: 0,
         pricing: "Free",
-        features: "Ai tool"
+        features: "Ai tool",
       });
       document.getElementById("addToolModal").style.visibility = "hidden";
     }
@@ -152,8 +144,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   }, []);
   return (
     <SessionProvider session={session}>
-      <ChakraProvider theme={theme}>
-        <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr from-slate-300 to-slate-50 ">
+        <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr">
           <div
             id="modal"
             className="min-h-fit max-h-fit w-full px-2 py-10 pb-20 lg:w-1/2 "
@@ -372,7 +363,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             <Component {...pageProps} />
           </div>
         </div>
-      </ChakraProvider>
     </SessionProvider>
   );
 }

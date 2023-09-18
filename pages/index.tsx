@@ -2,25 +2,7 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Link,
-  Flex,
-  Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  IconButton,
-  Badge,
-  InputLeftElement,
-} from "@chakra-ui/react";
+import { Box, Link, Stack, Badge, InputLeftElement } from "@chakra-ui/react";
 import { chakra, Avatar, FormControl, FormHelperText } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Footer from "../components/footer";
@@ -28,6 +10,7 @@ import CardList from "../components/CardList";
 import { SearchBar } from "../components/SearchBar";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
+import { Command } from "../components/ui/command";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
@@ -120,31 +103,15 @@ export default function Home({ categories, tools }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Stack
-        // bgColor={"red"}
-        width={"100vw"}
-        overflowX={"hidden"}
-        as={Box}
-        textAlign={"center"}
-        spacing={{ base: 8, md: 14 }}
-        py={{ base: 20, md: 36 }}
-      >
-        <h1 className="lg:text-6xl text-3xl font-light">
+      <div className="w-screen overflow-hidden text-center py-20">
+        <h1 className="lg:text-6xl text-3xl font-light mb-10">
           Find Best AI Tools to{" "}
           <span className="block py-3 text-3xl font-bold bg-gradient-to-r from-pink-400 lg:text-7xl to-purple-700 bg-clip-text h-fit   text-transparent">
             Simplify your tasks.
           </span>
         </h1>
 
-        <Stack
-          direction={"column"}
-          spacing={3}
-          align={"center"}
-          alignSelf={"center"}
-          position={"relative"}
-        >
-          <SearchBar handleSearchSubmit={handleSearchSubmit} />
-        </Stack>
+        <SearchBar handleSearchSubmit={handleSearchSubmit} />
 
         {/* <Stack
             display={"flex"}
@@ -154,73 +121,36 @@ export default function Home({ categories, tools }) {
             direction="row"
             mx={"auto"}
           > */}
-        <div className="lg:text-left px-2 w-full mx-auto lg:w-1/2 text-center">
+        <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
           {categories?.slice(0, 18)?.map((category) => (
-            <Link href={`/categories/${category?.slug}`}>
-              <Badge
-                key={category.id}
-                px="6"
-                py="3"
-                borderRadius={"10px"}
-                mx="1"
-                my="1"
-                fontSize={"11px"}
-                variant="solid"
-                fontWeight={"medium"}
-                bgColor={
-                  hoveredCategory === category.id
-                    ? "pink.400"
-                    : "blackAlpha.800"
-                }
-                onMouseEnter={() => setHoveredCategory(category.id)}
-                onMouseLeave={() => setHoveredCategory(null)}
-                _hover={{
-                  cursor: "pointer",
-                  colorScheme: "green",
-                  transform: "translateX(2px)",
-                }}
-              >
-                {category.name}
-              </Badge>
+            <Link
+              className="px-4 py-2 hover:scale-105 transition-all hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
+              href={`/categories/${category?.slug}`}
+            >
+              {category?.name}
             </Link>
           ))}
 
-          <a href="/categories">
-            <Badge
-              key={"show_more"}
-              px="4"
-              py="3"
-              borderRadius="10px"
-              borderWidth="3px" // Corrected border width property
-              borderStyle="solid" // Added border style property
-              borderColor="pink.500"
-              mx="1"
-              my="1"
-              fontSize="11px"
-              variant="solid"
-              bgColor={hoveredCategory === "100000" ? "pink.400" : "black"}
-              onMouseEnter={() => setHoveredCategory("100000")}
-              onMouseLeave={() => setHoveredCategory(null)}
-              _hover={{
-                cursor: "pointer",
-                colorScheme: "blue",
-                transform: "translateX(2px)",
-              }}
-            >
-              {"Show More..."}
-            </Badge>
-          </a>
+          <Link
+            className=" text-white bg-gradient-to-br from-purple-600 to-pink-500 overflow-hidden p-[3px] rounded-xl shadow-sm"
+            href={`/categories`}
+          >
+            <p className="bg-black rounded-xl px-4 py-2 ">show more</p>
+          </Link>
         </div>
         {/* </Stack> */}
         {searchResults.length > 0 ? (
           <div>
             <div className=" mb-10 mt-20">
-            <h1 className="text-3xl lg:text-5xl font-bold text-black animate-bounce">
-              Search Results
-            </h1>
-            <a onClick={() => setSearchResults([])}  className="mt-10 cursor-pointer underline text-xl text-pink-500">
-              clear search results
-            </a>
+              <h1 className="text-3xl lg:text-5xl font-bold text-black animate-bounce">
+                Search Results
+              </h1>
+              <a
+                onClick={() => setSearchResults([])}
+                className="mt-10 cursor-pointer underline text-xl text-pink-500"
+              >
+                clear search results
+              </a>
             </div>
             <CardList
               key={JSON.stringify(searchResults)}
@@ -232,7 +162,7 @@ export default function Home({ categories, tools }) {
         ) : (
           <CardList isCategory={false} authHandler={authHandler} tool={tools} />
         )}
-      </Stack>
+      </div>
       <Footer />
     </div>
   );

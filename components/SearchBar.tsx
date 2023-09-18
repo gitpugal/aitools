@@ -59,15 +59,15 @@ export function SearchBar(props) {
   }, [searchTerm]);
 
   return (
-    <div className="w-screen px-2 md:px-10">
-      <div className="flex flex-row gap-0 items-stretch justify-center">
+    <div className="w-screen my-10 px-2 md:px-10">
+      <div className="flex flex-row  gap-0 items-stretch justify-center">
         <input
           type="search"
           name="searchBar"
           value={searchTerm}
           id="search"
           placeholder="search tools and categories..."
-          className="bg-gray-100 py-4 lg:py-8 px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
+          className="bg-gray-100 py-4  px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
           onChange={changeHandler}
         />
         <button
@@ -80,7 +80,7 @@ export function SearchBar(props) {
             })
             setSearchTerm("");
           }}
-          className="bg-black px-10 text-white  rounded-r-xl border-black border-2 text-2xl"
+          className="bg-black px-10 text-white  rounded-r-xl border-black border-2 font-light text-xl"
         >
           Search
         </button>
