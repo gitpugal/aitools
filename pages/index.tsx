@@ -80,7 +80,7 @@ export default function Home({ categories, tools }) {
 
   const fetchData = async () => {
     const providerData = await getProviders();
-    const providerArray = Object.values(providerData); // Convert the object values to an array
+    const providerArray = Object.values(providerData);
 
     setProviders(providerArray);
   };

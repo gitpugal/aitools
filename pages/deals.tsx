@@ -1,22 +1,9 @@
 import { useState } from 'react';
 import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
-import {
-  Box,
-  Heading,
-  Container,
-  Text,
-  Button,
-  Link,
-  Flex,
-
-  Stack,
-} from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
 
 
-export default function Home({ tools }) {
+
+export default function Home() {
   const [hoveredCategory, setHoveredCategory] = useState(null);
 
   return (
@@ -30,55 +17,25 @@ export default function Home({ tools }) {
 
       
 
-      <Container maxW={'5xl'}>
-
-        <Stack
-          as={Box}
-          textAlign={'center'}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}>
-
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-            lineHeight={'110%'}
-          >
-           Comming Soon!!!
-          </Heading>
-
-    
-
-          <Box
-            maxW={'5xl'}
-            display={{ base: 'block', md: 'grid' }}
-            gridTemplateColumns={{ md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
-            gap={4}
-
-            rounded="md"
-            p={2}
-            textAlign="start"
-            _hover={{ shadow: 'amber.300', lg: { shadow: 'lg' } }}
-            bg="amber.50/30"
-          >
-           
-          </Box>
-
-        </Stack>
-      </Container>
+     <div className='flex items-center justify-center p-20'>
+      <h1 className='text-3xl'>
+        Coming soon!!!
+      </h1>
+     </div>
       
     </div>
   );
 }
 
-export async function getServerSideProps() {
+// export async function getServerSideProps() {
 
-  const toolsResponse = await fetch('https://www.aitoolsnext.com/api/topTools');
-  const topTools = await toolsResponse.json();
-  const tools = topTools?.tools ? topTools.tools : [];
+//   const toolsResponse = await fetch('https://www.aitoolsnext.com/api/topTools');
+//   const topTools = await toolsResponse.json();
+//   const tools = topTools?.tools ? topTools.tools : [];
 
-  return {
-    props: {
-      tools
-    },
-  };
-}
+//   return {
+//     props: {
+//       tools
+//     },
+//   };
+// }

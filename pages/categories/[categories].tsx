@@ -8,7 +8,7 @@ import CardList from "../../components/CardList";
 
 export default function Home({ categories, toolss }) {
   const router = useRouter();
-  const [tools, setTools] = useState(categories?.tools);
+  const [tools, setTools] = useState(toolss?.filter((tool) =>  categories?.tools?.includes(tool?.id)));
 
   // debugger;
   const session = useSession();
@@ -19,7 +19,7 @@ export default function Home({ categories, toolss }) {
   }
 
   useEffect(() => {
-    console.log(toolss);
+    console.log(tools);
     console.log(categories)
   }, [])
   return (
@@ -58,7 +58,8 @@ export default function Home({ categories, toolss }) {
 
 export async function getServerSideProps(context) {
   const url = context.req.url;
-  const slug = url.substring(url.lastIndexOf("/") + 1);
+  const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "");
+  console.log(slug)
   const res = await fetch(
     `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );

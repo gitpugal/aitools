@@ -49,7 +49,7 @@ const CardList = ({ tool, authHandler, isCategory }) => {
     setisLoaded(true);
   });
   return (
-    <div className="w-screen items-stretch px-3 mt-20 sm:px-10 lg:px-60 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="w-screen items-stretch px-3 mt-20 sm:px-10 lg:px-40 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
       {tools?.map((tool) => (
         <div className="lg:hover:bg-gradient-to-tr border-[1px] border-slate-300 w-full lg:hover:p-1  bg-black lg:hover:from-purple-600 shadow-2xl  rounded-3xl lg:hover:to-pink-500">
           <div className="w-full h-full hover:shadow-none transition-all ease-in-out  cursor-pointer mx-auto  rounded-3xl flex flex-col  overflow-hidden">
@@ -68,11 +68,11 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                 className=" w-full"
               />
             </Link>
-            <div className="bg-gradient-to-tr from-black to-slate-900 flex-1 cursor-default p-0 gap-3 text-white flex flex-col mt-0 text-left px-10 py-10 min-w-full max-w-full  ">
+            <div className="bg-gradient-to-tl from-black to-slate-700 flex-1 cursor-default p-0 gap-3 text-white flex flex-col mt-0 text-left px-10 py-10 min-w-full max-w-full  ">
               <div className="flex flex-row justify-between">
                 <p className="text-3xl font-semibold">
-                  {tool?.name.charAt(0).toUpperCase() +
-                    tool?.name.substr(1).toLowerCase()}
+                  {tool?.name?.charAt(0).toUpperCase() +
+                    tool?.name?.substr(1).toLowerCase()}
                 </p>
                 {!isCategory && (
                   <div>
@@ -146,9 +146,9 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                 className="font-light bg-wh text-slate-300"
                 dangerouslySetInnerHTML={{
                   __html: isLoaded
-                    ? tool?.description.length <= 60
+                    ? tool?.description?.length <= 60
                       ? tool?.description
-                      : tool?.description.substring(0, 60)
+                      : tool?.description?.substring(0, 60)
                     : "loading...",
                 }}
               />

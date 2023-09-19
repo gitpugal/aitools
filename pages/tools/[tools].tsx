@@ -50,11 +50,9 @@ export default function Home({ tool, slug }) {
   };
   useEffect(() => {
     setIsloaded(true);
-    // const url = window.location.href;
-    // const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-    // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
     console.log(tool, slug);
     fetchData();
+    setToolData(tool);;
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
   const [authData, setAuthData] = useState({
@@ -69,7 +67,7 @@ export default function Home({ tool, slug }) {
 
   const session = useSession();
   async function initiateLike(id, email, isLiked) {
-    console.log(toolData)
+    console.log(toolData);
     setIsLoading(id);
     if (!session?.data?.user) {
       // authHandler();
@@ -201,11 +199,15 @@ export default function Home({ tool, slug }) {
 
 export async function getServerSideProps(context) {
   const url = context.req.url;
-  const slug = url.substring(url.lastIndexOf("/") + 1); // Extract the last segment of the URL
-  // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  console.log(res);
+  console.log(url);
+  const slug = url.substring(url.lastIndexOf("/") + 1);
+  console.log(slug); // Extract the last segment of the URL
+  console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(
+    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
+  );
   const data = await res.json();
+  console.log(data);
 
   return {
     props: {

@@ -14,20 +14,20 @@ export default function Navbar() {
 
   return (
     <div className="bg-white border-b-[0.01px] flex flex-row relative  justify-between lg:px-40 p-5 border-pink-500 shadow-md text-black">
-      <div className="hidden lg:flex   items-center flex-row gap-5 text-lg font-semibold">
+      <div className="hidden lg:flex   items-center flex-row gap-5 text-sm font-light">
         <a
           href="/"
           className="text-2xl lg:relative lg:left-0 absolute left-1/2 lg:-translate-x-0 -translate-x-1/2 font-light"
         >
           AITOOLSNEXT.COM
         </a>
-        <a href="categories" className="cursor-pointer">
+        <a href="/categories" className="cursor-pointer">
           Categories
         </a>
-        <a href="tools" className="cursor-pointer">
+        <a href="/tools" className="cursor-pointer">
           Tools
         </a>
-        <a href="deals" className="cursor-pointer">
+        <a href="/deals" className="cursor-pointer">
           Best Deals
         </a>
       </div>
