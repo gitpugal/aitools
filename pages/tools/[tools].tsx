@@ -2,10 +2,9 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Navbar from "../../components/navbar";
-import { Container, Badge, Spinner } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 import Footer from "../../components/footer";
-import { ArrowBackIcon, ArrowUpIcon } from "@chakra-ui/icons";
+import { ArrowLeft } from "lucide-react";
+
 import { useRouter } from "next/router";
 import { FiThumbsUp } from "react-icons/fi";
 import { useSession } from "next-auth/react";
@@ -14,22 +13,6 @@ import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import dynamic from "next/dynamic";
 
-import {
-  Flex,
-  Heading,
-  Input,
-  Button,
-  InputGroup,
-  Stack,
-  InputLeftElement,
-  chakra,
-  Box,
-  Link,
-  Avatar,
-  FormControl,
-  FormHelperText,
-  InputRightElement,
-} from "@chakra-ui/react";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { Loader2 } from "lucide-react";
 
@@ -50,9 +33,9 @@ export default function Home({ tool, slug }) {
   };
   useEffect(() => {
     setIsloaded(true);
-    console.log(tool, slug);
+    // console.log(tool, slug);
     fetchData();
-    setToolData(tool);;
+    setToolData(tool);
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
   const [authData, setAuthData] = useState({
@@ -119,16 +102,16 @@ export default function Home({ tool, slug }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-screen relative min-h-screen flex flex-col gap-10 items-start justify-start max-h-fit px-14 py-28">
+      <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-5 lg:px-14 py-28">
         <button
           className="absolute top-10 left-10"
           onClick={() => router.back()}
         >
-          <ArrowBackIcon mr={2} />
+          <ArrowLeft />
           Back
         </button>
         <div className="flex flex-col lg:flex-row gap-16 justify-start items-center">
-          <h1 className="text-7xl font-semibold">{toolData?.name}</h1>
+          <h1 className="text-5xl font-semibold">{toolData?.name}</h1>
           <p
             className={`border-[1px]  border-black cursor-pointer px-4 py-2 rounded-xl ${
               toolData?.upvotedusers?.indexOf(session?.data?.user?.email) >= 0
@@ -184,7 +167,7 @@ export default function Home({ tool, slug }) {
           dangerouslySetInnerHTML={{
             __html: isLoaded ? toolData?.description : "loading...",
           }}
-          className="text-3xl"
+          className="text-xl"
         />
         <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
           #{toolData?.primarycategory}
@@ -199,15 +182,15 @@ export default function Home({ tool, slug }) {
 
 export async function getServerSideProps(context) {
   const url = context.req.url;
-  console.log(url);
-  const slug = url.substring(url.lastIndexOf("/") + 1);
-  console.log(slug); // Extract the last segment of the URL
-  console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  const res = await fetch(
-    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
-  );
+  console.log("URL: " + url);
+
+  const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
+  console.log("SLug: " + slug);
+
+  // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/tt2`);
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
 
   return {
     props: {

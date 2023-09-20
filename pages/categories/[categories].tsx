@@ -1,10 +1,10 @@
 import Head from "next/head";
-import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import CardList from "../../components/CardList";
+import { ArrowLeft } from "lucide-react";
 
 export default function Home({ categories, toolss }) {
   const router = useRouter();
@@ -38,7 +38,7 @@ export default function Home({ categories, toolss }) {
 
       <div className="w-screen px-5 relative py-10 flex flex-col items-center justify-center">
         <div className="absolute top-5 left-5" onClick={() => router.back()}>
-          <ArrowBackIcon mr={2} />
+          <ArrowLeft />
           Back
         </div>
         <div className="flex flex-col lg:flex-col gap-5 lg:px-20 justify-start items-start mt-10">

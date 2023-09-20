@@ -2,18 +2,14 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { Box, Link, Stack, Badge, InputLeftElement } from "@chakra-ui/react";
-import { chakra, Avatar, FormControl, FormHelperText } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
 import Footer from "../components/footer";
 import CardList from "../components/CardList";
 import { SearchBar } from "../components/SearchBar";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { Command } from "../components/ui/command";
+import Link from "next/link";
 
-const CFaUserAlt = chakra(FaUserAlt);
-const CFaLock = chakra(FaLock);
 
 export default function Home({ categories, tools }) {
   function authHandler() {

@@ -9,10 +9,6 @@ export default async function handler(
   }
 
   let { slug } = req.query;
-  console.log(req.query);
-  let n = slug?.indexOf(".");
-  slug = slug.slice(0, n);
-  console.log(slug)
 
   if (!slug) {
     return res.status(400).json({ message: "Slug must be provided" });
