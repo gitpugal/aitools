@@ -30,7 +30,7 @@ export default function Navbar() {
   }, [session?.status]);
 
   return (
-    <div className="bg-white border-b-[0.01px] flex flex-row relative  justify-between lg:px-40  py-3 border-pink-500 shadow-md text-black">
+    <div className="bg-white border-b-[0.01px] flex flex-row relative  justify-between px-10 lg:px-40  py-3 border-pink-500 shadow-md text-black">
       <div className="hidden lg:flex   items-center flex-row gap-5 text-sm font-light">
         <a
           href="/"
