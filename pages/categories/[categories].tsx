@@ -63,10 +63,10 @@ export async function getServerSideProps(context) {
   const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "");
   console.log(slug);
   const res = await fetch(
-    `http://localhost:3000/api/getCategoriesBySlug/${slug}`
+    `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );
   const data = await res.json();
-  const toolRes = await fetch("http://localhost:3000/api/tools");
+  const toolRes = await fetch("https://www.aitoolsnext.com/api/tools");
   const toolData = await toolRes.json();
   return {
     props: {

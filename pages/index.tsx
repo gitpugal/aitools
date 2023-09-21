@@ -64,7 +64,7 @@ export default function Home({ categories, tools }) {
       console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "http://localhost:3000/categories",
+        callbackUrl: "https://www.aitoolsnext.com/categories",
       });
       console.log(data.data);
     }
@@ -158,10 +158,10 @@ export default function Home({ categories, tools }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch("http://localhost:3000/api/getCategories");
+  const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
   const categories = await response.json();
 
-  const toolsResponse = await fetch("http://localhost:3000/api/topTools");
+  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools");
   const topTools = await toolsResponse.json();
   const tools = topTools?.tools ? topTools.tools : [];
 

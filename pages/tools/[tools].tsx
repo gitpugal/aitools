@@ -187,8 +187,8 @@ export async function getServerSideProps(context) {
   const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
   console.log("SLug: " + slug);
 
-  // console.log(`http://localhost:3000/api/getToolsBySlug/${slug}`);
-  const res = await fetch(`http://localhost:3000/api/getToolsBySlug/tt2`);
+  // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/tt2`);
   const data = await res.json();
   // console.log(data);
 
