@@ -1,5 +1,5 @@
 module.exports = { 
     images: { 
-    domains: ['localhost'], 
+    domains: ['localhost', 'lh3.googleusercontent.com'], 
     formats: ['image/avif', 'image/webp'], 
 }, }

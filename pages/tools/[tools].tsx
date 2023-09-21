@@ -102,7 +102,7 @@ export default function Home({ tool, slug }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-5 lg:px-14 py-28">
+      <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-3  sm:px-10 lg:px-40  py-28">
         <button
           className="absolute top-10 left-10"
           onClick={() => router.back()}
@@ -173,7 +173,7 @@ export default function Home({ tool, slug }) {
           #{toolData?.primarycategory}
         </h1>
       </div>
-      <h1 className="text-4xl mx-auto underline font-semibold text-center">
+      <h1 className="text-4xl mx-auto pb-10 underline font-semibold text-center">
         Similar tools
       </h1>
     </div>
@@ -187,8 +187,8 @@ export async function getServerSideProps(context) {
   const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
   console.log("SLug: " + slug);
 
-  // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/tt2`);
+  // console.log(`http://localhost:3000/api/getToolsBySlug/${slug}`);
+  const res = await fetch(`http://localhost:3000/api/getToolsBySlug/tt2`);
   const data = await res.json();
   // console.log(data);
 

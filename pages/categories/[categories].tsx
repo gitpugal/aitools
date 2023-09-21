@@ -8,7 +8,9 @@ import { ArrowLeft } from "lucide-react";
 
 export default function Home({ categories, toolss }) {
   const router = useRouter();
-  const [tools, setTools] = useState(toolss?.filter((tool) =>  categories?.tools?.includes(tool?.id)));
+  const [tools, setTools] = useState(
+    toolss?.filter((tool) => categories?.tools?.includes(tool?.id))
+  );
 
   // debugger;
   const session = useSession();
@@ -20,8 +22,8 @@ export default function Home({ categories, toolss }) {
 
   useEffect(() => {
     console.log(tools);
-    console.log(categories)
-  }, [])
+    console.log(categories);
+  }, []);
   return (
     <div>
       <Head>
@@ -36,12 +38,12 @@ export default function Home({ categories, toolss }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-screen px-5 relative py-10 flex flex-col items-center justify-center">
-        <div className="absolute top-5 left-5" onClick={() => router.back()}>
+      <div className="w-screen pb-20  flex flex-col items-start  justify-center">
+        <div className="mt-10 cursor-pointer ml-10" onClick={() => router.back()}>
           <ArrowLeft />
           Back
         </div>
-        <div className="flex flex-col lg:flex-col gap-5 lg:px-20 justify-start items-start mt-10">
+        <div className="flex flex-col lg:flex-col gap-5 px-3 sm:px-10 lg:px-40 justify-start items-start ">
           <h1 className="text-5xl font-semibold">{categories?.name}</h1>
           <h1 className="text-xl ">{categories?.description}</h1>
         </div>
@@ -59,17 +61,17 @@ export default function Home({ categories, toolss }) {
 export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "");
-  console.log(slug)
+  console.log(slug);
   const res = await fetch(
-    `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
+    `http://localhost:3000/api/getCategoriesBySlug/${slug}`
   );
   const data = await res.json();
-  const toolRes = await fetch("https://www.aitoolsnext.com/api/tools");
+  const toolRes = await fetch("http://localhost:3000/api/tools");
   const toolData = await toolRes.json();
   return {
     props: {
       categories: data,
-      toolss: toolData.tools
+      toolss: toolData.tools,
     },
   };
 }

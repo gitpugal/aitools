@@ -86,7 +86,7 @@ const App = () => {
       console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "https://www.aitoolsnext.com/categories",
+        callbackUrl: "http://localhost:3000/categories",
       });
       // console.log(data.data);
     }
@@ -219,7 +219,7 @@ const App = () => {
                   onClick={async (e) => {
                     e.preventDefault();
                     await signIn("google", {
-                      callbackUrl: "https://www.aitoolsnext.com/",
+                      callbackUrl: "http://localhost:3000/",
                     });
                   }}
                 >

@@ -64,7 +64,7 @@ export default function Home({ categories, tools }) {
       console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "https://www.aitoolsnext.com/categories",
+        callbackUrl: "http://localhost:3000/categories",
       });
       console.log(data.data);
     }
@@ -109,18 +109,11 @@ export default function Home({ categories, tools }) {
 
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
 
-        {/* <Stack
-            display={"flex"}
-            textAlign={"start"}
-            justify={"flex-center"}
-            maxW={"5xl"}
-            direction="row"
-            mx={"auto"}
-          > */}
+    
         <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
           {categories?.slice(0, 18)?.map((category) => (
             <Link
-              className="px-4 py-2 hover:scale-105 transition-all hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
+              className="px-4 py-2 hover:scale-105 transition-all flex items-center justify-center hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
               href={`/categories/${category?.slug}`}
             >
               {category?.name}
@@ -165,10 +158,10 @@ export default function Home({ categories, tools }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
+  const response = await fetch("http://localhost:3000/api/getCategories");
   const categories = await response.json();
 
-  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools");
+  const toolsResponse = await fetch("http://localhost:3000/api/topTools");
   const topTools = await toolsResponse.json();
   const tools = topTools?.tools ? topTools.tools : [];
 
