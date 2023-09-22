@@ -47,9 +47,9 @@ function SiteMap() {
 
 export async function getServerSideProps({ res }) {
   const toolsRequest = await fetch("https://aitoolsnext.com/api/tools");
-  const tools = await request.json();
+  const tools = await toolsRequest.json();
   const categoriesRequest = await fetch("https://aitoolsnext.com/api/categories");
-  const categories = await request.json();
+  const categories = await categoriesRequest.json();
 
 
 
