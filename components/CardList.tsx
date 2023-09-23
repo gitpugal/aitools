@@ -6,9 +6,9 @@ import { useSession } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import { Loader2 } from "lucide-react";
 
-const CardList = ({ tool, authHandler, isCategory }) => {
+const CardList = (props) => {
   const [isLoading, setIsLoading] = React.useState("");
-  const [tools, setTools] = React.useState(tool);
+  const [tools, setTools] = React.useState(props?.tool);
   const [isLoaded, setisLoaded] = useState(false);
   const session = useSession();
 
@@ -58,8 +58,17 @@ const CardList = ({ tool, authHandler, isCategory }) => {
               data-splitbee-event="Premium Card Open"
               data-splitbee-event-tool="Taplio"
               href={`/tools/${tool?.slug}`}
-              className="h-full bg-black flex-1 object-contain bg-cover"
+              className="h-full relative bg-black flex-1 object-contain bg-cover"
             >
+              {props?.isUserTool != null && (
+                <a
+                  className={`${
+                    tool?.approved == true ? "bg-green-600" : "bg-red-600"
+                  } text-center absolute text-white shadow-xl right-5 top-5 flex items-center justify-center   backdrop-blur-lg px-4 py-2 rounded-xl`}
+                >
+                  {tool?.approved == true ? "Approved" : "Not Approved"}
+                </a>
+              )}
               <Image
                 src="/tools/taplio.webp"
                 alt="Tool Image"
@@ -74,7 +83,7 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                   {tool?.name?.charAt(0).toUpperCase() +
                     tool?.name?.substr(1).toLowerCase()}
                 </p>
-                {!isCategory && (
+                {!props.isCategory && (
                   <div>
                     <p
                       className={` px-4 py-2 cursor-pointer rounded-xl ${
@@ -153,10 +162,15 @@ const CardList = ({ tool, authHandler, isCategory }) => {
                 }}
               />
               <div className="flex  flex-row gap-5">
-                <Link className="bg-white/20 backdrop-blur-lg px-4 py-2 rounded-xl" href="/ai-social-media-assistant">
+                <Link
+                  className="bg-white/20 backdrop-blur-lg px-4 py-2 rounded-xl"
+                  href="/ai-social-media-assistant"
+                >
                   #{tool?.primarycategory}
                 </Link>
-                <a className="bg-gradient-to-br from-yellow-400 text-center flex items-center justify-center to-yellow-800 backdrop-blur-lg px-4 py-2 rounded-xl">Freemium</a>
+                <a className="bg-gradient-to-br from-yellow-400 text-center flex items-center justify-center to-yellow-800 backdrop-blur-lg px-4 py-2 rounded-xl">
+                  Freemium
+                </a>
               </div>
             </div>
           </div>

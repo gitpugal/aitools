@@ -1,29 +1,117 @@
-import { useSession, signIn, signOut } from "next-auth/react";
-import { useState } from "react";
-import { SessionProvider, getProviders } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { DropdownMenuDemo } from "./HamBurger";
-import { useEffect } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { useToast } from "../components/ui/use-toast";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Label } from "./ui/label";
+import { Input } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+import { cn } from "../lib/utils";
+
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Navbar() {
+  const { toast } = useToast();
+  const [openAddToolDialog, setOpenAddToolDialog] = useState(false);
+  const [toolName, setToolName] = useState("");
+  const [toolDescription, setToolDescription] = useState("");
+  const [toolFeatures, setToolFeatures] = useState("");
+  const [toolPricing, setToolPricing] = useState("");
+  const [toolUpvotes, setToolUpvotes] = useState("");
+  const [toolImageUrl, setToolImageUrl] = useState("");
+  const [toolSlug, setToolSlug] = useState("");
+  const pricingOptions = ["Free", "Premium"];
+
   const session = useSession();
-  const [navDrop, setNavDrop] = useState(false);
+  const handleCloseAddToolDialog = () => {
+    setOpenAddToolDialog((prev) => !prev);
+  };
+
+  const handleAddToolChange = (content, delta, source, editor) => {
+    setToolDescription(editor.getHTML());
+  };
+
+  const handleSaveTool = async () => {
+    if (toolName === null || toolName === "" || !toolName) {
+      return "No Tools Found.";
+    }
+    if (session?.data?.user?.email == null) {
+      return "No user Found!";
+    }
+
+    if (
+      toolDescription === null ||
+      toolDescription === "" ||
+      !toolDescription
+    ) {
+      return "No Tools Description Found.";
+    }
+
+    if (toolImageUrl === null || toolImageUrl === "" || !toolImageUrl) {
+      return "No Tools Image URL Found.";
+    }
+
+    if (toolSlug === null || toolSlug === "" || !toolSlug) {
+      return "No Tools Slug Found.";
+    }
+    const toolsData = {
+      name: toolName,
+      description: toolDescription,
+      features: toolFeatures,
+      pricing: toolPricing,
+      upvotes: 0,
+      imageURL: toolImageUrl,
+      slug: toolSlug,
+      user: session?.data?.user?.email,
+    };
+
+    console.log(JSON.stringify(toolsData));
+    const response = await fetch("https://www.aitoolsnext.com/api/addTool", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(toolsData),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      toast({
+        title: data?.message?.replace("Key ", ""),
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+        ),
+      });
+    } else {
+      toast({
+        title: "Tool Created successfully!",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+        ),
+      });
+      setOpenAddToolDialog(false);
+    }
+  };
 
   useEffect(() => {
     console.log(session?.data);
@@ -49,41 +137,128 @@ export default function Navbar() {
         </a>
       </div>
       {session?.data?.user?.email && (
-        <div className="bg-black overflow-hidden cursor-pointer h-10 w-10 rounded-full">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              {session?.data?.user?.image && (
-                <Avatar>
-                  <AvatarImage src={session?.data?.user?.image} />
-                  <AvatarFallback>
-                    {session?.data?.user?.name?.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
-              )}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>{session?.data?.user?.name}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                {session?.data?.user?.email && (
-                  <DropdownMenuItem>
-                    {session?.data?.user?.email}
-                  </DropdownMenuItem>
+        <div className="flex flex-row items-center justify-center gap-5">
+          <div className="bg-black overflow-hidden cursor-pointer h-10 w-10 rounded-full">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                {session?.data?.user?.image && (
+                  <Avatar>
+                    <AvatarImage src={session?.data?.user?.image} />
+                    <AvatarFallback>
+                      {session?.data?.user?.name?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
                 )}
-                <DropdownMenuItem>
-                  <Link href="/profile" className="w-full h-full">
-                    Profile
-                  </Link>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>
+                  {session?.data?.user?.name}
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  {session?.data?.user?.email && (
+                    <DropdownMenuItem>
+                      {session?.data?.user?.email}
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem>
+                    <Link href="/profile" className="w-full h-full">
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => signOut()}>
+                  Log out
                 </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => signOut()}>
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          <Dialog
+            open={openAddToolDialog}
+            onOpenChange={handleCloseAddToolDialog}
+          >
+            <DialogTrigger className="bg-black px-4 py-2 rounded-xl text-white">
+              Add Tool
+            </DialogTrigger>
+            <DialogContent className="flex flex-col justify-start items-start gap-5">
+              <>
+                <Label htmlFor="toolName" className="text-left">
+                  Name
+                </Label>
+                <Input
+                  id="toolName"
+                  value={toolName}
+                  onChange={(e) => setToolName(e.target.value)}
+                />
+              </>
+              <>
+                {" "}
+                <Label htmlFor="Description" className="text-left">
+                  Description
+                </Label>
+                <ReactQuill
+                  value={toolDescription}
+                  onChange={handleAddToolChange}
+                />
+              </>
+              <>
+                {" "}
+                <Label htmlFor="Features" className="text-left">
+                  Features
+                </Label>
+                <Input
+                  id="toolFeatuers"
+                  value={toolFeatures}
+                  onChange={(e) => setToolFeatures(e.target.value)}
+                />
+              </>
+              <>
+                {" "}
+                <Label htmlFor="pricing" className="text-left">
+                  Pricing
+                </Label>
+                <select onChange={(e) => setToolPricing(e.target.value)}>
+                  {pricingOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </>
+
+              <>
+                {" "}
+                <Label htmlFor="Slug" className="text-left">
+                  Slug
+                </Label>
+                <Input
+                  value={toolSlug}
+                  id="toolSlug"
+                  onChange={(e) => setToolSlug(e.target.value)}
+                />
+              </>
+
+              <>
+                {" "}
+                <Label htmlFor="Image" className="text-left">
+                  Image
+                </Label>
+                <Input
+                  id="toolImageUrl"
+                  value={toolImageUrl}
+                  onChange={(e) => setToolImageUrl(e.target.value)}
+                />
+              </>
+              <DialogFooter>
+                <Button onClick={handleCloseAddToolDialog}>Cancel</Button>
+                <Button onClick={handleSaveTool}>Save</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </div>
       )}
+
       {!session?.data?.user?.email && (
         <button
           onClick={() => {

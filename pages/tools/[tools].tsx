@@ -1,30 +1,21 @@
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Navbar from "../../components/navbar";
-import Footer from "../../components/footer";
-import { ArrowLeft } from "lucide-react";
-
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { FiThumbsUp } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
-import dynamic from "next/dynamic";
-
-import { FaLock, FaUserAlt } from "react-icons/fa";
+import { LucideHome } from "lucide-react";
 import { Loader2 } from "lucide-react";
+import CustomBreadCrumb from "../../components/CustomBreadCrumb";
 
 export default function Home({ tool, slug }) {
   const router = useRouter();
   const [likes, setLikes] = useState(tool?.upvotes || 0);
+  const [breadCrumbs, setBreadCrumbs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoaded, setIsloaded] = useState(false);
   const [toolData, setToolData] = useState(tool);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSignIn, setIsSIgnIn] = useState(false);
   const fetchData = async () => {
     const providerData = await getProviders();
     const providerArray = Object.values(providerData);
@@ -33,9 +24,9 @@ export default function Home({ tool, slug }) {
   };
   useEffect(() => {
     setIsloaded(true);
-    // console.log(tool, slug);
     fetchData();
     setToolData(tool);
+    setBreadCrumbs(window?.location?.pathname?.split("/"));
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
   const [authData, setAuthData] = useState({
@@ -89,6 +80,7 @@ export default function Home({ tool, slug }) {
     e.preventDefault();
     setAuthData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
+
   return (
     <div className="min-h-screen max-h-fit">
       <Head>
@@ -102,14 +94,8 @@ export default function Home({ tool, slug }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-3  sm:px-10 lg:px-40  py-28">
-        <button
-          className="absolute top-10 left-10"
-          onClick={() => router.back()}
-        >
-          <ArrowLeft />
-          Back
-        </button>
+      <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-3  sm:px-10 lg:px-40  py-10">
+        <CustomBreadCrumb crumbs={breadCrumbs} />
         <div className="flex flex-col lg:flex-row gap-16 justify-start items-center">
           <h1 className="text-5xl font-semibold">{toolData?.name}</h1>
           <p

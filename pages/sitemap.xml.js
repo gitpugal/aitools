@@ -1,57 +1,34 @@
-const EXTERNAL_DATA_URL = 'https://aitoolsnext.com/';
+const BASE_URL = 'https://aitoolsnext.com';
 
 function generateSiteMap({ tools, categories }) {
+  const toolUrls = tools.tools.map(({ slug }) => `${BASE_URL}/tools/${slug}`);
+  const categoryUrls = categories.map(({ slug }) => `${BASE_URL}/categories/${slug}`);
+
+  const allUrls = [BASE_URL, `${BASE_URL}/categories`, `${BASE_URL}/tools`, `${BASE_URL}/deals`, ...toolUrls, ...categoryUrls];
+
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     <!--We manually set the two URLs we know already-->
-     <url>
-       <loc>https://aitoolsnext.com</loc>
-     </url>
-     <url>
-       <loc>https://aitoolsnext.com/categroies</loc>
-     </url>
-     <url>
-       <loc>https://aitoolsnext.com/tools</loc>
-     </url>
-     <url>
-       <loc>https://aitoolsnext.com/deals</loc>
-     </url>
-     <url>
-       <loc>https://aitoolsnext.com/profile</loc>
-     </url>
-     ${tools
-      .map(({ id }) => {
+     ${allUrls
+      .map((url) => {
         return `
        <url>
-           <loc>${`${EXTERNAL_DATA_URL}/tools/${id}`}</loc>
+           <loc>${url}</loc>
        </url>
      `;
       })
       .join('')}
-
-            ${categories
-      .map(({ id }) => {
-        return `
-         <url>
-             <loc>${`${EXTERNAL_DATA_URL}/categories/${id}`}</loc>
-         </url>
-       `;
-      })
-      .join('')}
-   </urlset>
- `;
+   </urlset>`;
 }
 
-function SiteMap() {
+function Sitemap() {
+  // This function should remain here.
 }
 
 export async function getServerSideProps({ res }) {
   const toolsRequest = await fetch("https://aitoolsnext.com/api/tools");
   const tools = await toolsRequest.json();
-  const categoriesRequest = await fetch("https://aitoolsnext.com/api/categories");
+  const categoriesRequest = await fetch("https://aitoolsnext.com/api/getCategories");
   const categories = await categoriesRequest.json();
-
-
 
   const sitemap = generateSiteMap({ tools: tools, categories: categories });
 
@@ -64,4 +41,4 @@ export async function getServerSideProps({ res }) {
   };
 }
 
-export default SiteMap;
+export default Sitemap;

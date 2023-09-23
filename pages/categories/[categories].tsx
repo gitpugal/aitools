@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import CardList from "../../components/CardList";
 import { ArrowLeft } from "lucide-react";
+import CustomBreadCrumb from "../../components/CustomBreadCrumb";
 
 export default function Home({ categories, toolss }) {
-  const router = useRouter();
+  const [breadCrumbs, setBreadCrumbs] = useState([]);
+
   const [tools, setTools] = useState(
     toolss?.filter((tool) => categories?.tools?.includes(tool?.id))
   );
@@ -21,8 +23,7 @@ export default function Home({ categories, toolss }) {
   }
 
   useEffect(() => {
-    console.log(tools);
-    console.log(categories);
+    setBreadCrumbs(window?.location?.pathname?.split("/"));
   }, []);
   return (
     <div>
@@ -39,11 +40,8 @@ export default function Home({ categories, toolss }) {
       </Head>
 
       <div className="w-screen pb-20  flex flex-col items-start  justify-center">
-        <div className="mt-10 cursor-pointer ml-10" onClick={() => router.back()}>
-          <ArrowLeft />
-          Back
-        </div>
-        <div className="flex flex-col lg:flex-col gap-5 px-3 sm:px-10 lg:px-40 justify-start items-start ">
+        <div className="flex flex-col lg:flex-col gap-5 px-3 sm:px-10 lg:px-40 py-10 justify-start items-start ">
+        <CustomBreadCrumb crumbs={breadCrumbs} />
           <h1 className="text-5xl font-semibold">{categories?.name}</h1>
           <h1 className="text-xl ">{categories?.description}</h1>
         </div>

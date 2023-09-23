@@ -13,6 +13,7 @@ import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
+import { Toaster } from "../components/ui/toaster";
 import { Button } from "../components/ui/button";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
@@ -144,6 +145,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       {/* <div className="min-h-screen max-h-fit overflow-hidden flex flex-col bg-gradient-to-tr"> */}
 
       <div className="min-h-screen max-h-fit overflow-hidden flex  flex-col ">
+        <Toaster />
+
         <div
           id="modal"
           className="min-h-fit border-[1px] border-slate-200 max-h-fit w-full px-2 py-10 pb-20 lg:w-1/2 "

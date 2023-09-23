@@ -2,37 +2,17 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import CardList from "../components/CardList";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import CustomBreadCrumb from "../components/CustomBreadCrumb";
 
 export default function Home({ tools }) {
-  const [hoveredCategory, setHoveredCategory] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSignIn, setIsSIgnIn] = useState(false);
-  // const [providers, setProviders] = useState([]);
+  const [breadCrumbs, setBreadCrumbs] = useState([]);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
-
-  const [authData, setAuthData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const handleOpenAddModal = () => {
-    setIsAddModalOpen(true);
-  };
-
-  const handleCloseAddModal = () => {
-    setIsAddModalOpen(false);
-  };
 
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
     document.getElementById("container").style.filter = "blur(5px)";
     setIsAddModalOpen((prev) => !prev);
-  }
-  function changeHandler(e) {
-    e.preventDefault();
-    setAuthData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   const fetchData = async () => {
@@ -43,44 +23,8 @@ export default function Home({ tools }) {
   };
   useEffect(() => {
     fetchData();
+    setBreadCrumbs(window?.location?.pathname?.split("/"));
   }, []);
-
-  async function submitHandler(e) {
-    e.preventDefault();
-    const res = await fetch("/api/signUpHandler", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(authData),
-    });
-    const data = await res.json();
-    console.log(data.message);
-  }
-
-  async function signInHandler(e) {
-    e.preventDefault();
-    const res = await fetch("/api/signInHandler", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(authData),
-    });
-    const data = await res.json();
-    if (res.status != 200) {
-      console.log(data.message);
-    } else {
-      console.log(data.message);
-      await signIn("credentials", {
-        ...data.data[0],
-        callbackUrl: "https://www.aitoolsnext.com/categories",
-      });
-      console.log(data.data);
-    }
-  }
-
-  const handleShowClick = () => setShowPassword(!showPassword);
 
   return (
     <div
@@ -103,36 +47,21 @@ export default function Home({ tools }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <Stack
-          as={Box}
-          textAlign={"center"}
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}
-        >
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
-            lineHeight={"110%"}
-          >
-            Please find the complete list of all tools here..
-          </Heading>
+      <div className="flex flex-col justify-center py-10 items-start  px-3  sm:px-10 lg:px-40">
+        <CustomBreadCrumb crumbs={breadCrumbs} />
 
-          <CardList isCategory={false} authHandler={authHandler} tool={tools} />
-        </Stack> */}
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="text-5xl mt-20 ">
+        <h1 className="text-5xl text-center w-full">
           Find Best AI tools to
           <br />
           <span>simplify your task</span>
         </h1>
 
-        <p className="text-xl mt-10">
+        <p className="text-xl text-center w-full mt-10">
           {" "}
           Please find the complete list of all the tools{" "}
         </p>
-
-        <CardList isCategory={false} authHandler={authHandler} tool={tools} />
       </div>
+      <CardList isCategory={false} authHandler={authHandler} tool={tools} />
     </div>
   );
 }

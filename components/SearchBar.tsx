@@ -1,25 +1,5 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-// import {
-//   import {
-//     Calculator,
-//     Calendar,
-//     CreditCard,
-//     Settings,
-//     Smile,
-//     User,
-//   } from "lucide-react"
-
-// import {
-//   Command,
-//   CommandEmpty,
-//   CommandGroup,
-//   CommandInput,
-//   CommandItem,
-//   CommandList,
-//   CommandSeparator,
-//   CommandShortcut,
-// } from "../components/ui/command";
 
 export function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,7 +39,7 @@ export function SearchBar(props) {
   }, [searchTerm]);
 
   return (
-    <div className="w-screen my-10 px-2 md:px-10">
+    <div className="w-screen mt-24 mb-32 px-2 md:px-10">
       <div className="flex flex-row  gap-0 items-stretch justify-center">
         <input
           type="search"
@@ -67,7 +47,7 @@ export function SearchBar(props) {
           value={searchTerm}
           id="search"
           placeholder="search tools and categories..."
-          className="bg-gray-100 py-4  px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[2px]"
+          className="bg-gray-100 py-4  px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[1px]"
           onChange={changeHandler}
         />
         <button
@@ -76,8 +56,8 @@ export function SearchBar(props) {
             setsearchresults([]);
             window.scrollBy({
               top: 350,
-              behavior: "smooth"
-            })
+              behavior: "smooth",
+            });
             setSearchTerm("");
           }}
           className="bg-black px-10 text-white  rounded-r-xl border-black border-2 font-light text-xl"
