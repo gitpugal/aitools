@@ -40,10 +40,12 @@ export default function Home({ categories, toolss }) {
       </Head>
 
       <div className="w-screen pb-20  flex flex-col items-start  justify-center">
-        <div className="flex flex-col lg:flex-col gap-5 px-3 sm:px-10 lg:px-40 py-10 justify-start items-start ">
-        <CustomBreadCrumb crumbs={breadCrumbs} />
-          <h1 className="text-5xl font-semibold">{categories?.name}</h1>
-          <h1 className="text-xl ">{categories?.description}</h1>
+        <div className="flex flex-col lg:flex-col lg:gap-5 px-3 sm:px-10 lg:px-40 py-10 justify-start items-start ">
+          <CustomBreadCrumb crumbs={breadCrumbs} />
+          <h1 className="text-3xl lg:text-5xl font-semibold">
+            {categories?.name}
+          </h1>
+          <h1 className="text-lg lg:text-xl ">{categories?.description}</h1>
         </div>
         <CardList
           key={JSON.stringify(tools)}

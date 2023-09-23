@@ -28,6 +28,7 @@ import { Input } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { cn } from "../lib/utils";
+import { Loader2 } from "lucide-react";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Navbar() {
@@ -41,6 +42,7 @@ export default function Navbar() {
   const [toolImageUrl, setToolImageUrl] = useState("");
   const [toolSlug, setToolSlug] = useState("");
   const pricingOptions = ["Free", "Premium"];
+  const [isLoading, setIsLoading] = useState(false);
 
   const session = useSession();
   const handleCloseAddToolDialog = () => {
@@ -52,6 +54,7 @@ export default function Navbar() {
   };
 
   const handleSaveTool = async () => {
+    setIsLoading(true);
     if (toolName === null || toolName === "" || !toolName) {
       return "No Tools Found.";
     }
@@ -252,7 +255,9 @@ export default function Navbar() {
               </>
               <DialogFooter>
                 <Button onClick={handleCloseAddToolDialog}>Cancel</Button>
-                <Button onClick={handleSaveTool}>Save</Button>
+                <Button onClick={handleSaveTool} disabled={isLoading}>
+                  {isLoading ? <Loader2 className="animate-spin" /> : "Save"}
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
