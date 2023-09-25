@@ -4,8 +4,15 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import CardList from "../../components/CardList";
-import { ArrowLeft } from "lucide-react";
+import {
+  ArrowLeft,
+  FacebookIcon,
+  LinkedinIcon,
+  TwitterIcon,
+} from "lucide-react";
 import CustomBreadCrumb from "../../components/CustomBreadCrumb";
+import Link from "next/link";
+import { FaWhatsappSquare } from "react-icons/fa";
 
 export default function Home({ categoriess, toolss }) {
   const [breadCrumbs, setBreadCrumbs] = useState([]);
@@ -46,6 +53,42 @@ export default function Home({ categoriess, toolss }) {
             {categories?.name}
           </h1>
           <h1 className="text-lg lg:text-xl ">{categories?.description}</h1>
+        </div>
+        <div>
+          <p className="text-2xl font-semibold mb-3">Share this on:</p>
+          <div className="flex flex-row gap-3 items-center justify-evenly">
+            <Link
+              href={`https://twitter.com/share?url=${url}`}
+              target="_blank"
+              className="bg-blue-500 p-2 rounded-xl"
+            >
+              <TwitterIcon fill="white" />
+            </Link>
+
+            <Link
+              href={`https://web.whatsapp.com/send?text=${url} `}
+              target="_blank"
+              className="bg-green-500 p-2 rounded-xl"
+            >
+              <FaWhatsappSquare fill="white" size={25} />
+            </Link>
+
+            <Link
+              href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+              target="_blank"
+              className="bg-blue-800 p-2 rounded-xl"
+            >
+              <FacebookIcon fill="white" />
+            </Link>
+
+            <Link
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+              target="_blank"
+              className="bg-blue-500 p-2 rounded-xl"
+            >
+              <LinkedinIcon fill="white" />
+            </Link>
+          </div>
         </div>
         <CardList
           key={JSON.stringify(tools)}
