@@ -163,7 +163,7 @@ export default function Home({ tool, slug }) {
             target="_blank"
             className="relative right-5 lg:right-10"
           >
-            <ArrowUpLeftSquareIcon fill="white" color="red" size={50}/>
+            <ArrowUpLeftSquareIcon fill="white" color="black" size={50}/>
           </Link>
         </div>
         <Image
