@@ -18,6 +18,7 @@ export default function Home({ categoriess, toolss }) {
   const [breadCrumbs, setBreadCrumbs] = useState([]);
   const [tools, setTools] = useState(null);
   const [categories, setCategories] = useState(null);
+  const [url, setUrl] = useState(null);
 
   // debugger;
   const session = useSession();
@@ -31,6 +32,7 @@ export default function Home({ categoriess, toolss }) {
     setTools(toolss?.filter((tool) => categories?.tools?.includes(tool?.id)));
     setCategories(categoriess);
     setBreadCrumbs(window?.location?.pathname?.split("/"));
+    setUrl(window?.location?.href);
   }, []);
   return (
     <div>
