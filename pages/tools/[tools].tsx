@@ -3,11 +3,19 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
+import { ClientSafeProvider, getProviders } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
-import { LucideHome } from "lucide-react";
-import { Loader2 } from "lucide-react";
+import {
+  Loader2,
+  TwitterIcon,
+  ArrowUpLeftSquareIcon,
+  LinkedinIcon,
+  FacebookIcon,
+} from "lucide-react";
 import CustomBreadCrumb from "../../components/CustomBreadCrumb";
+import Image from "next/image";
+import heroImage from "public/categories/ai_tools_applications.webp";
+import { FaWhatsappSquare } from "react-icons/fa";
 
 export default function Home({ tool, slug }) {
   const router = useRouter();
@@ -16,6 +24,7 @@ export default function Home({ tool, slug }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoaded, setIsloaded] = useState(false);
   const [toolData, setToolData] = useState(tool);
+  const [url, setUrl] = useState(null);
   const fetchData = async () => {
     const providerData = await getProviders();
     const providerArray = Object.values(providerData);
@@ -27,6 +36,7 @@ export default function Home({ tool, slug }) {
     fetchData();
     setToolData(tool);
     setBreadCrumbs(window?.location?.pathname?.split("/"));
+    setUrl(window?.location?.href);
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
   const [authData, setAuthData] = useState({
@@ -96,7 +106,7 @@ export default function Home({ tool, slug }) {
       </Head>
       <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-3  sm:px-10 lg:px-40  py-10">
         <CustomBreadCrumb crumbs={breadCrumbs} />
-        <div className="flex flex-col lg:flex-row gap-16 justify-start items-center">
+        <div className="flex flex-row gap-10 lg:gap-16 justify-start items-center">
           <h1 className="text-5xl font-semibold">{toolData?.name}</h1>
           <p
             className={`border-[1px]  border-black cursor-pointer px-4 py-2 rounded-xl ${
@@ -148,7 +158,19 @@ export default function Home({ tool, slug }) {
               />
             )}
           </p>
+          <Link
+            href={`https://aitoolsnext.com`}
+            target="_blank"
+            className="relative right-5 lg:right-10"
+          >
+            <ArrowUpLeftSquareIcon fill="white" color="red" size={50}/>
+          </Link>
         </div>
+        <Image
+          alt="toolImage"
+          className="lg:w-3/4 lg:h-3/4 shadow-xl shadow-slate-600 mb-10 lg:mb-20"
+          src={heroImage}
+        />
         <h1
           dangerouslySetInnerHTML={{
             __html: isLoaded ? toolData?.description : "loading...",
@@ -158,6 +180,42 @@ export default function Home({ tool, slug }) {
         <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
           #{toolData?.primarycategory}
         </h1>
+        <div>
+          <p className="text-2xl font-semibold mb-3">Share this on:</p>
+          <div className="flex flex-row gap-3 items-center justify-evenly">
+            <Link
+              href={`https://twitter.com/share?url=${url}`}
+              target="_blank"
+              className="bg-blue-500 p-2 rounded-xl"
+            >
+              <TwitterIcon fill="white" />
+            </Link>
+
+            <Link
+              href={`https://web.whatsapp.com/send?text=${url} `}
+              target="_blank"
+              className="bg-green-500 p-2 rounded-xl"
+            >
+              <FaWhatsappSquare fill="white" size={25} />
+            </Link>
+
+            <Link
+              href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+              target="_blank"
+              className="bg-blue-800 p-2 rounded-xl"
+            >
+              <FacebookIcon fill="white" />
+            </Link>
+
+            <Link
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+              target="_blank"
+              className="bg-blue-500 p-2 rounded-xl"
+            >
+              <LinkedinIcon fill="white" />
+            </Link>
+          </div>
+        </div>
       </div>
       <h1 className="text-4xl mx-auto pb-10 underline font-semibold text-center">
         Similar tools

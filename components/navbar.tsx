@@ -24,11 +24,20 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { Label } from "./ui/label";
-import { Input } from "@chakra-ui/react";
+import { Input } from "./ui/input";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { cn } from "../lib/utils";
 import { Loader2 } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Navbar() {
@@ -46,7 +55,15 @@ export default function Navbar() {
 
   const session = useSession();
   const handleCloseAddToolDialog = () => {
-    setOpenAddToolDialog((prev) => !prev);
+    if (session?.data?.user?.email != null) {
+      setOpenAddToolDialog((prev) => !prev);
+    } else {
+      setOpenAddToolDialog(false);
+
+      document.getElementById("modal").style.visibility = "visible";
+      document.getElementById("contain").style.opacity = "0.07";
+      document.getElementById("contain").style.pointerEvents = "none";
+    }
   };
 
   const handleAddToolChange = (content, delta, source, editor) => {
@@ -138,6 +155,101 @@ export default function Navbar() {
         <a href="/deals" className="cursor-pointer">
           Best Deals
         </a>
+        <Dialog
+          open={openAddToolDialog}
+          onOpenChange={handleCloseAddToolDialog}
+        >
+          <DialogTrigger className="">Add Tool</DialogTrigger>
+          <DialogContent className="flex flex-col justify-start items-start gap-5">
+            <DialogTitle>Add Tool</DialogTitle>
+            <>
+              <Label htmlFor="toolName" className="text-left">
+                Name
+              </Label>
+              <Input
+                id="toolName"
+                value={toolName}
+                onChange={(e) => setToolName(e.target.value)}
+                className=""
+              />
+            </>
+            <>
+              {" "}
+              <Label htmlFor="Description" className="text-left">
+                Description
+              </Label>
+              <ReactQuill
+                value={toolDescription}
+                onChange={handleAddToolChange}
+              />
+            </>
+            <>
+              {" "}
+              <Label htmlFor="Features" className="text-left">
+                Features
+              </Label>
+              <Input
+                id="toolFeatuers"
+                value={toolFeatures}
+                onChange={(e) => setToolFeatures(e.target.value)}
+              />
+            </>
+            <>
+              {" "}
+              <Label htmlFor="pricing" className="text-left">
+                Pricing
+              </Label>
+              {/* <select onChange={(e) => setToolPricing(e.target.value)}>
+                {pricingOptions.map((option) => (
+                  <Optio key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select> */}
+              <Select name="pricing" onValueChange={(e) => setToolPricing(e)}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder={"Select pricing"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="Free">Free</SelectItem>
+                    <SelectItem value="Premium">Premium</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </>
+
+            <>
+              {" "}
+              <Label htmlFor="Slug" className="text-left">
+                Slug
+              </Label>
+              <Input
+                value={toolSlug}
+                id="toolSlug"
+                onChange={(e) => setToolSlug(e.target.value)}
+              />
+            </>
+
+            <>
+              {" "}
+              <Label htmlFor="Image" className="text-left">
+                Image
+              </Label>
+              <Input
+                id="toolImageUrl"
+                value={toolImageUrl}
+                onChange={(e) => setToolImageUrl(e.target.value)}
+              />
+            </>
+            <DialogFooter>
+              <Button onClick={handleCloseAddToolDialog}>Cancel</Button>
+              <Button onClick={handleSaveTool} disabled={isLoading}>
+                {isLoading ? <Loader2 className="animate-spin" /> : "Save"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
       {session?.data?.user?.email && (
         <div className="flex flex-row items-center justify-center gap-5">
@@ -177,90 +289,6 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <Dialog
-            open={openAddToolDialog}
-            onOpenChange={handleCloseAddToolDialog}
-          >
-            <DialogTrigger className="bg-black px-4 py-2 rounded-xl text-white">
-              Add Tool
-            </DialogTrigger>
-            <DialogContent className="flex flex-col justify-start items-start gap-5">
-              <>
-                <Label htmlFor="toolName" className="text-left">
-                  Name
-                </Label>
-                <Input
-                  id="toolName"
-                  value={toolName}
-                  onChange={(e) => setToolName(e.target.value)}
-                />
-              </>
-              <>
-                {" "}
-                <Label htmlFor="Description" className="text-left">
-                  Description
-                </Label>
-                <ReactQuill
-                  value={toolDescription}
-                  onChange={handleAddToolChange}
-                />
-              </>
-              <>
-                {" "}
-                <Label htmlFor="Features" className="text-left">
-                  Features
-                </Label>
-                <Input
-                  id="toolFeatuers"
-                  value={toolFeatures}
-                  onChange={(e) => setToolFeatures(e.target.value)}
-                />
-              </>
-              <>
-                {" "}
-                <Label htmlFor="pricing" className="text-left">
-                  Pricing
-                </Label>
-                <select onChange={(e) => setToolPricing(e.target.value)}>
-                  {pricingOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </>
-
-              <>
-                {" "}
-                <Label htmlFor="Slug" className="text-left">
-                  Slug
-                </Label>
-                <Input
-                  value={toolSlug}
-                  id="toolSlug"
-                  onChange={(e) => setToolSlug(e.target.value)}
-                />
-              </>
-
-              <>
-                {" "}
-                <Label htmlFor="Image" className="text-left">
-                  Image
-                </Label>
-                <Input
-                  id="toolImageUrl"
-                  value={toolImageUrl}
-                  onChange={(e) => setToolImageUrl(e.target.value)}
-                />
-              </>
-              <DialogFooter>
-                <Button onClick={handleCloseAddToolDialog}>Cancel</Button>
-                <Button onClick={handleSaveTool} disabled={isLoading}>
-                  {isLoading ? <Loader2 className="animate-spin" /> : "Save"}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
         </div>
       )}
 

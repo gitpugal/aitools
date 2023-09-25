@@ -7,12 +7,10 @@ import CardList from "../../components/CardList";
 import { ArrowLeft } from "lucide-react";
 import CustomBreadCrumb from "../../components/CustomBreadCrumb";
 
-export default function Home({ categories, toolss }) {
+export default function Home({ categoriess, toolss }) {
   const [breadCrumbs, setBreadCrumbs] = useState([]);
-
-  const [tools, setTools] = useState(
-    toolss?.filter((tool) => categories?.tools?.includes(tool?.id))
-  );
+  const [tools, setTools] = useState(null);
+  const [categories, setCategories] = useState(null);
 
   // debugger;
   const session = useSession();
@@ -23,6 +21,8 @@ export default function Home({ categories, toolss }) {
   }
 
   useEffect(() => {
+    setTools(toolss?.filter((tool) => categories?.tools?.includes(tool?.id)));
+    setCategories(categoriess);
     setBreadCrumbs(window?.location?.pathname?.split("/"));
   }, []);
   return (
@@ -51,7 +51,7 @@ export default function Home({ categories, toolss }) {
           key={JSON.stringify(tools)}
           isCategory={false}
           authHandler={authHandler}
-          tool={tools}
+          tool={toolss}
         />
       </div>
     </div>
@@ -70,7 +70,7 @@ export async function getServerSideProps(context) {
   const toolData = await toolRes.json();
   return {
     props: {
-      categories: data,
+      categoriess: data,
       toolss: toolData.tools,
     },
   };

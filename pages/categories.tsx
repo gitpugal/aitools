@@ -7,7 +7,7 @@ export default function Home({ categories }) {
   const [breadCrumbs, setBreadCrumbs] = useState([]);
   useEffect(() => {
     setBreadCrumbs(window?.location?.pathname?.split("/"));
-  });
+  }, []);
   return (
     <div>
       <Head>
