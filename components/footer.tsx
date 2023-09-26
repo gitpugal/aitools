@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
-import { BiMailSend } from "react-icons/bi";
+import { MailMinus } from "lucide-react";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -76,7 +76,7 @@ export default function Footer() {
             {isLoading ? (
               <Loader2 color="black" />
             ) : (
-              <BiMailSend color="black"   />
+              <MailMinus color="black"   />
             )}
           </Button>
         </div>

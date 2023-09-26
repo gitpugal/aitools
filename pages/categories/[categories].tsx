@@ -19,6 +19,7 @@ export default function Home({ categoriess, toolss }) {
   const [tools, setTools] = useState(null);
   const [categories, setCategories] = useState(null);
   const [url, setUrl] = useState(null);
+  const [LoadMorePosts, setLoadMorePosts] = useState(false);
 
   // debugger;
   const session = useSession();
@@ -27,9 +28,46 @@ export default function Home({ categoriess, toolss }) {
     document.getElementById("container").style.filter = "blur(5px)";
     document.getElementById("modal").style.visibility = "visible";
   }
+  const handleMouseScroll = (event) => {
+    if (
+      window.innerHeight + event.target.documentElement.scrollTop + 1 >=
+      event.target.documentElement.scrollHeight
+    ) {
+      setLoadMorePosts(true);
+    } else {
+      setLoadMorePosts(false);
+    }
+  };
+  async function fetchMorePosts() {
+    if (categories.tools.length != tools.length) {
+      console.log("fetching");
+      const toolRes = await fetch(
+        "https://www.aitoolsnext.com/api/getCategoryTools",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            toolsIds: categories?.tools?.slice(tools.length, tools.length + 10),
+            currentIndex: 0,
+            itemCount: 10,
+          }),
+        }
+      );
+      const toolData = await toolRes.json();
+      console.log([...tools, ...toolData]);
+      setTools([...tools, ...toolData]);
+      console.log("fetched");
+    }
+  }
 
   useEffect(() => {
-    setTools(toolss?.filter((tool) => categories?.tools?.includes(tool?.id)));
+    if (LoadMorePosts) {
+      fetchMorePosts();
+    }
+  }, [LoadMorePosts]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleMouseScroll);
+    setTools(toolss);
     setCategories(categoriess);
     setBreadCrumbs(window?.location?.pathname?.split("/"));
     setUrl(window?.location?.href);
@@ -97,7 +135,7 @@ export default function Home({ categoriess, toolss }) {
           key={JSON.stringify(tools)}
           isCategory={false}
           authHandler={authHandler}
-          tool={toolss}
+          tool={tools}
         />
       </div>
     </div>
@@ -107,17 +145,29 @@ export default function Home({ categoriess, toolss }) {
 export async function getServerSideProps(context) {
   const url = context.req.url;
   const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "");
-  console.log(slug);
+  // console.log(slug);
   const res = await fetch(
     `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );
   const data = await res.json();
-  const toolRes = await fetch("https://www.aitoolsnext.com/api/tools");
-  const toolData = await toolRes.json();
+  // console.log(data.tools);
+  let toolData = [];
+
+  if (data.tools && data.tools.length > 0) {
+    const toolRes = await fetch("https://www.aitoolsnext.com/api/getCategoryTools", {
+      method: "POST",
+      body: JSON.stringify({
+        toolsIds: data?.tools.slice(0, 10),
+        currentIndex: 0,
+        itemCount: 10
+      }),
+    });
+    toolData = await toolRes.json();
+  }
   return {
     props: {
       categoriess: data,
-      toolss: toolData.tools,
+      toolss: toolData,
     },
   };
 }

@@ -28,7 +28,7 @@ const profile = () => {
             width={100}
             height={100}
             alt="profile"
-            className="h-fit w-fit object-contain"
+            className="h-full w-full object-contain"
             src={session?.data?.user?.image}
           />
         ) : (

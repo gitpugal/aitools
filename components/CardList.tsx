@@ -47,7 +47,11 @@ const CardList = (props) => {
   }
   useEffect(() => {
     setisLoaded(true);
-  });
+  }, []);
+  useEffect(() => {
+    // Update the component state when the tool prop changes
+    setTools(props.tool);
+  }, [props.tool]);
   return (
     <div className="w-screen items-stretch px-3 mt-20 sm:px-10 lg:px-40 gap-5 lg:gap-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
       {tools?.map((tool) => (

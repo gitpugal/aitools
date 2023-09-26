@@ -3,11 +3,13 @@ import Head from "next/head";
 import CardList from "../components/CardList";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import CustomBreadCrumb from "../components/CustomBreadCrumb";
+import { Button } from "../components/ui/button";
 
-export default function Home({ tools }) {
+export default function Home({ toolss }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [breadCrumbs, setBreadCrumbs] = useState([]);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
+  const [tools, setTools] = useState(toolss);
 
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
@@ -18,13 +20,29 @@ export default function Home({ tools }) {
   const fetchData = async () => {
     const providerData = await getProviders();
     const providerArray = Object.values(providerData); // Convert the object values to an array
-
+    setTools(tools);
     setProviders(providerArray);
   };
   useEffect(() => {
     fetchData();
     setBreadCrumbs(window?.location?.pathname?.split("/"));
   }, []);
+
+  async function fetchMorePosts() {
+    console.log("fetching more posts");
+    console.log(tools.length);
+    console.log(tools);
+    const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
+      method: "POST",
+      body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
+    });
+    const topTools = await toolsResponse.json();
+    console.log(topTools);
+    const arr = [...tools, ...topTools.tools];
+    console.log("fetched..");
+    console.log(arr);
+    setTools((prev) => [...prev, ...topTools?.tools]);
+  }
 
   return (
     <div
@@ -62,18 +80,29 @@ export default function Home({ tools }) {
         </p>
       </div>
       <CardList isCategory={false} authHandler={authHandler} tool={tools} />
+      <div className="text-center">
+        <Button
+          onClick={fetchMorePosts}
+          className="px-8 mx-auto relative py-10 text-2xl my-10"
+        >
+          Load More
+        </Button>
+      </div>
     </div>
   );
 }
 
 export async function getServerSideProps() {
-  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools");
+  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
+    method: "POST",
+    body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
+  });
   const topTools = await toolsResponse.json();
-  const tools = topTools?.tools ? topTools.tools : [];
+  const toolss = topTools?.tools ? topTools.tools : [];
 
   return {
     props: {
-      tools,
+      toolss,
     },
   };
 }

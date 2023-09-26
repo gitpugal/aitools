@@ -1,74 +1,25 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import Footer from "../components/footer";
 import CardList from "../components/CardList";
 import { SearchBar } from "../components/SearchBar";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
-import { FaUserAlt, FaLock } from "react-icons/fa";
-import { Command } from "../components/ui/command";
 import Link from "next/link";
+import { Button } from "../components/ui/button";
+import { FaSpinner } from "react-icons/fa";
 
-
-export default function Home({ categories, tools }) {
+export default function Home({ categoriess, toolss }) {
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
     document.getElementById("container").style.filter = "blur(5px)";
     document.getElementById("modal").style.visibility = "visible";
   }
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSignIn, setIsSIgnIn] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [authData, setAuthData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-  const [hoveredCategory, setHoveredCategory] = useState(null);
-  function changeHandler(e) {
-    e.preventDefault();
-    setAuthData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  }
-
-  const handleShowClick = () => setShowPassword(!showPassword);
-
-  async function submitHandler(e) {
-    e.preventDefault();
-    const res = await fetch("/api/signUpHandler", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(authData),
-    });
-    const data = await res.json();
-    console.log(data.message);
-  }
-
-  async function signInHandler(e) {
-    e.preventDefault();
-    const res = await fetch("/api/signInHandler", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(authData),
-    });
-    const data = await res.json();
-    if (res.status != 200) {
-      console.log(data.message);
-    } else {
-      console.log(data.message);
-      await signIn("credentials", {
-        ...data.data[0],
-        callbackUrl: "https://www.aitoolsnext.com/categories",
-      });
-      console.log(data.data);
-    }
-  }
+  const [LoadMorePosts, setLoadMorePosts] = useState(false);
+  const [categories, setcategories] = useState([]);
+  const [tools, settools] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   function handleSearchSubmit(searchresult) {
     setSearchResults(searchresult);
@@ -77,13 +28,40 @@ export default function Home({ categories, tools }) {
   const fetchData = async () => {
     const providerData = await getProviders();
     const providerArray = Object.values(providerData);
-
+    settools(toolss);
+    setcategories(categoriess);
     setProviders(providerArray);
   };
 
   useEffect(() => {
     fetchData();
+    window?.addEventListener("scroll", handleMouseScroll);
   }, []);
+
+  const handleMouseScroll = (event) => {
+    if (
+      window.innerHeight + event.target.documentElement.scrollTop + 1 >=
+      event.target.documentElement.scrollHeight
+    ) {
+      setLoadMorePosts(true);
+    } else {
+      setLoadMorePosts(false);
+    }
+  };
+
+  useEffect(() => {}, [LoadMorePosts]);
+
+  async function fetchMorePosts() {
+    setIsFetching(true);
+    const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
+      method: "POST",
+      body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
+    });
+    const topTools = await toolsResponse.json();
+    const arr = [...tools, ...topTools.tools];
+    settools((prev) => [...prev, ...topTools?.tools]);
+    setIsFetching(false);
+  }
 
   return (
     <div>
@@ -109,7 +87,6 @@ export default function Home({ categories, tools }) {
 
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
 
-    
         <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
           {categories?.slice(0, 18)?.map((category) => (
             <Link
@@ -151,6 +128,12 @@ export default function Home({ categories, tools }) {
         ) : (
           <CardList isCategory={false} authHandler={authHandler} tool={tools} />
         )}
+        <Button
+          onClick={fetchMorePosts}
+          className=" h-10 w-40 py-8  text-2xl my-10"
+        >
+          {isFetching ? <FaSpinner className="animate-spin" /> : "Load More"}
+        </Button>
       </div>
       <Footer />
     </div>
@@ -159,16 +142,19 @@ export default function Home({ categories, tools }) {
 
 export async function getServerSideProps() {
   const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
-  const categories = await response.json();
+  const categoriess = await response.json();
 
-  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools");
+  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
+    method: "POST",
+    body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
+  });
   const topTools = await toolsResponse.json();
-  const tools = topTools?.tools ? topTools.tools : [];
+  const toolss = topTools?.tools ? topTools.tools : [];
 
   return {
     props: {
-      categories,
-      tools,
+      categoriess,
+      toolss,
     },
   };
 }

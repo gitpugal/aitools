@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.0.19",
@@ -13,6 +14,8 @@
     "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@ionic/react": "^7.4.1",
+    "@ionic/react-router": "^7.4.1",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "5.0.0-alpha.120",
     "@mui/material": "5.11.10",
@@ -33,6 +36,7 @@
     "cmdk": "^0.2.0",
     "dotenv": "^16.3.1",
     "framer-motion": "^10.12.17",
+    "ionicons": "^7.1.2",
     "lucide-react": "^0.268.0",
     "next": "13.4.9",
     "next-auth": "^4.22.1",

@@ -38,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import Image from "next/image";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Navbar() {
@@ -253,12 +254,14 @@ export default function Navbar() {
       </div>
       {session?.data?.user?.email && (
         <div className="flex flex-row items-center justify-center gap-5">
+          {/* <Image width={100} height={100} alt="profile" src={session?.data?.user?.image} /> */}
+
           <div className="bg-black overflow-hidden cursor-pointer h-10 w-10 rounded-full">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 {session?.data?.user?.image && (
-                  <Avatar>
-                    <AvatarImage src={session?.data?.user?.image} />
+                  <Avatar className="h-full w-full">
+                    <AvatarImage className="h-full w-full object-contain" src={session?.data?.user?.image} />
                     <AvatarFallback>
                       {session?.data?.user?.name?.charAt(0)}
                     </AvatarFallback>
