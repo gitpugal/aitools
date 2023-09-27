@@ -5,7 +5,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const CustomBreadCrumb = ({ crumbs }: { crumbs: any }) => {
   return (
-    <div className="flex w-3/4 flex-row gap-2 mb-10 items-center justify-start">
+    <div className="flex w-3/4 flex-row  mb-10 items-center justify-start">
       <Link
         href="/"
         className="flex text-xs lg:text-xl font-semibold  text-pink-500 items-center justify-center gap-1"
@@ -16,7 +16,7 @@ const CustomBreadCrumb = ({ crumbs }: { crumbs: any }) => {
         crumbs.map((route, index) => (
           <>
             <Link
-              className="text-xs lg:text-xl font-semibold"
+              className="text-xs hover:text-pink-500 lg:text-xl font-semibold"
               href={`/${crumbs[index - 1] || ""}/${route}`}
             >
               {route}

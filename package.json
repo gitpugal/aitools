@@ -9,18 +9,10 @@
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^2.0.19",
-    "@chakra-ui/next-js": "^2.1.4",
-    "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@ionic/react": "^7.4.1",
     "@ionic/react-router": "^7.4.1",
-    "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "5.0.0-alpha.120",
-    "@mui/material": "5.11.10",
-    "@mui/system": "5.11.9",
-    "@mui/x-date-pickers": "5.0.19",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.4",
     "@radix-ui/react-avatar": "^1.0.3",

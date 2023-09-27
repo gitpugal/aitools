@@ -72,7 +72,7 @@ export default function Footer() {
             placeholder="enter you email"
             className="w-full h-full px-8 py-2  focus:outline-none rounded-xl bg-white/20"
           />
-          <Button onClick={subscribe} className="bg-white" aria-label="Subscribe">
+          <Button onClick={subscribe} className="bg-white hover:bg-white" aria-label="Subscribe">
             {isLoading ? (
               <Loader2 color="black" />
             ) : (

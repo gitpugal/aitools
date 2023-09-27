@@ -72,7 +72,6 @@ export default function Navbar() {
   };
 
   const handleSaveTool = async () => {
-    setIsLoading(true);
     if (toolName === null || toolName === "" || !toolName) {
       return "No Tools Found.";
     }
@@ -87,14 +86,8 @@ export default function Navbar() {
     ) {
       return "No Tools Description Found.";
     }
+    setIsLoading(true);
 
-    if (toolImageUrl === null || toolImageUrl === "" || !toolImageUrl) {
-      return "No Tools Image URL Found.";
-    }
-
-    if (toolSlug === null || toolSlug === "" || !toolSlug) {
-      return "No Tools Slug Found.";
-    }
     const toolsData = {
       name: toolName,
       description: toolDescription,
@@ -102,7 +95,8 @@ export default function Navbar() {
       pricing: toolPricing,
       upvotes: 0,
       imageURL: toolImageUrl,
-      slug: toolSlug,
+      slug:
+        toolName.replaceAll(" ", "-") + '-'+Math.round(Math.random() * 1000).toString(),
       user: session?.data?.user?.email,
     };
 
@@ -219,30 +213,6 @@ export default function Navbar() {
                 </SelectContent>
               </Select>
             </>
-
-            <>
-              {" "}
-              <Label htmlFor="Slug" className="text-left">
-                Slug
-              </Label>
-              <Input
-                value={toolSlug}
-                id="toolSlug"
-                onChange={(e) => setToolSlug(e.target.value)}
-              />
-            </>
-
-            <>
-              {" "}
-              <Label htmlFor="Image" className="text-left">
-                Image
-              </Label>
-              <Input
-                id="toolImageUrl"
-                value={toolImageUrl}
-                onChange={(e) => setToolImageUrl(e.target.value)}
-              />
-            </>
             <DialogFooter>
               <Button onClick={handleCloseAddToolDialog}>Cancel</Button>
               <Button onClick={handleSaveTool} disabled={isLoading}>
@@ -261,7 +231,10 @@ export default function Navbar() {
               <DropdownMenuTrigger asChild>
                 {session?.data?.user?.image && (
                   <Avatar className="h-full w-full">
-                    <AvatarImage className="h-full w-full object-contain" src={session?.data?.user?.image} />
+                    <AvatarImage
+                      className="h-full w-full object-contain"
+                      src={session?.data?.user?.image}
+                    />
                     <AvatarFallback>
                       {session?.data?.user?.name?.charAt(0)}
                     </AvatarFallback>

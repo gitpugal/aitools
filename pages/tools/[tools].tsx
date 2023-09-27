@@ -232,7 +232,7 @@ export async function getServerSideProps(context) {
   console.log("SLug: " + slug);
 
   // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/tt2`);
+  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   const data = await res.json();
   // console.log(data);
 

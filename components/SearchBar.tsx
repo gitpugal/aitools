@@ -40,14 +40,14 @@ export function SearchBar(props) {
 
   return (
     <div className="w-screen mt-24 mb-32 px-2 md:px-10">
-      <div className="flex flex-row  gap-0 items-stretch justify-center">
+      <div className="flex  mx-auto flex-row  gap-0 items-stretch justify-center">
         <input
           type="search"
           name="searchBar"
           value={searchTerm}
           id="search"
           placeholder="search tools and categories..."
-          className="bg-gray-100 py-4  px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[1px]"
+          className="bg-gray-100  py-4  px-8 rounded-xl rounded-r-none border-r-0 w-full focus:outline-none lg:w-1/2 shadow-2xl border-[1px]"
           onChange={changeHandler}
         />
         <button
@@ -66,15 +66,15 @@ export function SearchBar(props) {
         </button>
       </div>
       {searchresults.length > 0 && (
-        <div className="flex flex-col gap-2 bg-gray-50 py-5 mx-auto z-50 px-2 mt-5 rounded-md w-[30vw] max-h-fit min-h-fit">
+        <div className="flex flex-col gap-2 w-[57%] mx-auto bg-gray-50 py-5  z-50 px-2 mt-5 rounded-md  max-h-fit min-h-fit">
           {searchresults.length > 0 && (
             <p className="font-bold text-2xl text-left pl-3">Tools</p>
           )}{" "}
           {searchresults.map((result) => (
             <Link
-              href={`/tools/result.id`}
+              href={`/tools/${result.slug}`}
               key={result.id}
-              className="w-full text-left px-10 bg-gray-100 text-sm  rounded-md font-bold  py-3"
+              className="w-full text-left px-10 bg-gray-100 text-lg  rounded-md font-light  py-3"
             >
               {result.name}
             </Link>
@@ -85,9 +85,9 @@ export function SearchBar(props) {
           )}{" "}
           {searchCatresults.map((result) => (
             <Link
-              href={`/categories/${result.id}`}
+              href={`/categories/${result.slug}`}
               key={result.id}
-              className="w-full text-le bg-gray-100 text-sm  rounded-md font-bold  py-2"
+              className="w-full text-left px-10 bg-gray-100 text-lg  rounded-md font-light  py-3"
             >
               {result.name}
             </Link>

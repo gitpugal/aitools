@@ -45,13 +45,6 @@ export default function Home({ categories }) {
             {category?.name}
           </Link>
         ))}
-
-        <Link
-          className=" text-white bg-gradient-to-br from-purple-600 to-pink-500 overflow-hidden p-[3px] rounded-xl shadow-sm"
-          href={`/categories`}
-        >
-          <p className="bg-black rounded-xl px-4 py-2 ">show more</p>
-        </Link>
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { FaSpinner } from "react-icons/fa";
 
-export default function Home({ categoriess, toolss }) {
+export default function Home({ categoriess, toolss, toolCount }) {
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
     document.getElementById("container").style.filter = "blur(5px)";
@@ -20,6 +20,7 @@ export default function Home({ categoriess, toolss }) {
   const [categories, setcategories] = useState([]);
   const [tools, settools] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
+  const [itemCount, setItemCount] = useState(toolCount[0].count);
 
   function handleSearchSubmit(searchresult) {
     setSearchResults(searchresult);
@@ -31,6 +32,7 @@ export default function Home({ categoriess, toolss }) {
     settools(toolss);
     setcategories(categoriess);
     setProviders(providerArray);
+    setItemCount(toolCount[0].count);
   };
 
   useEffect(() => {
@@ -52,13 +54,13 @@ export default function Home({ categoriess, toolss }) {
   useEffect(() => {}, [LoadMorePosts]);
 
   async function fetchMorePosts() {
+
     setIsFetching(true);
     const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
       method: "POST",
       body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
     });
     const topTools = await toolsResponse.json();
-    const arr = [...tools, ...topTools.tools];
     settools((prev) => [...prev, ...topTools?.tools]);
     setIsFetching(false);
   }
@@ -88,14 +90,15 @@ export default function Home({ categoriess, toolss }) {
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
 
         <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
-          {categories?.slice(0, 18)?.map((category) => (
-            <Link
-              className="px-4 py-2 hover:scale-105 transition-all flex items-center justify-center hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
-              href={`/categories/${category?.slug}`}
-            >
-              {category?.name}
-            </Link>
-          ))}
+          {categories &&
+            categories?.slice(0, 18)?.map((category) => (
+              <Link
+                className="px-4 py-2 hover:scale-105 transition-all flex items-center justify-center hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
+                href={`/categories/${category?.slug}`}
+              >
+                {category?.name}
+              </Link>
+            ))}
 
           <Link
             className=" text-white bg-gradient-to-br from-purple-600 to-pink-500 overflow-hidden p-[3px] rounded-xl shadow-sm"
@@ -128,12 +131,12 @@ export default function Home({ categoriess, toolss }) {
         ) : (
           <CardList isCategory={false} authHandler={authHandler} tool={tools} />
         )}
-        <Button
+        {tools.length < itemCount && <Button
           onClick={fetchMorePosts}
           className=" h-10 w-40 py-8  text-2xl my-10"
         >
           {isFetching ? <FaSpinner className="animate-spin" /> : "Load More"}
-        </Button>
+        </Button>}
       </div>
       <Footer />
     </div>
@@ -150,11 +153,12 @@ export async function getServerSideProps() {
   });
   const topTools = await toolsResponse.json();
   const toolss = topTools?.tools ? topTools.tools : [];
-
+  const toolCount = topTools?.toolCount;
   return {
     props: {
       categoriess,
       toolss,
+      toolCount
     },
   };
 }

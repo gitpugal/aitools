@@ -10,13 +10,14 @@ export default async function handler(
 
   try {
     const { currentIndex, itemCount } = JSON.parse(req.body);
-    console.log(currentIndex)
+    console.log(currentIndex);
     const tools = await db.any(
       `SELECT * FROM tools LIMIT ${itemCount} offset ${currentIndex}`
     );
+    const toolCount = await db.any(`SELECT COUNT(*) FROM tools`);
+    console.log(toolCount);
 
-    console.log(tools)
-    res.status(200).json({ tools });
+    res.status(200).json({ tools, toolCount });
   } catch (error) {
     console.error("Error retrieving data: ", error);
     res
