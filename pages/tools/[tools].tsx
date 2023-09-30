@@ -1,3 +1,4 @@
+"use client";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,26 +17,50 @@ import CustomBreadCrumb from "../../components/CustomBreadCrumb";
 import Image from "next/image";
 import heroImage from "public/categories/ai_tools_applications.webp";
 import { FaWhatsappSquare } from "react-icons/fa";
+import CardList from "../../components/CardList";
 
-export default function Home({ tool, slug }) {
+export default function Home({ tools, slug }) {
   const router = useRouter();
-  const [likes, setLikes] = useState(tool?.upvotes || 0);
+  const [likes, setLikes] = useState(0);
   const [breadCrumbs, setBreadCrumbs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoaded, setIsloaded] = useState(false);
-  const [toolData, setToolData] = useState(tool);
+  const [toolData, setToolData] = useState(tools);
+  const [similarTools, setSimilarTools] = useState([]);
+  const [tool, setTool] = useState(tools);
   const [url, setUrl] = useState(null);
   const fetchData = async () => {
+    const url = window?.location?.pathname;
+    const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
+    setBreadCrumbs(window?.location?.pathname?.split("/"));
+
+    console.log(slug);
+    const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+    const data = await res.json();
+    setToolData(data);
     const providerData = await getProviders();
     const providerArray = Object.values(providerData);
-
     setProviders(providerArray);
+    if (toolData?.primarycategory?.length > 0) {
+      const similarToolRes = await fetch(
+        "https://www.aitoolsnext.com/api/getSimilarTools",
+        {
+          method: "POST",
+          cache: "no-cache",
+          body: JSON.stringify({
+            toolId: data?.id,
+            category: data?.primarycategory,
+          }),
+        }
+      );
+
+      const res = await similarToolRes.json();
+      setSimilarTools(res.tools);
+    }
   };
   useEffect(() => {
     setIsloaded(true);
     fetchData();
-    setToolData(tool);
-    setBreadCrumbs(window?.location?.pathname?.split("/"));
     setUrl(window?.location?.href);
   }, []);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
@@ -45,9 +70,14 @@ export default function Home({ tool, slug }) {
     password: "",
   });
 
-  const s = slug;
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      console.log("changes");
+      fetchData();
+    }
+  }, [typeof window !== "undefined" ? window.location.href : null]);
 
-  // debugger;
+  const s = slug;
 
   const session = useSession();
   async function initiateLike(id, email, isLiked) {
@@ -92,7 +122,7 @@ export default function Home({ tool, slug }) {
   }
 
   return (
-    <div className="min-h-screen max-h-fit">
+    <div className="min-h-screen pb-10 max-h-fit">
       <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
@@ -163,7 +193,7 @@ export default function Home({ tool, slug }) {
             target="_blank"
             className="relative right-5 lg:right-10"
           >
-            <ArrowUpLeftSquareIcon fill="white" color="black" size={50}/>
+            <ArrowUpLeftSquareIcon fill="white" color="black" size={50} />
           </Link>
         </div>
         <Image
@@ -175,11 +205,25 @@ export default function Home({ tool, slug }) {
           dangerouslySetInnerHTML={{
             __html: isLoaded ? toolData?.description : "loading...",
           }}
-          className="text-xl"
+          className=""
         />
-        <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
-          #{toolData?.primarycategory}
-        </h1>
+        <div>
+          <p className="text-3xl mb-2 font-bold">Pricing:</p>
+          <h1 className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
+            {toolData?.pricing}
+          </h1>
+        </div>
+        <div>
+          <p className="text-3xl mb-2 font-bold">Tags:</p>
+          <div className="flex gap-3 flex-wrap flow-row items-center justify-start">
+            {toolData?.secondarycategories &&
+              toolData?.secondarycategories?.map((cat) => (
+                <p className="bg-black px-4 py-2 rounded-xl text-white text-2xl">
+                  {cat}
+                </p>
+              ))}
+          </div>
+        </div>
         <div>
           <p className="text-2xl font-semibold mb-3">Share this on:</p>
           <div className="flex flex-row gap-3 items-center justify-evenly">
@@ -220,6 +264,13 @@ export default function Home({ tool, slug }) {
       <h1 className="text-4xl mx-auto pb-10 underline font-semibold text-center">
         Similar tools
       </h1>
+      {similarTools && similarTools.length > 0 && (
+        <CardList
+          authHandler={() => {}}
+          tool={similarTools}
+          isCategory={false}
+        />
+      )}
     </div>
   );
 }
@@ -238,7 +289,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      tool: data,
+      tools: data,
       slug: slug ? slug : "",
     },
   };

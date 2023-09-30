@@ -20,7 +20,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
   const [categories, setcategories] = useState([]);
   const [tools, settools] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-  const [itemCount, setItemCount] = useState(toolCount[0].count);
+  const [itemCount, setItemCount] = useState(toolCount);
 
   function handleSearchSubmit(searchresult) {
     setSearchResults(searchresult);
@@ -32,7 +32,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
     settools(toolss);
     setcategories(categoriess);
     setProviders(providerArray);
-    setItemCount(toolCount[0].count);
+    setItemCount(toolCount);
   };
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
 
         <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
-          {categories &&
+          {categories != null &&
             categories?.slice(0, 18)?.map((category) => (
               <Link
                 className="px-4 py-2 hover:scale-105 transition-all flex items-center justify-center hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
@@ -153,7 +153,8 @@ export async function getServerSideProps() {
   });
   const topTools = await toolsResponse.json();
   const toolss = topTools?.tools ? topTools.tools : [];
-  const toolCount = topTools?.toolCount;
+  const toolCount = topTools?.toolCount[0].count;
+  console.log(toolCount)
   return {
     props: {
       categoriess,

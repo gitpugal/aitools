@@ -15,7 +15,6 @@ export default async function handler(
       `SELECT * FROM tools LIMIT ${itemCount} offset ${currentIndex}`
     );
     const toolCount = await db.any(`SELECT COUNT(*) FROM tools`);
-    console.log(toolCount);
 
     res.status(200).json({ tools, toolCount });
   } catch (error) {

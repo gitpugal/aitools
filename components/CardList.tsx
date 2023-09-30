@@ -61,7 +61,11 @@ const CardList = (props) => {
               aria-label="Tool Image"
               data-splitbee-event="Premium Card Open"
               data-splitbee-event-tool="Taplio"
-              href={props.isUserTool == true ? `${window?.location?.href}` : `/tools/${tool?.slug}`}
+              href={
+                props.isUserTool == true
+                  ? `${window?.location?.href}`
+                  : `/tools/${tool?.slug}`
+              }
               className="h-full relative bg-black flex-1 object-contain bg-cover"
             >
               {props?.isUserTool != null && (

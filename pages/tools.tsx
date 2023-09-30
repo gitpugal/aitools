@@ -4,12 +4,15 @@ import CardList from "../components/CardList";
 import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import CustomBreadCrumb from "../components/CustomBreadCrumb";
 import { Button } from "../components/ui/button";
+import { FaSpinner } from "react-icons/fa";
 
-export default function Home({ toolss }) {
+export default function Home({ toolss, toolCount }) {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [breadCrumbs, setBreadCrumbs] = useState([]);
   const [providers, setProviders] = useState<ClientSafeProvider[]>([]);
   const [tools, setTools] = useState(toolss);
+  const [itemCount, setItemCount] = useState(toolCount);
+  const [isFetching, setIsFetching] = useState(false);
 
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
@@ -22,6 +25,7 @@ export default function Home({ toolss }) {
     const providerArray = Object.values(providerData); // Convert the object values to an array
     setTools(tools);
     setProviders(providerArray);
+    setItemCount(toolCount);
   };
   useEffect(() => {
     fetchData();
@@ -29,19 +33,19 @@ export default function Home({ toolss }) {
   }, []);
 
   async function fetchMorePosts() {
-    console.log("fetching more posts");
-    console.log(tools.length);
-    console.log(tools);
+    setIsFetching(true);
     const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
       method: "POST",
       body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
     });
+
     const topTools = await toolsResponse.json();
     console.log(topTools);
     const arr = [...tools, ...topTools.tools];
     console.log("fetched..");
     console.log(arr);
     setTools((prev) => [...prev, ...topTools?.tools]);
+    setIsFetching(false);
   }
 
   return (
@@ -52,6 +56,7 @@ export default function Home({ toolss }) {
         minHeight: "100vh",
         maxHeight: "fit-content",
       }}
+      className="py-20"
     >
       <Head>
         <title>
@@ -65,7 +70,7 @@ export default function Home({ toolss }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col justify-center py-10 items-start  px-3  sm:px-10 lg:px-40">
+      <div className="flex flex-col justify-center items-start  px-3  sm:px-10 lg:px-40">
         <CustomBreadCrumb crumbs={breadCrumbs} />
 
         <h1 className="text-5xl text-center w-full">
@@ -81,12 +86,14 @@ export default function Home({ toolss }) {
       </div>
       <CardList isCategory={false} authHandler={authHandler} tool={tools} />
       <div className="text-center">
-        <Button
-          onClick={fetchMorePosts}
-          className="px-8 mx-auto relative py-10 text-2xl my-10"
-        >
-          Load More
-        </Button>
+        {tools.length < itemCount && (
+          <Button
+            onClick={fetchMorePosts}
+            className=" h-10 w-40 py-8  text-2xl my-10"
+          >
+            {isFetching ? <FaSpinner className="animate-spin" /> : "Load More"}
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -99,10 +106,12 @@ export async function getServerSideProps() {
   });
   const topTools = await toolsResponse.json();
   const toolss = topTools?.tools ? topTools.tools : [];
+  const toolCount = topTools?.toolCount[0].count;
 
   return {
     props: {
       toolss,
+      toolCount,
     },
   };
 }

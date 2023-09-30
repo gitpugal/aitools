@@ -58,7 +58,6 @@ export function SearchBar(props) {
               top: 350,
               behavior: "smooth",
             });
-            setSearchTerm("");
           }}
           className="bg-black px-10 text-white  rounded-r-xl border-black border-2 font-light text-xl"
         >

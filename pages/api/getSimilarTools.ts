@@ -4,11 +4,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email } = JSON.parse(req.body);
   try {
-    const tools = await db.many("SELECT * FROM drafttools where user_id = $1", [
-      email,
-    ]);
+    const { toolId, category } = JSON.parse(req.body);
+    const tools = await db.many(
+      "SELECT * FROM tools where primarycategory = $1 AND id != $2 limit 6",
+      [category, toolId]
+    );
     res.status(200).json({ tools });
   } catch (error) {
     console.error("Error retrieving data: ", error);
