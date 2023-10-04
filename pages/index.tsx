@@ -7,7 +7,27 @@ import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { FaSpinner } from "react-icons/fa";
+import { Metadata } from "next";
 
+type Props = {
+  params: { productId: string; description: string };
+};
+
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+  // const url = window?.location?.pathname;
+  // const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
+  // // const { params } = props
+  // const productres = await fetch(
+  //   `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
+  // );
+
+  // const data = await productres.json();
+  // console.log(data)
+  return {
+    title: "SEO NAME",
+    description: "sql seo desct",
+  };
+};
 export default function Home({ categoriess, toolss, toolCount }) {
   function authHandler() {
     document.getElementById("container").style.pointerEvents = "none";
@@ -54,12 +74,14 @@ export default function Home({ categoriess, toolss, toolCount }) {
   useEffect(() => {}, [LoadMorePosts]);
 
   async function fetchMorePosts() {
-
     setIsFetching(true);
-    const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
-      method: "POST",
-      body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
-    });
+    const toolsResponse = await fetch(
+      "https://www.aitoolsnext.com/api/topTools",
+      {
+        method: "POST",
+        body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
+      }
+    );
     const topTools = await toolsResponse.json();
     settools((prev) => [...prev, ...topTools?.tools]);
     setIsFetching(false);
@@ -67,7 +89,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
 
   return (
     <div>
-      <Head>
+      {/* <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
           work easy
@@ -77,7 +99,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
           content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
         />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> */}
 
       <div className="w-screen overflow-hidden text-center py-20">
         <h1 className="lg:text-6xl text-3xl font-light mb-10">
@@ -131,12 +153,14 @@ export default function Home({ categoriess, toolss, toolCount }) {
         ) : (
           <CardList isCategory={false} authHandler={authHandler} tool={tools} />
         )}
-        {tools.length < itemCount && <Button
-          onClick={fetchMorePosts}
-          className=" h-10 w-40 py-8  text-2xl my-10"
-        >
-          {isFetching ? <FaSpinner className="animate-spin" /> : "Load More"}
-        </Button>}
+        {tools.length < itemCount && (
+          <Button
+            onClick={fetchMorePosts}
+            className=" h-10 w-40 py-8  text-2xl my-10"
+          >
+            {isFetching ? <FaSpinner className="animate-spin" /> : "Load More"}
+          </Button>
+        )}
       </div>
       <Footer />
     </div>
@@ -147,19 +171,22 @@ export async function getServerSideProps() {
   const response = await fetch("https://www.aitoolsnext.com/api/getCategories");
   const categoriess = await response.json();
 
-  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
-    method: "POST",
-    body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
-  });
+  const toolsResponse = await fetch(
+    "https://www.aitoolsnext.com/api/topTools",
+    {
+      method: "POST",
+      body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
+    }
+  );
   const topTools = await toolsResponse.json();
   const toolss = topTools?.tools ? topTools.tools : [];
   const toolCount = topTools?.toolCount[0].count;
-  console.log(toolCount)
+  console.log(toolCount);
   return {
     props: {
       categoriess,
       toolss,
-      toolCount
+      toolCount,
     },
   };
 }
