@@ -145,7 +145,7 @@ export default function Home({ tools, slug }) {
 
   return (
     <div className="min-h-screen pb-10 max-h-fit">
-      <Head>
+      {/* <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
           work easy
@@ -155,7 +155,7 @@ export default function Home({ tools, slug }) {
           content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
         />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> */}
       <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-3  sm:px-10 lg:px-40  py-10">
         <CustomBreadCrumb crumbs={breadCrumbs} />
         <div className="flex flex-row gap-10 lg:gap-16 justify-start items-center">

@@ -58,7 +58,7 @@ export default function Home({ toolss, toolCount }) {
       }}
       className="py-20"
     >
-      <Head>
+      {/* <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
           work easy
@@ -68,7 +68,7 @@ export default function Home({ toolss, toolCount }) {
           content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
         />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> */}
 
       <div className="flex flex-col justify-center items-start  px-3  sm:px-10 lg:px-40">
         <CustomBreadCrumb crumbs={breadCrumbs} />

@@ -74,7 +74,7 @@ export default function Home({ categoriess, toolss }) {
   }, []);
   return (
     <div>
-      <Head>
+      {/* <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
           work easy
@@ -84,7 +84,7 @@ export default function Home({ categoriess, toolss }) {
           content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
         />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
+      </Head> */}
 
       <div className="w-screen pb-20  flex flex-col items-start  justify-center">
         <div className="flex flex-col lg:flex-col lg:gap-5 px-3 sm:px-10 lg:px-40 py-10 justify-start items-start ">
