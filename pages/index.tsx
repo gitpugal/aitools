@@ -7,26 +7,11 @@ import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { FaSpinner } from "react-icons/fa";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
-type Props = {
-  params: { productId: string; description: string };
-};
-
-export const generateMetadata = async (props: Props): Promise<Metadata> => {
-  // const url = window?.location?.pathname;
-  // const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
-  // // const { params } = props
-  // const productres = await fetch(
-  //   `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
-  // );
-
-  // const data = await productres.json();
-  // console.log(data)
-  return {
-    title: "SEO NAME",
-    description: "sql seo desct",
-  };
+export const metadata: Metadata = {
+  title: "SEO TITLE",
+  description: "seonjwkehaljw;kdsfgvsawhqj",
 };
 export default function Home({ categoriess, toolss, toolCount }) {
   function authHandler() {
