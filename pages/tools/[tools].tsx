@@ -19,6 +19,28 @@ import heroImage from "public/categories/ai_tools_applications.webp";
 import { FaWhatsappSquare } from "react-icons/fa";
 import CardList from "../../components/CardList";
 
+import { Metadata } from "next";
+
+type Props = {
+  params: { productId: string };
+};
+
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+  const url = window?.location?.pathname;
+  const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
+  // const { params } = props
+  const productres = await fetch(
+    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
+  );
+
+  const data = await productres.json();
+  // console.log(data)
+  return {
+    title: data.name,
+    description: "sql seo desct"
+  };
+};
+
 export default function Home({ tools, slug }) {
   const router = useRouter();
   const [likes, setLikes] = useState(0);
@@ -285,7 +307,7 @@ export async function getServerSideProps(context) {
   // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
   const data = await res.json();
-  // console.log(data);
+  console.log(data);
 
   return {
     props: {
