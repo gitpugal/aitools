@@ -6,18 +6,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const {
-      name,
-      description,
-      features,
-      upvotes,
-      slug,
-      pricing,
-      user,
-    } = req.body;
+    const { name, description, features, upvotes, slug, pricing, user } =
+      req.body;
     const result = await db
       .none(
-        "INSERT INTO drafttools(name, short_description, description, alternative_description, features, faq, upvotes, image, seo_title, seo_description, slug, pricing, user_id, approved) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)",
+        "INSERT INTO tools(name, short_description, description, alternative_description, features, faq, upvotes, image, slug, pricing, status, primarycategory, user_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)",
         [
           name,
           description,
@@ -27,16 +20,16 @@ export default async function handler(
           "Frequently asked questions about the dummy tool.",
           upvotes || 0,
           "Unkwon.jpg",
-          "Dummy Tool SEO Title",
-          "SEO description for the dummy tool.",
           slug,
           pricing || "Not Specified",
-          user,
-          false,
+          "draft",
+          '',
+          user
         ]
       )
       .then(async () => {
-        await db.one("SELECT * FROM drafttools where slug = $1", [slug]);
+        await db.one("SELECT * FROM tools where slug = $1", [slug]);
+        
       });
 
     return res.status(200).json({ message: "sucess" });

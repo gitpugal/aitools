@@ -7,9 +7,9 @@ import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { FaSpinner } from "react-icons/fa";
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "SEO TITLE",
   description: "seonjwkehaljw;kdsfgvsawhqj",
 };
@@ -74,7 +74,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
 
   return (
     <div>
-      {/* <Head>
+      <Head>
         <title>
           AIToolsNext - Find Best AI tools to simplify your task and make your
           work easy
@@ -84,7 +84,7 @@ export default function Home({ categoriess, toolss, toolCount }) {
           content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
         />
         <link rel="icon" href="/favicon.ico" />
-      </Head> */}
+      </Head>
 
       <div className="w-screen overflow-hidden text-center py-20">
         <h1 className="lg:text-6xl text-3xl font-light mb-10">
@@ -164,9 +164,9 @@ export async function getServerSideProps() {
     }
   );
   const topTools = await toolsResponse.json();
+  console.log(topTools);
   const toolss = topTools?.tools ? topTools.tools : [];
   const toolCount = topTools?.toolCount[0].count;
-  console.log(toolCount);
   return {
     props: {
       categoriess,

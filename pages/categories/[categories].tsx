@@ -66,6 +66,8 @@ export default function Home({ categoriess, toolss }) {
   }, [LoadMorePosts]);
 
   useEffect(() => {
+    console.log("hh")
+    console.log(categoriess)
     window.addEventListener("scroll", handleMouseScroll);
     setTools(toolss);
     setCategories(categoriess);
@@ -74,17 +76,11 @@ export default function Home({ categoriess, toolss }) {
   }, []);
   return (
     <div>
-      {/* <Head>
-        <title>
-          AIToolsNext - Find Best AI tools to simplify your task and make your
-          work easy
-        </title>
-        <meta
-          name="description"
-          content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
-        />
+      <Head>
+        <title>{categories?.seotitle}</title>
+        <meta name="description" content={categories?.seodescription} />
         <link rel="icon" href="/favicon.ico" />
-      </Head> */}
+      </Head>
 
       <div className="w-screen pb-20  flex flex-col items-start  justify-center">
         <div className="flex flex-col lg:flex-col lg:gap-5 px-3 sm:px-10 lg:px-40 py-10 justify-start items-start ">
@@ -150,7 +146,7 @@ export async function getServerSideProps(context) {
     `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );
   const data = await res.json();
-  // console.log(data.tools);
+  console.log(data);
   let toolData = [];
 
   if (data.tools && data.tools.length > 0) {
@@ -159,7 +155,7 @@ export async function getServerSideProps(context) {
       body: JSON.stringify({
         toolsIds: data?.tools.slice(0, 10),
         currentIndex: 0,
-        itemCount: 10
+        itemCount: 10,
       }),
     });
     toolData = await toolRes.json();

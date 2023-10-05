@@ -16,7 +16,10 @@ export default async function handler(
 
   try {
     console.log(`SELECT * FROM tools WHERE slug = ${slug}`);
-    const category = await db.one("SELECT * FROM tools WHERE slug = $1", slug);
+    const category = await db.one(
+      "SELECT tools.*, seotools.title as seotitle, seotools.description as seodescription, seotools.keywords as seokeywords FROM tools JOIN seotools ON tools.id = seotools.id WHERE slug = $1",
+      slug
+    );
 
     res.status(200).json(category);
   } catch (error) {

@@ -71,10 +71,12 @@ const CardList = (props) => {
               {props?.isUserTool != null && (
                 <a
                   className={`${
-                    tool?.approved == true ? "bg-green-600" : "bg-red-600"
+                    tool?.status != "draft" ? "bg-green-600" : "bg-red-600"
                   } text-center absolute text-white shadow-xl right-5 top-5 flex items-center justify-center   backdrop-blur-lg px-4 py-2 rounded-xl`}
                 >
-                  {tool?.approved == true ? "Approved" : "Not Approved"}
+                  {(tool?.status != "draft") == true
+                    ? "Approved"
+                    : "Not Approved"}
                 </a>
               )}
               <Image

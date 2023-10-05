@@ -12,12 +12,11 @@ export default function Home({ categories }) {
     <div>
       <Head>
         <title>
-          AIToolsNext - Find Best AI tools to simplify your task and make your
-          work easy
+          AIToolsNext - Find Trending AI Tool Categories
         </title>
         <meta
           name="description"
-          content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
+          content="Discover the best AI tools from dynamic range of categories."
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

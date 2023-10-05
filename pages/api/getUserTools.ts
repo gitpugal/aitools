@@ -6,7 +6,7 @@ export default async function handler(
 ) {
   const { email } = JSON.parse(req.body);
   try {
-    const tools = await db.many("SELECT * FROM drafttools where user_id = $1", [
+    const tools = await db.many("SELECT * FROM tools where user_id = $1", [
       email,
     ]);
     res.status(200).json({ tools });

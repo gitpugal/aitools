@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   
     try {
-      const category = await db.one('SELECT * FROM categories WHERE slug = $1', slug);
+      const category = await db.one('SELECT categories.*, seocategories.title as seotitle, seocategories.description as seodescription from categories JOIN seocategories ON categories.id = seocategories.id WHERE slug = $1', slug);
      
   
   

@@ -12,7 +12,7 @@ export default async function handler(
     const { currentIndex, itemCount } = JSON.parse(req.body);
     console.log(currentIndex);
     const tools = await db.any(
-      `SELECT * FROM tools LIMIT ${itemCount} offset ${currentIndex}`
+      `SELECT tools.*, seotools.title as seotitle, seotools.description as seodescription, seotools.keywords as seokeywords FROM tools JOIN seotools ON tools.id = seotools.id LIMIT ${itemCount} offset ${currentIndex}`
     );
     const toolCount = await db.any(`SELECT COUNT(*) FROM tools`);
 

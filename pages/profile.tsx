@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Cardlist from "../components/CardList";
+import Head from "next/head";
 const profile = () => {
   const session = useSession();
   const [tools, SetTools] = useState([]);
@@ -16,12 +17,26 @@ const profile = () => {
     }
   }
   useEffect(() => {
-    // if (session?.data?.user) {
-    fetchData();
-    // }
+    if (session?.data?.user) {
+      fetchData();
+    }
   }, []);
+  useEffect(() => {
+    if (session?.data?.user) {
+      fetchData();
+    }
+  }, [session?.data?.user]);
   return (
     <div className="w-screen min-h-screen max-h-fit px-40  py-10  flex flex-col items-center justify-start">
+      <Head>
+        <title>AIToolsNext - Profile</title>
+        <meta
+          name="description"
+          content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <div className="h-24 w-24  overflow-hidden rounded-full bg-slate-600 ">
         {session?.data?.user?.image ? (
           <Image

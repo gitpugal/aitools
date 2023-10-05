@@ -22,7 +22,7 @@ import CardList from "../../components/CardList";
 import { Metadata } from "next";
 
 type Props = {
-  params: { productId: string , description: string};
+  params: { productId: string; description: string };
 };
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
@@ -37,7 +37,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
   // console.log(data)
   return {
     title: "SEO NAME",
-    description: "sql seo desct"
+    description: "sql seo desct",
   };
 };
 
@@ -145,17 +145,12 @@ export default function Home({ tools, slug }) {
 
   return (
     <div className="min-h-screen pb-10 max-h-fit">
-      {/* <Head>
-        <title>
-          AIToolsNext - Find Best AI tools to simplify your task and make your
-          work easy
-        </title>
-        <meta
-          name="description"
-          content="Discover the best AI tools directory with reviews and alternative options in multiple categories like text, video, and images. Find the right AI tools for your specific needs and enhance your productivity."
-        />
+      <Head>
+        <title>{toolData.seotitle}</title>
+        <meta name="description" content={toolData.seotitle} />
         <link rel="icon" href="/favicon.ico" />
-      </Head> */}
+      </Head>
+
       <div className="w-screen relative min-h-screen flex flex-col gap-5 lg:gap-10 items-start justify-start max-h-fit px-3  sm:px-10 lg:px-40  py-10">
         <CustomBreadCrumb crumbs={breadCrumbs} />
         <div className="flex flex-row gap-10 lg:gap-16 justify-start items-center">
