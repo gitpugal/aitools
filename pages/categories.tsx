@@ -39,7 +39,7 @@ export default function Home({ categories }) {
         {categories?.slice(0, 18)?.map((category) => (
           <Link
             className="px-4 py-2 hover:scale-105 transition-all hover:shadow-pink-500 ease-in-out hover:-translate-y-1 hover:shadow-sm bg-black text-white rounded-xl shadow-sm"
-            href={`/categories/${category?.slug}`}
+            href={`/${category?.slug}-ai-tools`}
           >
             {category?.name}
           </Link>

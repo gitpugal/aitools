@@ -57,7 +57,9 @@ export default function Home({ tools, slug }) {
     setBreadCrumbs(window?.location?.pathname?.split("/"));
 
     console.log(slug);
-    const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+    const res = await fetch(
+      `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
+    );
     const data = await res.json();
     setToolData(data);
     const providerData = await getProviders();
@@ -147,7 +149,17 @@ export default function Home({ tools, slug }) {
     <div className="min-h-screen pb-10 max-h-fit">
       <Head>
         <title>{toolData.seotitle}</title>
-        <meta name="description" content={toolData.seotitle} />
+        <meta name="description" content={toolData.seodescription} />
+        <meta
+          property="og:title"
+          content={toolData.seotitle}
+        />
+        <meta
+          property="og:description"
+          content={toolData.seodescription}/>
+          <meta
+            property="og:keywords"
+            content={toolData.seokeywords}/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -300,7 +312,9 @@ export async function getServerSideProps(context) {
   console.log("SLug: " + slug);
 
   // console.log(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
-  const res = await fetch(`https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  const res = await fetch(
+    `https://www.aitoolsnext.com/api/getToolsBySlug/${slug}`
+  );
   const data = await res.json();
   console.log(data);
 

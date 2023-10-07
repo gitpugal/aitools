@@ -17,10 +17,6 @@ import { Toaster } from "../components/ui/toaster";
 import { Button } from "../components/ui/button";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "SEO TITLE app",
-  description: "seonjwkehaljw;kdsfgvsawhqj",
-};
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   function authHandler() {

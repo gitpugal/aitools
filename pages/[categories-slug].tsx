@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { BiSolidUpArrow } from "react-icons/bi";
-import CardList from "../../components/CardList";
+import CardList from "../components/CardList";
 import {
   ArrowLeft,
   FacebookIcon,
   LinkedinIcon,
   TwitterIcon,
 } from "lucide-react";
-import CustomBreadCrumb from "../../components/CustomBreadCrumb";
+import CustomBreadCrumb from "../components/CustomBreadCrumb";
 import Link from "next/link";
 import { FaWhatsappSquare } from "react-icons/fa";
 
@@ -150,7 +150,7 @@ export default function Home({ categoriess, toolss }) {
 
 export async function getServerSideProps(context) {
   const url = context.req.url;
-  const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "");
+  const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "").split("-")[0];
   // console.log(slug);
   const res = await fetch(
     `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
