@@ -6,13 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!(@ionic/react|@ionic/react-router|@ionic/core|@stencil/core|ionicons)/)'"
+    "test": "react-scripts test --transformIgnorePatterns"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@ionic/react": "^7.4.1",
-    "@ionic/react-router": "^7.4.1",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.4",
     "@radix-ui/react-avatar": "^1.0.3",
@@ -27,8 +23,6 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "dotenv": "^16.3.1",
-    "framer-motion": "^10.12.17",
-    "ionicons": "^7.1.2",
     "lucide-react": "^0.268.0",
     "next": "13.4.9",
     "next-auth": "^4.22.1",
