@@ -1,3 +1,4 @@
+"use client";
 import { useSession, signOut } from "next-auth/react";
 import { DropdownMenuDemo } from "./HamBurger";
 import { useEffect, useState } from "react";
@@ -13,6 +14,8 @@ import {
 import { Button } from "./ui/button";
 import { useToast } from "../components/ui/use-toast";
 import Link from "next/link";
+import Pageres from "pageres";
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
   Dialog,
@@ -50,6 +53,7 @@ export default function Navbar() {
   const [toolPricing, setToolPricing] = useState("");
   const [toolUpvotes, setToolUpvotes] = useState("");
   const [toolImageUrl, setToolImageUrl] = useState("");
+  const [toolURL, settoolURL] = useState("");
   const [toolSlug, setToolSlug] = useState("");
   const pricingOptions = ["Free", "Premium"];
   const [isLoading, setIsLoading] = useState(false);
@@ -96,12 +100,14 @@ export default function Navbar() {
       upvotes: 0,
       imageURL: toolImageUrl,
       slug:
-        toolName.replaceAll(" ", "-") + '-'+Math.round(Math.random() * 1000).toString(),
+        toolName.replaceAll(" ", "-") +
+        "-" +
+        Math.round(Math.random() * 1000).toString(),
       user: session?.data?.user?.email,
     };
 
     console.log(JSON.stringify(toolsData));
-    const response = await fetch("https://www.aitoolsnext.com/api/addTool", {
+    const response = await fetch("https://aitoolsnext.com/api/addTool", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -127,7 +133,6 @@ export default function Navbar() {
       setOpenAddToolDialog(false);
     }
     setIsLoading(false);
-
   };
 
   useEffect(() => {
@@ -190,6 +195,30 @@ export default function Navbar() {
                 value={toolFeatures}
                 onChange={(e) => setToolFeatures(e.target.value)}
               />
+            </>
+            <>
+              {" "}
+              <Label htmlFor="URL" className="text-left">
+                URL
+              </Label>
+              <Input
+                id="toolURL"
+                value={toolURL}
+                onChange={(e) => settoolURL(e.target.value)}
+              />
+              <button
+                onClick={async () => {
+                  await new Pageres({ delay: 2 })
+                    .source("https://github.com/sindresorhus/pageres", [
+                      "1280x1024",
+                      "1920x1080",
+                    ])
+                    .destination("images")
+                    .run();
+                }}
+              >
+                save image
+              </button>
             </>
             <>
               {" "}
@@ -290,3 +319,13 @@ export default function Navbar() {
     </div>
   );
 }
+
+// export const getServerSideProps = async () => {
+//   const Pageres = await import("pageres");
+
+//   return {
+//     props: {
+//       Pageres, // will be passed to the page component as props
+//     },
+//   };
+// };

@@ -42,7 +42,7 @@ export default function Home({ categoriess, toolss }) {
     if (categories.tools.length != tools.length) {
       console.log("fetching");
       const toolRes = await fetch(
-        "https://www.aitoolsnext.com/api/getCategoryTools",
+        "https://aitoolsnext.com/api/getCategoryTools",
         {
           method: "POST",
           body: JSON.stringify({
@@ -153,14 +153,14 @@ export async function getServerSideProps(context) {
   const slug = url.substring(url.lastIndexOf("/") + 1).replace(".json", "").split("-")[0];
   // console.log(slug);
   const res = await fetch(
-    `https://www.aitoolsnext.com/api/getCategoriesBySlug/${slug}`
+    `https://aitoolsnext.com/api/getCategoriesBySlug/${slug}`
   );
   const data = await res.json();
   console.log(data);
   let toolData = [];
 
   if (data.tools && data.tools.length > 0) {
-    const toolRes = await fetch("https://www.aitoolsnext.com/api/getCategoryTools", {
+    const toolRes = await fetch("https://aitoolsnext.com/api/getCategoryTools", {
       method: "POST",
       body: JSON.stringify({
         toolsIds: data?.tools.slice(0, 10),

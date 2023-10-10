@@ -34,7 +34,7 @@ export default function Home({ toolss, toolCount }) {
 
   async function fetchMorePosts() {
     setIsFetching(true);
-    const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
+    const toolsResponse = await fetch("https://aitoolsnext.com/api/topTools", {
       method: "POST",
       body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
     });
@@ -99,7 +99,7 @@ export default function Home({ toolss, toolCount }) {
 }
 
 export async function getServerSideProps() {
-  const toolsResponse = await fetch("https://www.aitoolsnext.com/api/topTools", {
+  const toolsResponse = await fetch("https://aitoolsnext.com/api/topTools", {
     method: "POST",
     body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
   });

@@ -1,4 +1,4 @@
-// pages/_app.js
+'use client'
 import { Loader2 } from "lucide-react";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       // console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "https://www.aitoolsnext.com/categories",
+        callbackUrl: "https://aitoolsnext.com/categories",
       });
       console.log(data.data);
     }
@@ -125,7 +125,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         console.log(data.message);
         await signIn("credentials", {
           ...data.data[0],
-          callbackUrl: "https://www.aitoolsnext.com/categories",
+          callbackUrl: "https://aitoolsnext.com/categories",
         });
         console.log(data.data);
       }
@@ -252,7 +252,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                     onClick={async (e) => {
                       e.preventDefault();
                       await signIn("google", {
-                        callbackUrl: "https://www.aitoolsnext.com/",
+                        callbackUrl: "https://aitoolsnext.com/",
                       });
                     }}
                   >

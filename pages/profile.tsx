@@ -7,7 +7,7 @@ const profile = () => {
   const session = useSession();
   const [tools, SetTools] = useState([]);
   async function fetchData() {
-    const response = await fetch("https://www.aitoolsnext.com/api/getUserTools", {
+    const response = await fetch("https://aitoolsnext.com/api/getUserTools", {
       method: "POST",
       body: JSON.stringify({ email: session?.data?.user?.email }),
     });

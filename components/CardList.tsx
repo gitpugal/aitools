@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import Link from "next/link";
+// import a from "next/a";
 import { useSession } from "next-auth/react";
 import { BiSolidUpArrow } from "react-icons/bi";
 import { Loader2 } from "lucide-react";
@@ -57,10 +57,7 @@ const CardList = (props) => {
       {tools?.map((tool) => (
         <div className="lg:hover:bg-gradient-to-tr border-[1px] border-slate-300 w-full lg:hover:p-1  bg-black lg:hover:from-purple-600 shadow-2xl  rounded-3xl lg:hover:to-pink-500">
           <div className="w-full h-full hover:shadow-none transition-all ease-in-out  cursor-pointer mx-auto  rounded-3xl flex flex-col  overflow-hidden">
-            <Link
-              aria-label="Tool Image"
-              data-splitbee-event="Premium Card Open"
-              data-splitbee-event-tool="Taplio"
+            <a
               href={
                 props.isUserTool == true
                   ? `${window?.location?.href}`
@@ -86,7 +83,7 @@ const CardList = (props) => {
                 height={281}
                 className=" w-full"
               />
-            </Link>
+            </a>
             <div className="bg-gradient-to-tl from-black to-slate-700 flex-1 cursor-default p-0 gap-3 text-white flex flex-col mt-0 text-left px-10 py-10 min-w-full max-w-full  ">
               <div className="flex flex-row justify-between">
                 <p className="text-3xl font-semibold">
@@ -172,12 +169,12 @@ const CardList = (props) => {
                 }}
               />
               <div className="flex  flex-row gap-5">
-                <Link
+                <a
                   className="bg-white/20 backdrop-blur-lg px-4 py-2 rounded-xl"
                   href="/ai-social-media-assistant"
                 >
                   #{tool?.primarycategory}
-                </Link>
+                </a>
                 <a className="bg-gradient-to-br from-yellow-400 text-center flex items-center justify-center to-yellow-800 backdrop-blur-lg px-4 py-2 rounded-xl">
                   Freemium
                 </a>
