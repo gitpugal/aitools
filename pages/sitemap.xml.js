@@ -25,9 +25,9 @@ function Sitemap() {
 }
 
 export async function getServerSideProps({ res }) {
-  const toolsRequest = await fetch("https://aitoolsnext.com/api/tools");
+  const toolsRequest = await fetch("http://localhost:3000/api/tools");
   const tools = await toolsRequest.json();
-  const categoriesRequest = await fetch("https://aitoolsnext.com/api/getCategories");
+  const categoriesRequest = await fetch("http://localhost:3000/api/getCategories");
   const categories = await categoriesRequest.json();
 
   const sitemap = generateSiteMap({ tools: tools, categories: categories });

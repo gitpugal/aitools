@@ -14,7 +14,7 @@ import {
 import { Button } from "./ui/button";
 import { useToast } from "../components/ui/use-toast";
 import Link from "next/link";
-import Pageres from "pageres";
+// import Pageres from "pageres";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import {
@@ -42,7 +42,6 @@ import {
   SelectValue,
 } from "./ui/select";
 import Image from "next/image";
-
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 export default function Navbar() {
   const { toast } = useToast();
@@ -107,7 +106,7 @@ export default function Navbar() {
     };
 
     console.log(JSON.stringify(toolsData));
-    const response = await fetch("https://aitoolsnext.com/api/addTool", {
+    const response = await fetch("http://localhost:3000/api/addTool", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -207,14 +206,8 @@ export default function Navbar() {
                 onChange={(e) => settoolURL(e.target.value)}
               />
               <button
-                onClick={async () => {
-                  await new Pageres({ delay: 2 })
-                    .source("https://github.com/sindresorhus/pageres", [
-                      "1280x1024",
-                      "1920x1080",
-                    ])
-                    .destination("images")
-                    .run();
+                onClick={() => {
+                  fetch("http://localhost:3000/api/takeScreenshot");
                 }}
               >
                 save image

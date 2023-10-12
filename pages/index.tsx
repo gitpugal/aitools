@@ -7,6 +7,8 @@ import { ClientSafeProvider, getProviders, signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "../components/ui/button";
 import { FaSpinner } from "react-icons/fa";
+import CustomForm from "../components/CustomForm";
+import Image from "next/image";
 // import type { Metadata } from "next";
 
 export const metadata = {
@@ -60,13 +62,10 @@ export default function Home({ categoriess, toolss, toolCount }) {
 
   async function fetchMorePosts() {
     setIsFetching(true);
-    const toolsResponse = await fetch(
-      "https://aitoolsnext.com/api/topTools",
-      {
-        method: "POST",
-        body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
-      }
-    );
+    const toolsResponse = await fetch("http://localhost:3000/api/topTools", {
+      method: "POST",
+      body: JSON.stringify({ currentIndex: tools.length, itemCount: 10 }),
+    });
     const topTools = await toolsResponse.json();
     settools((prev) => [...prev, ...topTools?.tools]);
     setIsFetching(false);
@@ -93,9 +92,8 @@ export default function Home({ categoriess, toolss, toolCount }) {
             Simplify your tasks.
           </span>
         </h1>
-
+        <CustomForm />
         <SearchBar handleSearchSubmit={handleSearchSubmit} />
-
         <div className="lg:text-left px-5 w-full flex flex-row flex-wrap justify-center  my-10  gap-1 mx-auto lg:w-1/2 text-center">
           {categories != null &&
             categories?.slice(0, 18)?.map((category) => (
@@ -113,6 +111,14 @@ export default function Home({ categoriess, toolss, toolCount }) {
           >
             <p className="bg-black rounded-xl px-4 py-2 ">show more</p>
           </a>
+        </div>
+        <div className="w-fit h-fit bg-red-400">
+          <Image
+            width={1000}
+            height={1000}
+            src="https://gitlab.com/aitoolsnext/aitoolsnext-web/-/raw/main/images/grid.png"
+            alt="Test Image"
+          />
         </div>
         {/* </Stack> */}
         {searchResults.length > 0 ? (
@@ -153,16 +159,13 @@ export default function Home({ categoriess, toolss, toolCount }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch("https://aitoolsnext.com/api/getCategories");
+  const response = await fetch("http://localhost:3000/api/getCategories");
   const categoriess = await response.json();
 
-  const toolsResponse = await fetch(
-    "https://aitoolsnext.com/api/topTools",
-    {
-      method: "POST",
-      body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
-    }
-  );
+  const toolsResponse = await fetch("http://localhost:3000/api/topTools", {
+    method: "POST",
+    body: JSON.stringify({ currentIndex: 0, itemCount: 10 }),
+  });
   const topTools = await toolsResponse.json();
   console.log(topTools);
   const toolss = topTools?.tools ? topTools.tools : [];

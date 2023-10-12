@@ -30,7 +30,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
   // const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
   // // const { params } = props
   // const productres = await fetch(
-  //   `https://aitoolsnext.com/api/getToolsBySlug/${slug}`
+  //   `http://localhost:3000/api/getToolsBySlug/${slug}`
   // );
 
   // const data = await productres.json();
@@ -58,7 +58,7 @@ export default function Home({ tools, slug }) {
 
     console.log(slug);
     const res = await fetch(
-      `https://aitoolsnext.com/api/getToolsBySlug/${slug}`
+      `http://localhost:3000/api/getToolsBySlug/${slug}`
     );
     const data = await res.json();
     setToolData(data);
@@ -67,7 +67,7 @@ export default function Home({ tools, slug }) {
     setProviders(providerArray);
     if (toolData?.primarycategory?.length > 0) {
       const similarToolRes = await fetch(
-        "https://aitoolsnext.com/api/getSimilarTools",
+        "http://localhost:3000/api/getSimilarTools",
         {
           method: "POST",
           cache: "no-cache",
@@ -311,9 +311,9 @@ export async function getServerSideProps(context) {
   const slug = url.substring(url.lastIndexOf("/") + 1).split(".")[0];
   console.log("SLug: " + slug);
 
-  // console.log(`https://aitoolsnext.com/api/getToolsBySlug/${slug}`);
+  // console.log(`http://localhost:3000/api/getToolsBySlug/${slug}`);
   const res = await fetch(
-    `https://aitoolsnext.com/api/getToolsBySlug/${slug}`
+    `http://localhost:3000/api/getToolsBySlug/${slug}`
   );
   const data = await res.json();
   console.log(data);

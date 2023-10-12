@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       // console.log(data.message);
       await signIn("credentials", {
         ...data.data[0],
-        callbackUrl: "https://aitoolsnext.com/categories",
+        callbackUrl: "http://localhost:3000/categories",
       });
       console.log(data.data);
     }
@@ -125,7 +125,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         console.log(data.message);
         await signIn("credentials", {
           ...data.data[0],
-          callbackUrl: "https://aitoolsnext.com/categories",
+          callbackUrl: "http://localhost:3000/categories",
         });
         console.log(data.data);
       }
@@ -252,7 +252,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
                     onClick={async (e) => {
                       e.preventDefault();
                       await signIn("google", {
-                        callbackUrl: "https://aitoolsnext.com/",
+                        callbackUrl: "http://localhost:3000/",
                       });
                     }}
                   >
